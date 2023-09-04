@@ -2,3 +2,4 @@
 ## members
 + Li YuanHao
 + Luo JiaSheng
++ Song Chengxi
