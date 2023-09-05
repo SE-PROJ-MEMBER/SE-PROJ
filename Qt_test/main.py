@@ -9,7 +9,7 @@ def calculate(ui):
     input_2 = ui.lineEdit_2.text()
     if input_1 and input_2:
         result = int(input_1) ** int(input_2)
-        ui.textBrowser.setText(str())
+        ui.textBrowser.setText(str(result))
     else:
         pass
 
