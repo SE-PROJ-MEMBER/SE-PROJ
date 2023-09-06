@@ -48,6 +48,9 @@ class Ui_Dialog(object):
         self.clr_button = QtWidgets.QPushButton(Dialog)
         self.clr_button.setGeometry(QtCore.QRect(370, 350, 93, 28))
         self.clr_button.setObjectName("clr_button")
+        self.jump_to_win = QtWidgets.QPushButton(Dialog)
+        self.jump_to_win.setGeometry(QtCore.QRect(250, 410, 93, 28))
+        self.jump_to_win.setObjectName("jump_to_win")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -61,3 +64,4 @@ class Ui_Dialog(object):
         self.label_4.setText(_translate("Dialog", "a^b"))
         self.pushButton.setText(_translate("Dialog", "Calculate"))
         self.clr_button.setText(_translate("Dialog", "Clear"))
+        self.jump_to_win.setText(_translate("Dialog", "go further"))
