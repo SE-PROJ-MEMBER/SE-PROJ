@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
-import untitled
+import basic
 import window
 
 
@@ -37,7 +37,7 @@ if __name__ == '__main__':
     MW = QtWidgets.QMainWindow()
 
     Ui2 = window.Ui_MainWindow()
-    Ui = untitled.Ui_Dialog()
+    Ui = basic.Ui_Dialog()
 
     Ui2.setupUi(MW)
     Ui.setupUi(DL)

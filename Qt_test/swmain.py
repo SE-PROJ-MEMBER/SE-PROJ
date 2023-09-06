@@ -11,6 +11,13 @@ def goback():
     UI.stackedWidget.setCurrentIndex(0)
 
 
+def shrink_size():
+    Main.showNormal()
+
+def enlarge():
+    Main.showFullScreen()
+
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
@@ -24,5 +31,6 @@ if __name__ == '__main__':
     
     UI.next.clicked.connect(jump)
     UI.back.clicked.connect(goback)
+
 
     sys.exit(app.exec())
