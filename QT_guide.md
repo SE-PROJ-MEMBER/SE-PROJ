@@ -58,3 +58,39 @@
    对于部件来说, setxxxx方法通常是它的属性
    **按照1中说的, 这个push_button是QWidget类的对象, 更详细地, 是QPushButton类(QWidget类的子类)的对象, 在"对象查看器"中可以看到**
    ![Alt text](srcimg/obj_viewer.png)
+
+### 写main.py时的基础内容
+1. main.py作为程序入口, 开头的程序内容基本是固定的.
+   ```python
+   import sys
+   from PyQt5 import QtCore, QtGui, QtWidgets
+   import xxxxxx
+
+   if __name__ == '__main__':
+      # 创建应用程序对象
+      app = QtWidgets.QApplication(sys.argv)
+
+      # 创建QMainWindow的对象, 是一个窗体
+      Main = QtWidgets.QMainWindow()
+      # 调用从.ui生成的.py文件里的方法生成UI对象(所有部件都可以看做是这个对象的属性)
+      UI = switch_page_test.Ui_MainWindow()
+      # 表示UI里的部件在Main对象对应的窗体里
+      UI.setupUi(Main)
+
+      # 显示创建的窗格
+      Main.show()
+      ...
+      ... # 这里就是写其他代码的地方
+      ...
+      # 程序出口
+      sys.exit(app.exec())
+   ```
+
+### 让部件控制界面切换等动作
+1. PyQt有"信号"和"槽"的概念. **信号**当按钮等部件发生"被按下"等动作时会发出, 而**槽**是一系列函数, 用来连接发出的信号
+   
+2. 以push button按钮为例, 当被按下时发送clicked, 我们可以定义如下的槽函数:
+   ```python
+   def show_text():
+      UI.screen.setText("Button is clicked.")
+   ```
