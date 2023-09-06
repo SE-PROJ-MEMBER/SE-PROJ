@@ -36,3 +36,25 @@
    ```
 5. 在main.py中编写控制控件的代码
    
+### 使用Designer设计界面的基本操作
+1. 打开designer, 会弹出一个窗口, 这是用来新建一个窗体的(类似平时软件的弹窗那种)
+   ![Alt text](srcimg/new_window.png)
+   templates/forms五个选项: 带**横向**分布按钮的对话框、带**纵向**分布按钮的对话框、没按钮的对话框、主窗体、部件
+   **这里5个窗体都是类的对象**, 前三个是QDialog类的对象, 主窗体是QMainWindow类的对象, 部件是QWidget类的对象
+   按钮后续都是可以摆上的, 所以前4个区别不大, 只是写代码的时候要注意所属类不一样
+
+2. 比如现在新建了一个主窗体.
+   ![Alt text](srcimg/main_window.png)
+   左侧一列是部件列表, 就是所有可以放到设计的界面里的部件汇总, 要添加哪一个就把哪一个用鼠标拖到你要创建的位置
+   ![Alt text](srcimg/widget_box.png)
+
+3. 拖入一个push button的效果:
+   ![Alt text](srcimg/mw_with_push_button.png)
+   就像PS一样, 拉动蓝点改大小, 双击按钮里面的字设置按钮文本
+
+4. 在右侧的属性编辑器, 可以更改这个push button的objectName("对象名字")和其他属性.
+   ![Alt text](srcimg/attr_modifier.png)
+   因为是类的对象, 任何一个部件都有属性, 属性可以在designer中更改, 也可以在写代码的时候通过一系列setxxxx方法更改
+   对于部件来说, setxxxx方法通常是它的属性
+   **按照1中说的, 这个push_button是QWidget类的对象, 更详细地, 是QPushButton类(QWidget类的子类)的对象, 在"对象查看器"中可以看到**
+   ![Alt text](srcimg/obj_viewer.png)
