@@ -10,4 +10,4 @@ cursor.execute(
     'CREATE TABLE IF NOT EXISTS user(user_id INT PRIMARY KEY,user_name TEXT,user_phone INT,user_email TEXT,user_card INT,user_pwd TEXT)')
 
 cursor.execute(
-    'CREATE TABLE IF NOT EXISTS orderl(order_id INT PRIMARY KEY,room_num INT,user_id INT,ck_in DATE,ck_out DATE,order_status INT)')
+    'CREATE TABLE IF NOT EXISTS orderl(order_id INT PRIMARY KEY,room_num INT,user_id INT,ck_in DATE,ck_out DATE,order_status INT,comment TEXT)')
