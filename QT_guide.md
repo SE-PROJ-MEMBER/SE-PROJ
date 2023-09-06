@@ -92,5 +92,12 @@
 2. 以push button按钮为例, 当被按下时发送clicked, 我们可以定义如下的槽函数:
    ```python
    def show_text():
-      UI.screen.setText("Button is clicked.")
+      # textBrowser是一个显示文本的框, 方法setText是用来设置显示内容的
+      UI.textBrowser.setText("Button is clicked.")
+   ```
+
+3. 然后连接信号clicked和槽show_text:
+   ```python
+   # 任何信号都有connect方法, 以槽作为参数连接二者. 注意槽不要后面带括号, 否则就直接运行槽函数了
+   UI.pushButton.clicked.connect(show_text)
    ```
