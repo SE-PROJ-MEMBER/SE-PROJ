@@ -47,7 +47,7 @@
 
 ## sqlite数据库说明
 + 本数据库为sqlite数据库，数据库名为info.db
-+ 数据库中有三张表，分别为user，room以及order
++ 数据库中有三张表，分别为user，room以及orderl
 + 注意数据库调用关键字cursor
 ### user表
 + user表中有六个字段，分别为    
@@ -66,8 +66,8 @@
     + room_price INT
 + room_num为主键，使用三位数字，代表楼层和编号
 + room_price为按天计算的价格
-### order表
-+ order表中有七个字段，分别为
+### orderl表
++ orderl表中有七个字段，分别为
     + order_id INT PRIMARY KEY
     + room_num INT
     + user_id INT
