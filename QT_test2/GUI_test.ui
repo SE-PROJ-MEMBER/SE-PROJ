@@ -29,7 +29,7 @@
     <enum>QFrame::NoFrame</enum>
    </property>
    <property name="currentIndex">
-    <number>9</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="login_page">
     <widget class="QLabel" name="label">
@@ -1383,7 +1383,7 @@ p, li { white-space: pre-wrap; }
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="to_user_mainpage">
+    <widget class="QPushButton" name="to_order_detail_page">
      <property name="geometry">
       <rect>
        <x>210</x>
@@ -1426,7 +1426,7 @@ p, li { white-space: pre-wrap; }
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="page">
+   <widget class="QWidget" name="user_main_page">
     <widget class="QLabel" name="label_30">
      <property name="geometry">
       <rect>
@@ -1556,7 +1556,7 @@ p, li { white-space: pre-wrap; }
       <string>Modify details</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="to_manage_order_page">
+    <widget class="QPushButton" name="to_pre_page">
      <property name="geometry">
       <rect>
        <x>430</x>
@@ -1574,7 +1574,7 @@ p, li { white-space: pre-wrap; }
       </font>
      </property>
      <property name="text">
-      <string>Manage orders</string>
+      <string>Return</string>
      </property>
     </widget>
     <widget class="QPushButton" name="to_log_in_page">
@@ -1596,6 +1596,266 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="text">
       <string>Log out</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="order_detail_page">
+    <widget class="QLabel" name="label_33">
+     <property name="geometry">
+      <rect>
+       <x>11</x>
+       <y>80</y>
+       <width>1101</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>28</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Order detail</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QTextBrowser" name="orders_2">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>210</y>
+       <width>631</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_34">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>320</y>
+       <width>1101</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Options</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="cancel_order">
+     <property name="geometry">
+      <rect>
+       <x>580</x>
+       <y>390</y>
+       <width>291</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Cancel the order</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="to_user_main_page">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>390</y>
+       <width>291</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Return</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="comment_in">
+     <property name="geometry">
+      <rect>
+       <x>240</x>
+       <y>500</y>
+       <width>631</width>
+       <height>151</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="submit_comment">
+     <property name="geometry">
+      <rect>
+       <x>410</x>
+       <y>680</y>
+       <width>291</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Submit the comment</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="opr_su">
+    <widget class="QLabel" name="label_35">
+     <property name="geometry">
+      <rect>
+       <x>11</x>
+       <y>270</y>
+       <width>1101</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>28</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Operated successfully</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="to_user_main_page_2">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>520</y>
+       <width>291</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>OK</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="page_2"/>
+   <widget class="QWidget" name="page">
+    <widget class="QLabel" name="label_36">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>190</y>
+       <width>1101</width>
+       <height>111</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>28</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Denied</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_37">
+     <property name="geometry">
+      <rect>
+       <x>11</x>
+       <y>300</y>
+       <width>1101</width>
+       <height>91</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Comments are only allowed after chek out</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="to_order_detail_page_2">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>460</y>
+       <width>291</width>
+       <height>81</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Bahnschrift SemiBold</family>
+       <pointsize>18</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>OK</string>
      </property>
     </widget>
    </widget>
