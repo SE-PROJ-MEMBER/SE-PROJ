@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'd:\CODE\SE-PROJ\realization_test\select_room\table_clicking.ui'
+# Form implementation generated from reading ui file 'd:\CODE\SE-PROJ\functional_test\table_clicking\table_clicking.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
