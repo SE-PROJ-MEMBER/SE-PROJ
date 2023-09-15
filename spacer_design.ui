@@ -40,9 +40,9 @@
             <string notr="true">QPushButton{background-color: rgb(189,189,189); border-radius:20px; color:rgb(0,0,0);}</string>
            </property>
            <property name="currentIndex">
-            <number>2</number>
+            <number>19</number>
            </property>
-           <widget class="QWidget" name="sign_in_page">
+           <widget class="QWidget" name="sign_in_page1">
             <layout class="QGridLayout" name="gridLayout" rowstretch="1,2,1">
              <item row="1" column="0">
               <widget class="QFrame" name="title">
@@ -460,7 +460,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="sign_in_su">
+           <widget class="QWidget" name="sign_in_su2">
             <layout class="QGridLayout" name="gridLayout_11">
              <item row="2" column="0">
               <layout class="QVBoxLayout" name="verticalLayout_4" stretch="2,3">
@@ -600,7 +600,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="sign_fa_page">
+           <widget class="QWidget" name="sign_fa_page3">
             <layout class="QVBoxLayout" name="verticalLayout_6">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_5" stretch="1,1,1">
@@ -796,7 +796,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="sign_up_page">
+           <widget class="QWidget" name="sign_up_page4">
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_7" stretch="1,3,1">
@@ -1280,7 +1280,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="sign_up_fa_page">
+           <widget class="QWidget" name="sign_up_fa_page5">
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_8" stretch="1,1,1">
@@ -1453,7 +1453,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="book_info_page">
+           <widget class="QWidget" name="book_info_page6">
             <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_10" stretch="1,1,1,1">
@@ -1799,7 +1799,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="select_page">
+           <widget class="QWidget" name="select_page7">
             <layout class="QVBoxLayout" name="verticalLayout_13">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_12" stretch="1,3,1">
@@ -1973,7 +1973,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="confirm_order_page">
+           <widget class="QWidget" name="confirm_order_page8">
             <layout class="QVBoxLayout" name="verticalLayout_15">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_14" stretch="1,2,1">
@@ -2156,7 +2156,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="payment_detail_page">
+           <widget class="QWidget" name="payment_detail_page9">
             <layout class="QVBoxLayout" name="verticalLayout_17">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_16" stretch="1,3,1">
@@ -2446,7 +2446,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="payment_approved_page">
+           <widget class="QWidget" name="payment_approved_page10">
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_18" stretch="1,1">
@@ -2604,7 +2604,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="personal_homepage">
+           <widget class="QWidget" name="personal_homepage11">
             <layout class="QVBoxLayout" name="verticalLayout_20">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_19" stretch="1,5,1">
@@ -2918,7 +2918,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="modify_personal_page">
+           <widget class="QWidget" name="modify_personal_page12">
             <layout class="QVBoxLayout" name="verticalLayout_22">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_21" stretch="1,3,1">
@@ -3254,7 +3254,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="op_su_page">
+           <widget class="QWidget" name="op_su_page13">
             <layout class="QVBoxLayout" name="verticalLayout_24">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_23" stretch="1,1">
@@ -3375,7 +3375,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="modify_order">
+           <widget class="QWidget" name="modify_order14">
             <layout class="QVBoxLayout" name="verticalLayout_26">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_25" stretch="1,1,3,1">
@@ -3706,7 +3706,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="op_fa_page">
+           <widget class="QWidget" name="op_fa_page15">
             <layout class="QGridLayout" name="gridLayout_87">
              <item row="0" column="0">
               <layout class="QVBoxLayout" name="verticalLayout_27" stretch="1,1">
@@ -3840,7 +3840,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="admin_page">
+           <widget class="QWidget" name="admin_page16">
             <layout class="QGridLayout" name="gridLayout_92">
              <item row="0" column="0">
               <layout class="QVBoxLayout" name="verticalLayout_28" stretch="1,4,1">
@@ -4158,7 +4158,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="manage_order_page">
+           <widget class="QWidget" name="manage_order_page17">
             <layout class="QVBoxLayout" name="verticalLayout_31">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_30" stretch="1,2,2">
@@ -4540,7 +4540,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="comment_page">
+           <widget class="QWidget" name="comment_page18">
             <layout class="QVBoxLayout" name="verticalLayout_33">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_32" stretch="1,2,1">
@@ -4762,7 +4762,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="add_order_page">
+           <widget class="QWidget" name="add_order_page19">
             <layout class="QVBoxLayout" name="verticalLayout_35">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_34" stretch="1,3,1">
@@ -5241,7 +5241,7 @@
              </item>
             </layout>
            </widget>
-           <widget class="QWidget" name="manage_user_page">
+           <widget class="QWidget" name="manage_user_page20">
             <layout class="QVBoxLayout" name="verticalLayout_36">
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_29" stretch="1,1,1">
