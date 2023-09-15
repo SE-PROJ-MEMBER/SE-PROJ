@@ -1,4 +1,5 @@
-import sys, time
+import sys
+import time
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDate
 
@@ -7,9 +8,12 @@ import spacer_design
 sign_in_status = 0
 prev_row = 0
 
+
 def set_color(row, r, g, b):
     for col in range(UI.tableWidget.columnCount()):
-        UI.tableWidget.item(row, col).setBackground(QtGui.QBrush(QtGui.QColor(r, g, b)))
+        UI.tableWidget.item(row, col).setBackground(
+            QtGui.QBrush(QtGui.QColor(r, g, b)))
+
 
 def highlight_row():
     global prev_row
@@ -18,11 +22,10 @@ def highlight_row():
     prev_row = UI.tableWidget.currentRow()
 
 
-
 def sign_in_slot():
     global sign_in_status
     if sign_in_status == 0 and UI.ID_IN.text() != '' and UI.Pwd_in.text() != '':
-#        interact with db
+        # interact with db
         UI.pages.setCurrentIndex(1)
         UI.user_name_dis.setText(UI.ID_IN.text())
         sign_in_status = 1
@@ -59,8 +62,8 @@ def search_room_slot():
 
 def select_room_slot():
     table = UI.tableWidget
-    room_data = [table.item(table.currentRow(), col) for col in range(table.columnCount())]
-
+    room_data = [table.item(table.currentRow(), col)
+                 for col in range(table.columnCount())]
 
 
 if __name__ == '__main__':
@@ -76,15 +79,19 @@ if __name__ == '__main__':
 
     UI.sign_in.clicked.connect(sign_in_slot)
     UI.to_sign_in_page.clicked.connect(lambda ret: UI.pages.setCurrentIndex(0))
-    UI.to_sign_in_page_2.clicked.connect(lambda ret: UI.pages.setCurrentIndex(0))
+    UI.to_sign_in_page_2.clicked.connect(
+        lambda ret: UI.pages.setCurrentIndex(0))
 
-    UI.to_sign_up_page.clicked.connect(lambda to_sign_up: UI.pages.setCurrentIndex(3))
-    UI.to_sign_up_page_2.clicked.connect(lambda to_sign_up: UI.pages.setCurrentIndex(3))
+    UI.to_sign_up_page.clicked.connect(
+        lambda to_sign_up: UI.pages.setCurrentIndex(3))
+    UI.to_sign_up_page_2.clicked.connect(
+        lambda to_sign_up: UI.pages.setCurrentIndex(3))
 
     UI.confirm.clicked.connect(create_account_slot)
 
     UI.to_room_select_page.clicked.connect(search_room_slot)
-    UI.to_book_info_page.clicked.connect(lambda ret: UI.pages.setCurrentIndex(5))
+    UI.to_book_info_page.clicked.connect(
+        lambda ret: UI.pages.setCurrentIndex(5))
 
     UI.tableWidget.cellClicked.connect(highlight_row)
 
