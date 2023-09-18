@@ -60,7 +60,7 @@
 6. business process model
 7. 10-20页
 
-### 技术报告要求
+### 技术报告要求（不要放代码）
 1. class diagram
 2. sequence diagram
 3. test cases
