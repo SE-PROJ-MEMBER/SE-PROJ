@@ -51,7 +51,24 @@
 11.12前端完成\
 12.3 软件打包完成
 
+### 白皮书要求
+1. summary business case
+2. functional requirements
+3. non-functional requirements
+4. use case diagram & use case description
+5. context model
+6. business process model
+7. 10-20页
 
+### 技术报告要求
+1. class diagram
+2. sequence diagram
+3. test cases
+   + unit test
+   + interface test
+4. GUI design
+   + do not show codes
+5. 最少15页，最多35页
 
 
 ## 项目说明
