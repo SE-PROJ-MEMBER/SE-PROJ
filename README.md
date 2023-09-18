@@ -79,8 +79,18 @@
 + 实现功能：
     1. 用户注册及登录
     2. 用户预订以及入住房间
-    3. 酒店方管理房间 
+    3. 酒店方管理房间
 
+### presentation要求(13 min, 其中10 min presentation, 3 min Q&A)
+1. introduce your team(1 min)
+2. summarize your project(2 min)
+3. summarize of SDLC(2 min)
+4. demo(4 min)
+   + screenshot
+   + short videos
+   + actual software
+5. challenges solution(1 min)
+6. future work(1 min)
 
 ## sqlite数据库说明
 + 本数据库为sqlite数据库，数据库名为info.db
