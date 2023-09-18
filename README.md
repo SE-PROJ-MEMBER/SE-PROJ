@@ -70,6 +70,16 @@
    + do not show codes
 5. 最少15页，最多35页
 
+### presentation要求(13 min, 其中10 min presentation, 3 min Q&A)
+1. introduce your team(1 min)
+2. summarize your project(2 min)
+3. summarize of SDLC(2 min)
+4. demo(4 min)
+   + screenshot
+   + short videos
+   + actual software
+5. challenges solution(1 min)
+6. future work(1 min)
 
 ## 项目说明
 + 本项目为酒店管理系统，使用python开发
