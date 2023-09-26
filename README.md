@@ -87,7 +87,11 @@
 3. summary of progress
 4. any diffculties/challenges
 5. next step
-
+6. 1 1% of total grade\
+    2 1% of total grade\
+    3 1% of total grade\
+    4 2% of total grade\
+    total 5%
 ## 项目说明
 + 本项目为酒店管理系统，使用python开发
 + 本项目使用了内置sqlite数据库
