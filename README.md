@@ -81,6 +81,13 @@
 5. challenges solution(1 min)
 6. future work(1 min)
 
+### update要求
+1. 1page
+2. 400-600 words
+3. summary of progress
+4. any diffculties/challenges
+5. next step
+
 ## 项目说明
 + 本项目为酒店管理系统，使用python开发
 + 本项目使用了内置sqlite数据库
