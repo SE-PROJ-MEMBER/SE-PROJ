@@ -105,6 +105,18 @@
 5. challenges solution(1 min)
 6. future work(1 min)
 
+### update要求
+1. 1page
+2. 400-600 words
+3. summary of progress
+4. any diffculties/challenges
+5. next step
+6. 1 1% of total grade\
+    2 1% of total grade\
+    3 1% of total grade\
+    4 2% of total grade\
+    total 5%
+
 ## sqlite数据库说明
 + 本数据库为sqlite数据库，数据库名为info.db
 + 数据库中有三张表，分别为user，room以及orderl
