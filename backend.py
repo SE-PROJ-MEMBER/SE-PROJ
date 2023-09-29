@@ -85,3 +85,49 @@ def get_all_users():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM user")
     return cursor.fetchall()
+
+
+
+
+import sqlite3
+# 12.返回所有订单信息
+def get_all_orders():
+    with sqlite3.connect('info.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM orderl")
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
+
+# 13.通过房间号修改房间信息
+def update_room(room_num, room_type, room_price):
+    with sqlite3.connect('info.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            '''
+            UPDATE room
+            SET room_type=?, room_price=? 
+            WHERE room_num=?
+            ''',
+            (room_type, room_price, room_num)
+        )
+        conn.commit()
+        cursor.close()
+
+
+# 14.通过房间号返回房间信息
+def get_room(room_num):
+    with sqlite3.connect('info.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM room WHERE room_num=?', (room_num,))
+        result = cursor.fetchone()
+        cursor.close()
+    return result
+
+
+if __name__ == '__main__':
+    res = get_all_orders()
+
+    for r in res:
+        print(r)
