@@ -206,10 +206,3 @@ def get_room(room_num):
         result = cursor.fetchone()
         cursor.close()
     return result
-
-
-if __name__ == '__main__':
-    res = get_all_orders()
-
-    for r in res:
-        print(r)
