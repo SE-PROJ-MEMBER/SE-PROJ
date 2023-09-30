@@ -1,4 +1,34 @@
+6.
+### 创建订单接口
 
+**Endpoint:** `/create_order`
+
+**Method:** `POST`
+
+#### 请求参数：
+
+| 参数名      | 类型   | 描述                 |
+| ----------- | ------ | -------------------- |
+| room_number | 整数   | 房间号               |
+| user_id     | 整数   | 用户ID               |
+| ck_in    | 字符串 | 入住时间 (YYYY-MM-DD)|
+| ck_out   | 字符串 | 退房时间 (YYYY-MM-DD)|
+
+#### 返回结果：
+
+- **order_id** (整数) - 订单唯一标识符
+
+---
+
+**示例请求：**
+
+```json
+{
+  "room_number": 101,
+  "user_id": 123,
+  "ck_in": "2023-10-01",
+  "ck_out": "2023-10-05"
+}
 9-11
 ### `update_order(order_id, room_num, user_id, ck_in, ck_out, order_status, comment)`
 
