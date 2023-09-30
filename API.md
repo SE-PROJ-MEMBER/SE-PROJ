@@ -1,23 +1,29 @@
-### 1. 获取用户信息接口
+### 函数1. get_user_info(user_id)
+**概述：** 获取用户信息。
 
-**Endpoint:** `/get_user_info`
-
-**Method:** `GET`
-
-#### 请求参数：
-
-| 参数名  | 类型   | 描述          |
-| ------- | ------ | ------------- |
-| user_id | 整数   | 用户唯一标识符 |
-
-#### 返回结果：
+**参数：**
 
 - **user_id** (整数) - 用户唯一标识符
 - **username** (字符串) - 用户名
 - **phone_number** (字符串) - 电话号码
 - **email** (字符串) - 邮箱
-- **bank_account** (字符串) - 银行卡号
+- **bank_card** (字符串) - 银行卡号
 
+**示例：**
+{
+  "user_id": 123,
+  "username": "JohnDoe",
+  "phone_number": "123456789",
+  "email": "john.doe@example.com",
+  "bank_account": "987654321"
+}
+
+
+
+
+
+
+---
 
 
 
