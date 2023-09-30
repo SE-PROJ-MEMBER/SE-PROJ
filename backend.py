@@ -118,13 +118,13 @@ def update_user_info(user_id, new_phone=None, new_email= None, new_username=None
         return {"status": "failure","message": "failed to change the information"}
 
 # 5. 查找可预定房间
-def find_available_rooms(start_date, end_date, room_type):
+def find_available_rooms(ck_in, ck_out, room_type):
     try:
         conn = sqlite3.connect('hotel_database.db')
         cursor = conn.cursor()
 
 # 查询可预定的房间
-        cursor.execute('''SELECT * FROM room WHERE room_type=? AND room_id NOT IN (SELECT room_id FROM reservation WHERE start_date <= ? AND end_date >= ?)''', (room_type, end_date, start_date))
+        cursor.execute('''SELECT * FROM room WHERE room_type=? AND room_id NOT IN (SELECT room_id FROM reservation WHERE ck_in <= ? AND ck_out >= ?)''', (room_type, ck_out, ck_in))
 
         available_rooms = []
         for row in cursor.fetchall():
@@ -140,10 +140,20 @@ def find_available_rooms(start_date, end_date, room_type):
     except Exception as e:
         return {"status": "failure", "message": "failed to find the room can be ordered ,please check the information you enter"}
 
+# 6.返回order_id
+    conn = sqlite3.connect('orders.db')
+    conn.cursor().execute('''CREATE TABLE IF NOT EXISTS orders (order_id INTEGER PRIMARY KEY AUTOINCREMENT, room_number INTEGER, user_id INTEGER, ck_in TEXT, ck_out TEXT, status INTEGER DEFAULT 0)''')
+    conn.commit()
+    conn.close()
 
+def create_order(room_number, user_id, ck_in, ck_out):
+    conn = sqlite3.connect('orders.db')
+    conn.cursor().execute('''INSERT INTO orders (room_number, user_id, ck_in, ck_out) VALUES (?, ?, ?, ?)''', (room_number, user_id, ck_in, ck_out))
+    order_id = conn.cursor().lastrowid
+    conn.commit()
+    conn.close()
 
-
-
+    return order_id
 
 
 # 9. 更新订单信息
