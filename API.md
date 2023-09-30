@@ -1,9 +1,7 @@
 6.
 ### 创建订单接口
 
-**Endpoint:** `/create_order`
 
-**Method:** `POST`
 
 #### 请求参数：
 
