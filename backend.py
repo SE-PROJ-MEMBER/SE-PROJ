@@ -138,7 +138,7 @@ def create_order(room_number, user_id, ck_in, ck_out):
 
 
 # 9. 更新订单信息
-def update_order(order_id, room_num, user_id, ck_in, ck_out, order_status, comment):
+def update_order(conn, order_id, room_num, user_id, ck_in, ck_out, order_status, comment):
     cursor = conn.cursor()
     cursor.execute(
         '''
@@ -151,7 +151,7 @@ def update_order(order_id, room_num, user_id, ck_in, ck_out, order_status, comme
     conn.commit()
 
 # 10. 添加订单评论
-def comment_order(order_id, comment):
+def comment_order(conn, order_id, comment):
     cursor = conn.cursor()
     cursor.execute('SELECT order_status FROM orderl WHERE order_id = ?', (order_id,))
     result = cursor.fetchone()
@@ -163,12 +163,10 @@ def comment_order(order_id, comment):
         return "Cannot comment on this order. Only orders with status 2 can be commented."
 
 # 11. 获取所有用户信息
-def get_all_users():
+def get_all_users(conn):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM user")
     return cursor.fetchall()
-
-
 
 
 import sqlite3
