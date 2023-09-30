@@ -2,6 +2,8 @@ import sqlite3
 import uuid
 # 1. 返回用户信息
 def get_user_info(user_id):
+    conn =  sqlite3.connect('info.db')
+    cursor = conn.cursor()
     try:
 # 查询信息
         cursor.execute('SELECT * FROM user_info WHERE user_id = ?'), (user_id,)
@@ -10,11 +12,11 @@ def get_user_info(user_id):
         if user_data:
             user_info = {
                 "user_id": user_data[0],
-                "username": user_data[1],
-                "phone": user_data[2],
-                "email": user_data[3],
-                "bank_card": user_data[4],
-                "password": user_data[5],
+                "user_name": user_data[1],
+                "user_phone": user_data[2],
+                "user_email": user_data[3],
+                "user_card": user_data[4],
+                "user_pwd": user_data[5],
             }
             return user_info
         else:
@@ -31,15 +33,15 @@ else:
     print(user_info)
 
 # 2.判断是否登陆成功（返回失败原因）
-def user_login(phone=None, email=None, username=None, password=None):
-    if phone:
-        cursor.execute('SELECT * FROM user_info WHERE phone=? AND password=?',(phone, password))
-    elif email:
-        cursor.execute('SELECT * FROM user_info WHERE email=? AND password=?', (email, password))
-    elif username:
-        cursor.execute('SELECT * FROM user_info WHERE username=? AND password=?', (username, password))
+def user_login(user_phone=None, user_email=None, user_name=None, user_pwd=None):
+    if user_phone:
+        cursor.execute('SELECT * FROM user_info WHERE user_phone=? AND user_pwd=?',(user_phone, user_pwd))
+    elif user_email:
+        cursor.execute('SELECT * FROM user_info WHERE user_email=? AND user_pwd=?', (user_email, user_pwd))
+    elif user_name:
+        cursor.execute('SELECT * FROM user_info WHERE user_name=? AND user_pwd=?', (user_name, user_pwd))
     else:
-        return {"status": "failure", "message": "password or username is empty"}
+        return {"status": "failure", "message": "user_pwd or user_name is empty"}
 
     user_data = cursor.fetchone()
 
@@ -50,16 +52,16 @@ def user_login(phone=None, email=None, username=None, password=None):
         return {"status": "failure", "message": "user doesn't exist or password is wrong"}
 
 # 3.注册成功返回user_id,失败返回原信息
-def user_register(phone, email, username, bank_card, password):
+def user_register(user_phone, user_email, user_name, user_card, user_pwd):
     try:
-        cursor.execute('SELECT * FROM user_info WHERE phone=? OR email=? OR username = ? OR bank_card=?',(phone, email, username, bank_card))
+        cursor.execute('SELECT * FROM user_info WHERE user_phone=? OR user_email=? OR user_name = ? OR user_card=?',(user_phone, user_email, user_name, user_card))
         existing_user = cursor.fetchone()
 
         if existing_user:
             return {"status": "failure","message": "fail to register"}
 #生成唯一的user_id
         user_id = generate_user_id()
-        cursor.execute('INSERT INTO user_info VALUES (?, ?, ?, ?, ?, ?)',(user_id, username, phone, email, bank_card, password))
+        cursor.execute('INSERT INTO user_info VALUES (?, ?, ?, ?, ?, ?)',(user_id, user_name, user_phone, user_email, user_card, user_pwd))
         conn.commit()
 
         return {"status": "success", "message": "rigister successfully", "user_id": user_id}
@@ -68,7 +70,7 @@ def user_register(phone, email, username, bank_card, password):
         return {"status": "failure", "message": "fail to register"}
 
 # 4.通过user_id修改用户信息
-def update_user_info(user_id, new_phone=None, new_email= None, new_username=None, new_bank_card=None, new_password=None):
+def update_user_info(user_id, new_user_phone=None, new_user_email= None, new_user_name=None, new_user_card=None, new_user_pwd=None):
     try:
 #检查用户是否存在
         cursor.execute('SELECT * FROM user_info WHERE user_id=?', (user_id,))
@@ -80,20 +82,20 @@ def update_user_info(user_id, new_phone=None, new_email= None, new_username=None
         update_query = 'UPDATE user_info SET'
         update_valuse = []
 
-        if new_phone:
-            update_query += ' phone=?,'
-            update_valuse.append(new_phone)
-        if new_email:
-            update_query += ' email=?,'
+        if new_user_phone:
+            update_query += ' user_phone=?,'
+            update_valuse.append(new_user_phone)
+        if new_user_email:
+            update_query += ' user_email=?,'
             update_valuse.append(new_email)
-        if new_username:
-            update_query += ' username=?,'
+        if new_user_name:
+            update_query += ' user_name=?,'
             update_valuse.append(new_username)
-        if new_bank_card:
-            update_query += ' bank_card=?,'
+        if new_user_card:
+            update_query += ' user_card=?,'
             update_valuse.append(new_bank_card)
-        if new_password:
-            update_query += ' password=?,'
+        if new_user_pwd:
+            update_query += ' user_pwd=?,'
             update_valuse.append(new_password)
 
         update_query = update_query.rstrip(',')
@@ -169,33 +171,47 @@ def get_all_users():
     return cursor.fetchall()
 
 
+
+
 import sqlite3
-# # 12. 返回所有订单信息
+# 12.返回所有订单信息
 def get_all_orders():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM orderl")
-    result = cursor.fetchall()
-    cursor.close()
-    return result
+    with sqlite3.connect('info.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM orderl")
+        result = cursor.fetchall()
+        cursor.close()
+        return result
+
 
 # 13.通过房间号修改房间信息
 def update_room(room_num, room_type, room_price):
-    cursor = conn.cursor()
-    cursor.execute(
-        '''
-        UPDATE room
-        SET room_type=?, room_price=? 
-        WHERE room_num=?
-        ''',
-        (room_type, room_price, room_num)
-    )
-    conn.commit()
-    cursor.close()
+    with sqlite3.connect('info.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            '''
+            UPDATE room
+            SET room_type=?, room_price=? 
+            WHERE room_num=?
+            ''',
+            (room_type, room_price, room_num)
+        )
+        conn.commit()
+        cursor.close()
+
 
 # 14.通过房间号返回房间信息
 def get_room(room_num):
-    cursor = conn.cursor()
-    cursor.execute('SELECT * FROM room WHERE room_num=?', (room_num,))
-    result = cursor.fetchone()
-    cursor.close()
+    with sqlite3.connect('info.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT * FROM room WHERE room_num=?', (room_num,))
+        result = cursor.fetchone()
+        cursor.close()
     return result
+
+
+if __name__ == '__main__':
+    res = get_all_orders()
+
+    for r in res:
+        print(r)
