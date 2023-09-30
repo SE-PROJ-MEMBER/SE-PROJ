@@ -3,20 +3,19 @@
 
 **参数：**
 
-- **user_id** (整数) - 用户唯一标识符
-- **username** (字符串) - 用户名
-- **phone_number** (字符串) - 电话号码
-- **email** (字符串) - 邮箱
-- **bank_card** (字符串) - 银行卡号
+- **user_id** (整数) ：用户唯一标识符
+- **username** (字符串) ：用户名
+- **phone_number** (字符串) ： 电话号码
+- **email** (字符串) ： 邮箱
+- **bank_card** (字符串) ： 银行卡号
 
 **示例：**
-{
+'''
   "user_id": 123,
   "username": "JohnDoe",
   "phone_number": "123456789",
   "email": "john.doe@example.com",
-  "bank_account": "987654321"
-}
+  "bank_account": "987654321"   '''
 
 
 
