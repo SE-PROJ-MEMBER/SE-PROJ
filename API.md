@@ -17,7 +17,7 @@
 - **phone_number** (字符串) - 电话号码
 - **email** (字符串) - 邮箱
 - **bank_account** (字符串) - 银行卡号
-- **other_fields...** (根据实际情况，可能包含其他字段)
+
 
 
 
