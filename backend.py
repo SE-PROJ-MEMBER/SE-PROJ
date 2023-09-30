@@ -3,9 +3,6 @@ import uuid
 # 1. 返回用户信息
 def get_user_info(user_id):
     try:
-        conn =sqlite3.connect('user_database.db')
-        cursor = conn.cursor()
-
 # 查询信息
         cursor.execute('SELECT * FROM user_info WHERE user_id = ?'), (user_id,)
         user_data = cursor.fetchone()
@@ -35,8 +32,6 @@ else:
 
 # 2.判断是否登陆成功（返回失败原因）
 def user_login(phone=None, email=None, username=None, password=None):
-    conn = sqlite3.connect('user_database.db')
-    cursor = conn.cursor()
     if phone:
         cursor.execute('SELECT * FROM user_info WHERE phone=? AND password=?',(phone, password))
     elif email:
@@ -57,9 +52,6 @@ def user_login(phone=None, email=None, username=None, password=None):
 # 3.注册成功返回user_id,失败返回原信息
 def user_register(phone, email, username, bank_card, password):
     try:
-        conn = sqlite3.connect('user_database.db')
-        cursor = conn.cursor()
-
         cursor.execute('SELECT * FROM user_info WHERE phone=? OR email=? OR username = ? OR bank_card=?',(phone, email, username, bank_card))
         existing_user = cursor.fetchone()
 
@@ -78,8 +70,6 @@ def user_register(phone, email, username, bank_card, password):
 # 4.通过user_id修改用户信息
 def update_user_info(user_id, new_phone=None, new_email= None, new_username=None, new_bank_card=None, new_password=None):
     try:
-        conn = sqlite3.connect('user_database.db')
-        cursor = conn.cursor()
 #检查用户是否存在
         cursor.execute('SELECT * FROM user_info WHERE user_id=?', (user_id,))
         existing_user = cursor.fetchone()
@@ -120,9 +110,6 @@ def update_user_info(user_id, new_phone=None, new_email= None, new_username=None
 # 5. 查找可预定房间
 def find_available_rooms(ck_in, ck_out, room_type):
     try:
-        conn = sqlite3.connect('hotel_database.db')
-        cursor = conn.cursor()
-
 # 查询可预定的房间
         cursor.execute('''SELECT * FROM room WHERE room_type=? AND room_id NOT IN (SELECT room_id FROM reservation WHERE ck_in <= ? AND ck_out >= ?)''', (room_type, ck_out, ck_in))
 
@@ -141,13 +128,7 @@ def find_available_rooms(ck_in, ck_out, room_type):
         return {"status": "failure", "message": "failed to find the room can be ordered ,please check the information you enter"}
 
 # 6.返回order_id
-    conn = sqlite3.connect('orders.db')
-    conn.cursor().execute('''CREATE TABLE IF NOT EXISTS orders (order_id INTEGER PRIMARY KEY AUTOINCREMENT, room_number INTEGER, user_id INTEGER, ck_in TEXT, ck_out TEXT, status INTEGER DEFAULT 0)''')
-    conn.commit()
-    conn.close()
-
 def create_order(room_number, user_id, ck_in, ck_out):
-    conn = sqlite3.connect('orders.db')
     conn.cursor().execute('''INSERT INTO orders (room_number, user_id, ck_in, ck_out) VALUES (?, ?, ?, ?)''', (room_number, user_id, ck_in, ck_out))
     order_id = conn.cursor().lastrowid
     conn.commit()
