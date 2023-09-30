@@ -1,31 +1,137 @@
-### 函数1. get_user_info(user_id)
-**概述：** 获取用户信息。
+### 1. 获取用户信息接口
 
-**参数：**
+**Endpoint:** `/get_user_info`
 
-- **user_id** (整数) ：用户唯一标识符
-- **username** (字符串) ：用户名
-- **phone_number** (字符串) ： 电话号码
-- **email** (字符串) ： 邮箱
-- **bank_card** (字符串) ： 银行卡号
+**Method:** `GET`
 
-**示例：**
-'''
-  "user_id": 123,
-  "username": "JohnDoe",
-  "phone_number": "123456789",
-  "email": "john.doe@example.com",
-  "bank_account": "987654321"   '''
+#### 请求参数：
 
+| 参数名  | 类型   | 描述          |
+| ------- | ------ | ------------- |
+| user_id | 整数   | 用户唯一标识符 |
 
+#### 返回结果：
 
-
+- **user_id** (整数) - 用户唯一标识符
+- **username** (字符串) - 用户名
+- **phone_number** (字符串) - 电话号码
+- **email** (字符串) - 邮箱
+- **bank_card** (字符串) - 银行卡号
 
 
 ---
 
+### 2. 用户登录接口
 
+**Endpoint:** `/login`
 
+**Method:** `POST`
+
+#### 请求参数：
+
+- **方式1: 通过电话号码和密码登录**
+  - **phone_number** (字符串) - 电话号码
+  - **password** (字符串) - 密码
+
+- **方式2: 通过邮箱和密码登录**
+  - **email** (字符串) - 邮箱
+  - **password** (字符串) - 密码
+
+- **方式3: 通过用户名和密码登录**
+  - **username** (字符串) - 用户名
+  - **password** (字符串) - 密码
+
+#### 返回结果：
+
+- **user_id** (整数) - 用户唯一标识符 (登录成功时返回)
+- **message** (字符串) - 登录成功信息或登录失败原因
+
+---
+
+### 3. 用户注册接口
+
+**Endpoint:** `/register`
+
+**Method:** `POST`
+
+#### 请求参数：
+
+- **phone_number** (字符串) - 电话号码
+- **email** (字符串) - 邮箱
+- **username** (字符串) - 用户名
+- **bank_card** (字符串) - 银行卡号
+- **password** (字符串) - 密码
+
+#### 返回结果：
+
+- **message** (字符串) - 注册成功信息或注册失败信息
+
+---
+
+### 4. 修改用户信息接口
+
+**Endpoint:** `/update_user_info`
+
+**Method:** `PUT`
+
+#### 请求参数：
+
+| 参数名       | 类型   | 描述          |
+| ------------ | ------ | ------------- |
+| user_id      | 整数   | 用户唯一标识符 |
+| username     | 字符串 | 用户名        |
+| phone_number | 字符串 | 电话号码      |
+| email        | 字符串 | 邮箱          |
+| bank_card | 字符串 | 银行卡号      |
+| password     | 字符串 | 密码          |
+
+#### 返回结果：
+
+- **message** (字符串) - 修改成功信息或修改失败信息
+
+---
+
+### 5. 查找可预定房间接口
+
+**Endpoint:** `/find_available_rooms`
+
+**Method:** `GET`
+
+#### 请求参数：
+
+| 参数名      | 类型   | 描述              |
+| ----------- | ------ | ----------------- |
+| ck_in  | 字符串 | 入住日期 (YYYY-MM-DD) |
+| ck_out | 字符串 | 退房日期 (YYYY-MM-DD) |
+| room_type   | 字符串 | 房型              |
+
+#### 返回结果：
+
+- 返回所有可预定房间信息，包括以下字段：
+  - **room_number** (整数) - 房间号
+  - **room_type** (字符串) - 房型
+ 
+
+---
+
+### 6. 创建订单接口
+
+**Endpoint:** `/create_order`
+
+**Method:** `POST`
+
+#### 请求参数：
+
+| 参数名      | 类型   | 描述              |
+| ----------- | ------ | ----------------- |
+| room_number | 整数   | 房间号            |
+| user_id     | 整数   | 用户唯一标识符    |
+| ck_in    | 字符串 | 入住时间 (YYYY-MM-DD)|
+| ck_out   | 字符串 | 退房时间 (YYYY-MM-DD)|
+
+#### 返回结果：
+
+- **order_id** (整数) - 订单唯一标识符
 ---
 
 ### 函数 9: `update_order(conn, order_id, room_num, user_id, ck_in, ck_out, order_status, comment)`
