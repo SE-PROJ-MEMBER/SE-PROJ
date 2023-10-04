@@ -164,25 +164,26 @@ def create_order(room_number, user_id, ck_in, ck_out):
 
 # 7.计算价格并返回
 
-conn = sqlite3.connect('pricing.db')
+conn = sqlite3.connect('room_info.db')
 cursor = conn.cursor()
 
 def calculate_price(room_type, ck_in, ck_out):
     cursor.execute('''
         SELECT price
-        FROM prices
+        FROM room_info
         WHERE room_type = ? AND ck_in <= ? AND ck_out >= ?
     ''', (room_type, ck_in, ck_out))
 
     result = cursor.fetchone()
-
-    if result:
-        return result[0]
+    if room_price:
+        price_per_night = room_price[0]
+        num_nights =(ck_out - ck_in).days
+        total_price = price_per_night * num_nights
+        return total_price
     else:
-        return 'can not find the matched price'
+        return 'the room does not exist'
 
-price = calculate_price(room_type, ck_in, ck_out)
-print('价格为：', price)
+
 conn.close()
 
 # 8. 返回订单信息
