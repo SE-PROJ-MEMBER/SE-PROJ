@@ -13,6 +13,7 @@ def test_get_user_info():
 
     #测试返回用户信息
     test_result = backend.get_user_info(user_id)
+    conn.close()
     
     #确认返回信息是否正确
     if result and test_result:    
