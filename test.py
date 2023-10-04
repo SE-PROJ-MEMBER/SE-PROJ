@@ -201,6 +201,22 @@ def test_get_room():
     else:
             print('14、返回房间信息测试未通过')
 
+# 15、通过用户名和密码新建用户
+def test_create_user():
+    #新建用户
+    user_name = 'test_user'
+    user_pwd = 123
+    backend.create_user(user_name, user_pwd)
+    #检查是否成功新建用户
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT FROM user WHERE user_name = ?', (user_name,))
+    result = cursor.fetchone()
+    if result:
+        print('15、通过用户名和密码新建用户通过')
+    else:
+        print('15、通过用户名和密码新建用户未通过')
+
 
 #运行测试函数
 test_get_user_info()
@@ -212,3 +228,4 @@ verify_get_all_users()
 test_get_all_orders()
 test_update_room()
 test_get_room()
+test_create_user()
