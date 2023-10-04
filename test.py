@@ -1,6 +1,5 @@
-import backend
 import sqlite3
-
+import backend
 # 1.测试1、返回用户信息
 def test_get_user_info():
     conn = sqlite3.connect('info.db')
@@ -13,6 +12,7 @@ def test_get_user_info():
 
     #测试返回用户信息
     test_result = backend.get_user_info(user_id)
+    conn.close()
     
     #确认返回信息是否正确
     if result and test_result:    
@@ -96,7 +96,7 @@ test_update_order()
 def test_comment_order():
     order_id = 1
     new_comment = 'This is a new comment'
-    comment_result = backend.comment_order(order_id, new_comment)
+    backend.comment_order(order_id, new_comment)
 
     # 读取订单评论
     connection = sqlite3.connect('info.db')
@@ -150,6 +150,7 @@ def test_get_all_orders():
 
     #获取待测返回信息
     test_result = backend.get_all_orders()
+    conn.close()
 
     #验证获取信息是否一致
     if result and test_result:
@@ -167,10 +168,10 @@ def test_update_room():
     conn = sqlite3.connect('info.db')
     cursor = conn.cursor()
     #创建测试房间
-    room_num = 000
-    room_type = 001
-    room_price = 003
-    cursor.execute('INSERT INTO room(room_num, room_type, room_price) VALUES (?,?,?)', (000, 000, 000))
+    room_num = 100
+    room_type = 100
+    room_price = 100
+    cursor.execute('INSERT INTO room(room_num, room_type, room_price) VALUES (?,?,?)', (room_num, room_type, room_price))
     cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
     result = cursor.fetchone()
     conn.commit()
@@ -182,6 +183,7 @@ def test_update_room():
     cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
     test_result = cursor.fetchone()
     conn.commit()
+    conn.close()
     if result and test_result:
         if result != test_result:
             print('13、修改房间信息测试通过')
@@ -206,6 +208,7 @@ def test_get_room():
     conn.commit()
     #返回房间信息
     test_result = backend.get_room(room_num)
+    conn.close()
     #确认返回信息是否正确
     if result and test_result:
         if result == test_result:
@@ -228,6 +231,7 @@ def test_create_user():
     cursor = conn.cursor()
     cursor.execute('SELECT FROM user WHERE user_name = ?', (user_name,))
     result = cursor.fetchone()
+    conn.close()
     if result:
         print('15、通过用户名和密码新建用户通过')
     else:
@@ -247,6 +251,7 @@ def test_create_room():
     cursor = conn.cursor()
     cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
     result = cursor.fetchone()
+    conn.close()
     if result:
         print('16、新建房间测试通过')
     else:
@@ -268,9 +273,67 @@ def test_create_room():
     cursor = conn.cursor()
     cursor.execute('SELECT FROM orderl WHERE room_num = ?', (room_num,))
     result = cursor.fetchone()
+    conn.close()
     if result:
         print('17、新建订单测试通过')
     else:
         print('17、新建订单测试未通过')
 
 test_create_room()
+
+#18、通过房间号删除房间
+def test_delete_room():
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    #创建测试房间
+    room_num = 100
+    room_type = 101
+    room_price = 103
+    cursor.execute('INSERT INTO room(room_num, room_type, room_price) VALUES (?,?,?)', (room_num, room_type, room_price))
+    conn.commit()
+    #删除测试房间
+    backend.delete_room(room_num)
+    #检查房间是否删除
+    cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
+    result = cursor.fetchone()
+    conn.commit()
+    conn.close()
+    if result:
+        print('18、通过房间号删除房间未通过')
+    else:
+        print('18、通过房间号删除房间通过')
+
+test_delete_room()
+
+#19、通过user_id删除订单
+def test_delete_order():
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    #创建测试订单
+    order_id = 100
+    room_num = 100
+    user_id = 100
+    ck_in = 100
+    ck_out = 100
+    order_status = 1
+    comment = 'test'
+    cursor.execute("""
+                   INSERT INTO orderl(order_id=?, room_num=?, user_id=?, ck_in=?, ck_out=?, order_status=?, comment=?) 
+                   VALUES(?,?,?,?,?,?,?)
+                   """, 
+                   (order_id, room_num, user_id, ck_in, ck_out, order_status, comment)
+                   )
+    conn.commit()
+    #删除测试订单
+    backend.delete_order(user_id)
+    #检查是否成功删除
+    cursor.execute('SELECT FROM orderl WHERE user_id = ?', (user_id,))
+    result = cursor.fetchone()
+    conn.commit()
+    conn.close()
+    if result:
+        print('19、通过user_id删除订单未通过')
+    else:
+        print('19、通过user_id删除订单通过')
+
+test_delete_order()
