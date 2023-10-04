@@ -135,7 +135,8 @@ for row in cursor.fetchall():
 
 except Exception as e:
     return {"status": "failure",
-            "message": "failed to find the room can be ordered ,please check the information you enter"}```
+            "message": "failed to find the room can be ordered ,please check the information you enter"}
+```
 
 ### 函数 6: `create_order() `
 
@@ -168,7 +169,8 @@ def create_order(room_num, user_id, ck_in, ck_out):
     conn.commit()
     conn.close()
 
-    return order_id```
+    return order_id
+```
 
 ### 函数 7: `calculate_price(room_type, ck_in, ck_out) `
 
@@ -189,7 +191,8 @@ def create_order(room_num, user_id, ck_in, ck_out):
 if result:
     return result[0]
 else:
-return 'can not find the matched price'```
+return 'can not find the matched price'
+```
 
 
 ### 函数 8: `get_order_info(order_id) `
@@ -212,7 +215,8 @@ return 'can not find the matched price'```
 if result:
     return result
 else:
-    return 'can"t find the matched order information'```
+    return 'can"t find the matched order information'
+```
 
 ### 函数 9: `update_order(conn, order_id, room_num, user_id, ck_in, ck_out, order_status, comment)`
 
