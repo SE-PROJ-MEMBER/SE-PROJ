@@ -340,10 +340,12 @@ def create_room(room_num, room_type=None, room_price=None):
     cursor.close()
 
 # 17.新建订单
-def create_room(room_num, user_id, ck_in, ck_out, order_status, comment):
+# 17.新建订单
+def create_room(room_num, user_id, ck_in, ck_out, comment):
     cur = conn.cursor()
     import random
     order_id = random.randint(1,1000)
+    order_status = 0
     cur.execute("""
                 INSERT INTO orderl(order_id, room_num, user_id, ck_in, ck_out, order_status, comment) 
                 VALUES(?,?,?,?,?,?,?)
@@ -352,6 +354,7 @@ def create_room(room_num, user_id, ck_in, ck_out, order_status, comment):
     )
     conn.commit()
     cur.close()
+
 
 # 18.通过房间号删除房间（删除相应行）
 def delete_room(room_num):
