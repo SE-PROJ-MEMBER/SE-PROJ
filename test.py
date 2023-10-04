@@ -51,6 +51,135 @@ def test_user_register():
 
 test_user_register()
 
+# 4.通过user_id修改用户信息
+def test_update_user():
+    #创建测试用户
+    user_id = 1
+    user_name = 'test'
+    user_pwd = 100
+    connection = sqlite3.connect('info.db')
+    cursor = connection.cursor()
+    cursor.execute('''
+        INSERT INTO user (user_id, user_name, user_pwd)
+        VALUES (?, ?, ?)
+        ''',
+        (user_id, user_name, user_pwd))
+    
+    # 读取原用户信息
+    cursor.execute("SELECT * FROM user WHERE user_id = ?", (user_id,))
+    original_user = cursor.fetchone()
+    
+    # 修改用户信息
+    user_id = 1
+    new_user_name = 'test_new'
+    new_user_pwd = 200
+    backend.update_user(user_id, new_user_name, new_user_pwd)
+
+    # 读取更新后的用户信息
+    cursor.execute("SELECT * FROM user WHERE user_id = ?", (user_id,))
+    updated_user = cursor.fetchone()
+    connection.close()
+
+    # 确认用户信息是否已更新
+    if updated_user is not None:
+        if updated_user == original_user:
+            print("4.用户信息更新未通过")
+        else:
+            print("4.用户信息更新通过")
+    else:
+        print("4.无用户信息")
+
+test_update_user()
+
+# 5.通过时间段和房型查找可预定房间
+def test_find_available_rooms():
+    #查找房间
+    ck_in = '2023-10-08'
+    ck_out = '2023-10-10'
+    room_type = 'single'
+
+    available_rooms = backend.find_available_rooms(ck_in, ck_out, room_type)
+
+    if available_rooms:
+        print('5.测试可预定房间查找通过')
+    else:
+        print('5.测试可预定房间查找未通过')
+
+test_find_available_rooms()
+
+# 6.通过房间号、用户id、入住时间、退房时间创建订单
+def test_create_order():
+    #创建订单
+    room_num = 100
+    user_id = 1
+    ck_in = '2023-10-08'
+    ck_out = '2023-10-10'
+    backend.create_order(room_num, user_id, ck_in, ck_out)
+    #读取订单
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    cursor.execute("""SELECT FROM orderl WHERE user_id = ?""", (user_id,))
+    result = cursor.fetchone()
+    conn.commit()
+    conn.close()
+
+    if result:
+        print("6.测试创建订单通过")
+    else:
+        print("6.测试创建订单未通过")
+
+test_create_order()
+
+# 7.通过房型返回价格
+def test_calculate_price():
+    #创建测试房型
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    room_num = 100
+    room_type = 'single'
+    room_price = 103
+    cursor.execute('INSERT INTO room(room_num, room_type, room_price) VALUES (?,?,?)', (room_num, room_type, room_price))
+    conn.commit()
+    #查找价格
+    room_type = 'single'
+    price = backend.calculate_price(room_type)
+    conn.close()
+    if price:
+        print("7.测试通过房型返回价格通过")
+    else:
+        print("7.测试通过房型返回价格未通过")
+
+test_calculate_price()
+
+# 8.通过order_id返回订单信息
+def test_get_order_info():
+    #创建测试订单
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    order_id = 1
+    room_num = 100
+    user_id = 100
+    ck_in = 100
+    ck_out = 100
+    order_status = 1
+    comment = 'test'
+    cursor.execute("""
+                   INSERT INTO orderl(order_id=?, room_num=?, user_id=?, ck_in=?, ck_out=?, order_status=?, comment=?) 
+                   VALUES(?,?,?,?,?,?,?)
+                   """, 
+                   (order_id, room_num, user_id, ck_in, ck_out, order_status, comment)
+                   )
+    conn.commit()
+    order_id = 1
+    order = backend.get_order_info(order_id)
+    conn.close()
+    if order:
+        print("5.测试返回订单信息通过")
+    else:
+        print("5.测试返回订单信息未通过")
+
+test_get_order_info()
+
 # 测试9.更新订单信息
 def test_update_order():
 
