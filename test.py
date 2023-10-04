@@ -130,6 +130,26 @@ def verify_get_all_users():
     # 关闭数据库连接
     connection.close()
 
+# 12.返回所有订单信息，包括order表中所有字段所有行
+def test_get_all_orders():
+    #获取订单信息
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM orderl")
+    result = cursor.fetchall()
+
+    #获取待测返回信息
+    test_result = backend.get_all_orders()
+
+    #验证获取信息是否一致
+    if result and test_result:
+        if result == test_result:
+            print('12、返回所有订单信息测试通过')
+        else:
+            print('12、返回所有订单信息测试未通过')
+    else:
+        print('12、返回所有订单信息测试未通过')
+
 #运行测试函数
 test_get_user_info()
 test_user_login()
@@ -137,3 +157,4 @@ test_user_register()
 test_update_order()
 test_comment_order()
 verify_get_all_users()
+test_get_all_orders()
