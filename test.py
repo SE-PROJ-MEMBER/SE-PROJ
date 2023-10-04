@@ -1,5 +1,51 @@
 import backend
 import sqlite3
+
+# 1.测试1、返回用户信息
+def test_get_user_info():
+    conn = sqlite3.connect('info.db')
+    cur = conn.cursor()
+
+    #获取表中用户信息
+    user_id= 1
+    cur.execute("""SELECT * FROM user WHERE user_id = ?""",(user_id))
+    result = cur.fetchall()
+
+    #测试返回用户信息
+    test_result = backend.get_user_info(user_id)
+    
+    #确认返回信息是否正确
+    if result and test_result:    
+        if result == test_result:
+            print('1.返回信息测试通过')
+        else:
+            print('1.返回信息测试未通过')
+    else:
+        print('1.返回信息测试未通过,无订单信息')
+
+#2. 通过电话号码和密码，邮箱和密码，或者用户名和密码判断是否登录成功，
+#   登录成功返回登录成功信息以及当前用户的user_id，失败返回登录失败原因（用户不存在，密码错误）
+def test_user_login():
+
+    #尝试登录
+    result = backend.user_login('INT', 'TEXT', 'TEXT', 'TEXT')
+    if result:
+        print(f"2.登录测试结果为:{result}")
+    else:
+        print('2、登录测试未通过')
+
+# 3.通过电话号码，邮箱，用户名，银行卡号和密码注册，注册成功返回注册成功信息并生成唯一的user_id并返回，
+# 失败返回注册失败信息，失败原因包括用户名已存在，手机号已存在，邮箱已存在；无需返回失败原因
+def test_user_register():
+    
+    #尝试注册
+    result = backend.user_register('phone', 'email', 'user01', 'card', 'pwd')
+    if result:
+        print(f'3、注册账号测试结果：{result}')
+    else:
+        print('3、登录测试未通过')
+
+
 # 测试9.更新订单信息
 def test_update_order():
 
