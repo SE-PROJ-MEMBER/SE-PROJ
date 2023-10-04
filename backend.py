@@ -298,19 +298,28 @@ def get_all_orders():
 
 
 # 13.通过房间号修改房间信息
-def update_room(room_num, room_type, room_price):
-    with sqlite3.connect('info.db') as conn:
+def update_room(conn, room_num, room_type=None, room_price=None):
+    try:
         cursor = conn.cursor()
-        cursor.execute(
-            '''
-            UPDATE room
-            SET room_type=?, room_price=? 
-            WHERE room_num=?
-            ''',
-            (room_type, room_price, room_num)
-        )
+        query = 'UPDATE room SET '
+        params = []
+        
+        if room_type is not None:
+            query += 'room_type = ?, '
+            params.append(room_type)
+        
+        if room_price is not None:
+            query += 'room_price = ?, '
+            params.append(room_price)
+        
+        query = query.rstrip(', ')  
+        query += ' WHERE room_num = ?'
+        params.append(room_num)
+
+        cursor.execute(query, params)
         conn.commit()
-        cursor.close()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
 
 
 # 14.通过房间号返回房间信息
