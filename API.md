@@ -270,3 +270,39 @@ print(get_room(conn, 101))  # 输出: (101, 2, 500.0)
 ```
 
 ---
+15. create_user(user_name, user_pwd)
+此函数用于创建新的用户。
+
+参数：
+user_name：新用户的用户名，必须为字符串类型。
+user_pwd：新用户的密码，必须为字符串类型。
+返回值：
+无返回值。
+
+例子：
+python
+Copy
+create_user("JohnDoe", "password123")
+在上述例子中，函数将在数据库中创建一个新的用户，其用户名为"JohnDoe"，密码为"password123"。
+
+备注：
+在此函数中，我们生成一个在1000到9999之间的随机user_id作为用户的唯一标识。我们在数据库中检查这个user_id是否唯一，如果不唯一，我们会再次生成新的user_id。
+
+16. create_room(room_num, room_type=None, room_price=None)
+此函数用于创建新的房间。
+
+参数：
+room_num：新房间的房间号，必须为三位数的整数。
+room_type：新房间的类型，为可选参数，如果不提供则为None。
+room_price：新房间的价格，为可选参数，如果不提供则为None。
+返回值：
+无返回值。
+
+例子：
+python
+Copy
+create_room(101, "Single", 100)
+在上述例子中，函数将在数据库中创建一个新的房间，其房间号为101，类型为"Single"，价格为100。
+
+备注：
+在此函数中，我们检查room_num是否为三位数的整数，如果不是，我们会抛出一个异常。
