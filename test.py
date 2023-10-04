@@ -183,9 +183,9 @@ def test_get_room():
     conn = sqlite3.connect('info.db')
     cursor = conn.cursor()
     #创建测试房间
-    room_num = 000
-    room_type = 001
-    room_price = 003
+    room_num = 100
+    room_type = 101
+    room_price = 103
     cursor.execute('INSERT INTO room(room_num, room_type, room_price) VALUES (?,?,?)', (room_num, room_type, room_price))
     cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
     result = cursor.fetchone()
