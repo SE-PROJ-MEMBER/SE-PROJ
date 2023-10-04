@@ -223,17 +223,44 @@ else:
 conn.close()
 
 # 9. 更新订单信息
-def update_order(order_id, room_num, user_id, ck_in, ck_out, order_status, comment):
-    cursor = conn.cursor()
-    cursor.execute(
-        '''
-        UPDATE orderl 
-        SET room_num=?, user_id=?, ck_in=?, ck_out=?, order_status=?, comment=? 
-        WHERE order_id=?
-        ''',
-        (room_num, user_id, ck_in, ck_out, order_status, comment, order_id)
-    )
-    conn.commit()
+def update_order(conn, order_id, room_num=None, user_id=None, ck_in=None, ck_out=None, order_status=None, comment=None):
+    try:
+        cursor = conn.cursor()
+        query = 'UPDATE orderl SET '
+        params = []
+        
+        if room_num is not None:
+            query += 'room_num = ?, '
+            params.append(room_num)
+        
+        if user_id is not None:
+            query += 'user_id = ?, '
+            params.append(user_id)
+        
+        if ck_in is not None:
+            query += 'ck_in = ?, '
+            params.append(ck_in)
+        
+        if ck_out is not None:
+            query += 'ck_out = ?, '
+            params.append(ck_out)
+        
+        if order_status is not None:
+            query += 'order_status = ?, '
+            params.append(order_status)
+        
+        if comment is not None:
+            query += 'comment = ?, '
+            params.append(comment)
+        
+        query = query.rstrip(', ')  # Remove trailing comma and space
+        query += ' WHERE order_id = ?'
+        params.append(order_id)
+
+        cursor.execute(query, params)
+        conn.commit()
+    except sqlite3.Error as e:
+        print(f"An error occurred: {e}")
 
 
 # 10. 添加订单评论
