@@ -13,7 +13,6 @@ def test_get_user_info():
 
     #测试返回用户信息
     test_result = backend.get_user_info(user_id)
-    conn.close()
     
     #确认返回信息是否正确
     if result and test_result:    
@@ -23,6 +22,8 @@ def test_get_user_info():
             print('1.返回信息测试未通过')
     else:
         print('1.返回信息测试未通过,无订单信息')
+
+test_get_user_info()
 
 #2. 通过电话号码和密码，邮箱和密码，或者用户名和密码判断是否登录成功，
 #   登录成功返回登录成功信息以及当前用户的user_id，失败返回登录失败原因（用户不存在，密码错误）
@@ -35,6 +36,8 @@ def test_user_login():
     else:
         print('2、登录测试未通过')
 
+test_user_login()
+
 # 3.通过电话号码，邮箱，用户名，银行卡号和密码注册，注册成功返回注册成功信息并生成唯一的user_id并返回，
 # 失败返回注册失败信息，失败原因包括用户名已存在，手机号已存在，邮箱已存在；无需返回失败原因
 def test_user_register():
@@ -46,6 +49,7 @@ def test_user_register():
     else:
         print('3、登录测试未通过')
 
+test_user_register()
 
 # 测试9.更新订单信息
 def test_update_order():
@@ -86,6 +90,8 @@ def test_update_order():
     else:
         print('9.无订单信息')
 
+test_update_order()
+
 # 测试10.添加订单评论
 def test_comment_order():
     order_id = 1
@@ -107,6 +113,8 @@ def test_comment_order():
             print("10.添加订单评论失败，读取订单评论与输入评论不符")
     else: 
         print('10.添加订单评论失败，无订单信息')
+
+test_comment_order()
 
 # 测试11.返回用户信息
 def verify_get_all_users():
@@ -130,6 +138,8 @@ def verify_get_all_users():
     # 关闭数据库连接
     connection.close()
 
+verify_get_all_users()
+
 # 12.返回所有订单信息，包括order表中所有字段所有行
 def test_get_all_orders():
     #获取订单信息
@@ -149,6 +159,8 @@ def test_get_all_orders():
             print('12、返回所有订单信息测试未通过')
     else:
         print('12、返回所有订单信息测试未通过')
+
+test_get_all_orders()
 
 #13、通过房间号修改房间信息，修改信息可能覆盖room表中所有字段，room_num不可修改
 def test_update_room():
@@ -178,6 +190,8 @@ def test_update_room():
     else:
             print('13、修改房间信息测试未通过')
 
+test_update_room()
+
 # 14.通过房间号返回房间信息，包括room表中所有字段
 def test_get_room():
     conn = sqlite3.connect('info.db')
@@ -201,6 +215,8 @@ def test_get_room():
     else:
             print('14、返回房间信息测试未通过')
 
+test_get_room()
+
 # 15、通过用户名和密码新建用户
 def test_create_user():
     #新建用户
@@ -217,15 +233,44 @@ def test_create_user():
     else:
         print('15、通过用户名和密码新建用户未通过')
 
-
-#运行测试函数
-test_get_user_info()
-test_user_login()
-test_user_register()
-test_update_order()
-test_comment_order()
-verify_get_all_users()
-test_get_all_orders()
-test_update_room()
-test_get_room()
 test_create_user()
+
+#16、新建房间，注意房间号不能为空
+def test_create_room():
+    #新建房间
+    room_num = 100
+    room_type = 'single'
+    room_price = 100
+    backend.create_room(room_num, room_type, room_price)
+    #检查是否成功新建房间
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
+    result = cursor.fetchone()
+    if result:
+        print('16、新建房间测试通过')
+    else:
+        print('16、新建房间测试未通过')
+
+test_create_room()
+
+#17、新建订单
+def test_create_room():
+    #新建订单
+    room_num = 100
+    user_id = 100
+    ck_in = 230101
+    ck_out = 230102
+    comment = 'test'
+    backend.create_room(room_num, user_id, ck_in, ck_out, comment)
+    #检查是否成功新建订单
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    cursor.execute('SELECT FROM orderl WHERE room_num = ?', (room_num,))
+    result = cursor.fetchone()
+    if result:
+        print('17、新建订单测试通过')
+    else:
+        print('17、新建订单测试未通过')
+
+test_create_room()
