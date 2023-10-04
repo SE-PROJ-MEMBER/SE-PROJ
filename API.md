@@ -164,7 +164,7 @@ print(get_all_orders(conn))  # 输出: [(1, 101, 1, "2023-10-01", "2023-10-10", 
 - `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
 - `room_num (int)`: 房间编号。
 - `room_type (int)`: 房间类型。
-- `room_price (float)`: 房间价格。
+- `room_price (int)`: 房间价格。
 
 **返回值：** 无。
 
