@@ -178,6 +178,30 @@ def test_update_room():
     else:
             print('13、修改房间信息测试未通过')
 
+# 14.通过房间号返回房间信息，包括room表中所有字段
+def test_get_room():
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    #创建测试房间
+    room_num = 000
+    room_type = 001
+    room_price = 003
+    cursor.execute('INSERT INTO room(room_num, room_type, room_price) VALUES (?,?,?)', (room_num, room_type, room_price))
+    cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
+    result = cursor.fetchone()
+    conn.commit()
+    #返回房间信息
+    test_result = backend.get_room(room_num)
+    #确认返回信息是否正确
+    if result and test_result:
+        if result == test_result:
+            print('14、返回房间信息测试通过')
+        else:
+            print('14、返回房间信息测试未通过')
+    else:
+            print('14、返回房间信息测试未通过')
+
+
 #运行测试函数
 test_get_user_info()
 test_user_login()
@@ -187,3 +211,4 @@ test_comment_order()
 verify_get_all_users()
 test_get_all_orders()
 test_update_room()
+test_get_room()
