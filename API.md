@@ -61,6 +61,158 @@ import sqlite3
 - `user_phone (int)`: 用户手机。
 - `user_email (int)`: 用户邮件。
 - `user_pwd (int)`: 用户密码。
+- `user_card (int)`: 用户银行卡。
+
+**返回值：** status , message。
+
+**示例：**
+
+```python
+import sqlite3
+if existing_user:
+    return {"status": "failure", "message": "fail to register"}
+user_id = generate_user_id()
+cursor.execute('INSERT INTO user_info VALUES (?, ?, ?, ?, ?, ?)',
+                   (user_id, user_name, user_phone, user_email, user_card, user_pwd))
+conn.commit()
+
+    return {"status": "success", "message": "rigister successfully", "user_id": user_id}
+
+except Exception as e:
+    return {"status": "failure", "message": "fail to register"}
+```
+
+
+### 函数 4: `update_user_info()`
+
+**概述：** 修改用户信息
+
+**参数：**
+
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `user_id (int)`: 用户id。
+- `new_user_phone (int)`: 新用户手机。
+- `new_user_email (int)`: 新用户邮件。
+- `new_user_pwd (int)`: 新用户密码。
+- `new_user_card (int)`: 新用户银行卡。
+- `new_user_name (int)`: 新用户名。
+
+**返回值：** status , message。
+
+**示例：**
+```python
+if not existing_user:
+    return {"status": "failure", "message": "user doesn't exist"}
+```
+
+### 函数 5: `find_available_rooms() `
+
+**概述：** 查找可预定房间。
+
+**参数：**
+
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `room_type (int)`: 房间类型。
+- `ck_in (date)`: 入住日期。
+- `ck_out (date)`: 退房日期。
+- `price (float)`: 价格。
+
+**返回值：** status，rooms。
+
+**示例：**
+
+```python
+import sqlite3
+for row in cursor.fetchall():
+        room_info = {
+            "room_id": row[0],
+            "room_type": row[1],
+            "price": row[2],
+        }
+        available_rooms.append(room_info)
+
+    return {"status": "success", "rooms": available_rooms}
+
+except Exception as e:
+    return {"status": "failure",
+            "message": "failed to find the room can be ordered ,please check the information you enter"}```
+
+### 函数 6: `create_order() `
+
+**概述：** 返回order_id。
+
+**参数：**
+
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `order_id (int)`: 订单ID。
+- `room_num (int)`: 房间号。
+- `user_id (int)`: 用户ID。
+- `ck_in (date)`: 入住日期。
+- `ck_out (date)`: 退房日期。
+
+
+
+**返回值：** order_id。
+
+**示例：**
+
+```python
+def create_order(room_num, user_id, ck_in, ck_out):
+    conn.cursor().execute(
+        '''
+    INSERT INTO orders (room_num, user_id, ck_in, ck_out) VALUES (?, ?, ?, ?)
+    ''',
+        (room_num, user_id, ck_in, ck_out)
+    )
+    order_id = conn.cursor().lastrowid
+    conn.commit()
+    conn.close()
+
+    return order_id```
+
+### 函数 7: `calculate_price(room_type, ck_in, ck_out) `
+
+**概述：** 计算价格并返回。
+
+**参数：**
+
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `room_type (int)`: 房间类型。
+- `ck_in (date)`: 入住日期。
+- `ck_out (date)`: 退房日期。
+
+**返回值：** price。
+
+**示例：**
+
+```python
+if result:
+    return result[0]
+else:
+return 'can not find the matched price'```
+
+
+### 函数 8: `get_order_info(order_id) `
+
+**概述：** 返回订单信息。
+
+**参数：**
+
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `room_type (int)`: 房间类型。
+- `ck_in (date)`: 入住日期。
+- `ck_out (date)`: 退房日期。
+- `room_num (int)`: 房间号
+- `price (int)`: 价格
+**返回值：** result。
+
+**示例：**
+
+```python
+if result:
+    return result
+else:
+    return 'can"t find the matched order information'```
 
 ### 函数 9: `update_order(conn, order_id, room_num, user_id, ck_in, ck_out, order_status, comment)`
 
