@@ -130,7 +130,9 @@ def verify_get_all_users():
     connection.close()
 
 #运行测试函数
-
+test_get_user_info()
+test_user_login()
+test_user_register()
 test_update_order()
 test_comment_order()
 verify_get_all_users()
