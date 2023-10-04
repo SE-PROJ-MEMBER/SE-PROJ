@@ -344,21 +344,33 @@ def create_room(room_num, user_id, ck_in, ck_out, order_status, comment):
     cur = conn.cursor()
     import random
     order_id = random.randint(1,1000)
-    cur.execute("""INSERT INTO orderl(order_id, room_num, user_id, ck_in, ck_out, order_status, comment) 
-                VALUES(?,?,?,?,?,?,?)""", (order_id, room_num, user_id, ck_in, ck_out, order_status, comment))
+    cur.execute("""
+                INSERT INTO orderl(order_id, room_num, user_id, ck_in, ck_out, order_status, comment) 
+                VALUES(?,?,?,?,?,?,?)
+                """, 
+                (order_id, room_num, user_id, ck_in, ck_out, order_status, comment)
+    )
     conn.commit()
     cur.close()
 
 # 18.通过房间号删除房间（删除相应行）
 def delete_room(room_num):
     cur = conn.cursor()
-    cur.execute("""DELETE FROM room WHERE room_num = ?""",(room_num,))
+    cur.execute("""
+                DELETE FROM room WHERE room_num = ?
+                """,
+                (room_num,)
+    )
     conn.commit()
     cur.close()
 
 # 19.通过user_id删除订单（删除相应行）
 def delete_order(user_id):
     cur = conn.cursor()
-    cur.execute("""DELETE FROM orderl WHERE user_id = ?""",(user_id,))
+    cur.execute("""
+                DELETE FROM orderl WHERE user_id = ?
+                """,
+                (user_id,)
+    )
     conn.commit()
     cur.close()
