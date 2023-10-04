@@ -215,3 +215,39 @@ if __name__ == '__main__':
 
     for r in res:
         print(r)
+
+import random
+
+# 15. 通过用户名和密码新建用户
+def create_user(user_name, user_pwd):
+    cursor = conn.cursor()
+    while True:
+        user_id = random.randint(1000, 9999)  # Generate a random user_id
+        cursor.execute('SELECT * FROM user WHERE user_id = ?', (user_id,))
+        if not cursor.fetchone():
+            break
+    cursor.execute(
+        '''
+        INSERT INTO user (user_id, user_name, user_pwd)
+        VALUES (?, ?, ?)
+        ''',
+        (user_id, user_name, user_pwd)
+    )
+    conn.commit()
+    cursor.close()
+
+# 16. 新建房间
+def create_room(room_num, room_type=None, room_price=None):
+    if not 100 <= room_num <= 999:  # Ensure room_num is a three-digit number
+        raise ValueError("Room number must be a three-digit number.")
+        
+    cursor = conn.cursor()
+    cursor.execute(
+        '''
+        INSERT INTO room (room_num, room_type, room_price)
+        VALUES (?, ?, ?)
+        ''',
+        (room_num, room_type, room_price)
+    )
+    conn.commit()
+    cursor.close()
