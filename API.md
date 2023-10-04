@@ -1,137 +1,54 @@
-### 1. 获取用户信息接口
+### 函数 1: `get_user_info（）`
 
-**Endpoint:** `/get_user_info`
+**概述：** 获取用户信息。
 
-**Method:** `GET`
+**参数：**
 
-#### 请求参数：
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `user_id (int)`: 用户ID。
+- `user_name (int)`: 用户名。
+- `user_phone (int)`: 用户手机。
+- `user_email (int)`: 用户邮件。
+- `user_card (int)`: 用户信用卡。
+- `user_pwd (int)`: 用户密码。
 
-| 参数名  | 类型   | 描述          |
-| ------- | ------ | ------------- |
-| user_id | 整数   | 用户唯一标识符 |
+**返回值：** user_id。
 
-#### 返回结果：
+**示例：**
 
-- **user_id** (整数) - 用户唯一标识符
-- **user_name** (字符串) - 用户名
-- **user_phone** (字符串) - 电话号码
-- **user_email** (字符串) - 邮箱
-- **user_card** (字符串) - 银行卡号
+```python
+import sqlite3
+conn = sqlite3.connect('info.db')
+cursor = conn.cursor()
+user_id = str(uuid.uuid4())
+user_info = get_user_info(user_id)
+```
+### 函数 2: `user_login()`
+
+**概述：** 判断是否登陆成功
+
+**参数：**
+
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `user_name (int)`: 用户名。
+- `user_phone (int)`: 用户手机。
+- `user_email (int)`: 用户邮件。
+- `user_pwd (int)`: 用户密码。
 
 
----
+**返回值：** status ， message
 
-### 2. 用户登录接口
+**示例：**
 
-**Endpoint:** `/login`
+```python
+import sqlite3
+    if user_data:
+        user_id = user_data[0]
+        return {"status": "success", "message": "log in successfully", "user_id": user_id}
+    else:
+        return {"status": "failure", "message": "user doesn't exist or password is wrong"}
+```
 
-**Method:** `POST`
-
-#### 请求参数：
-
-- **方式1: 通过电话号码和密码登录**
-  - **user_phone** (字符串) - 电话号码
-  - **user_pwd** (字符串) - 密码
-
-- **方式2: 通过邮箱和密码登录**
-  - **user_email** (字符串) - 邮箱
-  - **user_pwd** (字符串) - 密码
-
-- **方式3: 通过用户名和密码登录**
-  - **user_name** (字符串) - 用户名
-  - **user_pwd** (字符串) - 密码
-
-#### 返回结果：
-
-- **user_id** (整数) - 用户唯一标识符 (登录成功时返回)
-- **message** (字符串) - 登录成功信息或登录失败原因
-
----
-
-### 3. 用户注册接口
-
-**Endpoint:** `/register`
-
-**Method:** `POST`
-
-#### 请求参数：
-
-- **user_phone** (字符串) - 电话号码
-- **user_email** (字符串) - 邮箱
-- **user_name** (字符串) - 用户名
-- **user_card** (字符串) - 银行卡号
-- **user_pwd** (字符串) - 密码
-
-#### 返回结果：
-
-- **message** (字符串) - 注册成功信息或注册失败信息
-
----
-
-### 4. 修改用户信息接口
-
-**Endpoint:** `/update_user_info`
-
-**Method:** `PUT`
-
-#### 请求参数：
-
-| 参数名       | 类型   | 描述          |
-| ------------ | ------ | ------------- |
-| user_id      | 整数   | 用户唯一标识符 |
-| user_name     | 字符串 | 用户名        |
-| user_phone | 字符串 | 电话号码      |
-| user_email        | 字符串 | 邮箱          |
-| user_card | 字符串 | 银行卡号      |
-| user_pwd     | 字符串 | 密码          |
-
-#### 返回结果：
-
-- **message** (字符串) - 修改成功信息或修改失败信息
-
----
-
-### 5. 查找可预定房间接口
-
-**Endpoint:** `/find_available_rooms`
-
-**Method:** `GET`
-
-#### 请求参数：
-
-| 参数名      | 类型   | 描述              |
-| ----------- | ------ | ----------------- |
-| ck_in  | 字符串 | 入住日期 (YYYY-MM-DD) |
-| ck_out | 字符串 | 退房日期 (YYYY-MM-DD) |
-| room_type   | 字符串 | 房型              |
-
-#### 返回结果：
-
-- 返回所有可预定房间信息，包括以下字段：
-  - **room_number** (整数) - 房间号
-  - **room_type** (字符串) - 房型
- 
-
----
-
-### 6. 创建订单接口
-
-**Endpoint:** `/create_order`
-
-**Method:** `POST`
-
-#### 请求参数：
-
-| 参数名      | 类型   | 描述              |
-| ----------- | ------ | ----------------- |
-| room_number | 整数   | 房间号            |
-| user_id     | 整数   | 用户唯一标识符    |
-| ck_in    | 字符串 | 入住时间 (YYYY-MM-DD)|
-| ck_out   | 字符串 | 退房时间 (YYYY-MM-DD)|
-
-#### 返回结果：
-
-- **order_id** (整数) - 订单唯一标识符
 ---
 
 ### 函数 9: `update_order(conn, order_id, room_num, user_id, ck_in, ck_out, order_status, comment)`
