@@ -50,6 +50,17 @@ import sqlite3
 ```
 
 ---
+### 函数 3: `user_register()`
+
+**概述：** 判断是否注册成功
+
+**参数：**
+
+- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+- `user_name (int)`: 用户名。
+- `user_phone (int)`: 用户手机。
+- `user_email (int)`: 用户邮件。
+- `user_pwd (int)`: 用户密码。
 
 ### 函数 9: `update_order(conn, order_id, room_num, user_id, ck_in, ck_out, order_status, comment)`
 
