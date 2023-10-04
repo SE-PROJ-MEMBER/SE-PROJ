@@ -150,6 +150,34 @@ def test_get_all_orders():
     else:
         print('12、返回所有订单信息测试未通过')
 
+#13、通过房间号修改房间信息，修改信息可能覆盖room表中所有字段，room_num不可修改
+def test_update_room():
+    conn = sqlite3.connect('info.db')
+    cursor = conn.cursor()
+    #创建测试房间
+    room_num = 000
+    room_type = 001
+    room_price = 003
+    cursor.execute('INSERT INTO room(room_num, room_type, room_price) VALUES (?,?,?)', (000, 000, 000))
+    cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
+    result = cursor.fetchone()
+    conn.commit()
+    
+    #修改房间信息
+    backend.update_room(room_num, room_type, room_price)
+
+    #确认信息是否已成功修改
+    cursor.execute('SELECT FROM room WHERE room_num = ?', (room_num,))
+    test_result = cursor.fetchone()
+    conn.commit()
+    if result and test_result:
+        if result != test_result:
+            print('13、修改房间信息测试通过')
+        else:
+            print('13、修改房间信息测试未通过')
+    else:
+            print('13、修改房间信息测试未通过')
+
 #运行测试函数
 test_get_user_info()
 test_user_login()
@@ -158,3 +186,4 @@ test_update_order()
 test_comment_order()
 verify_get_all_users()
 test_get_all_orders()
+test_update_room()
