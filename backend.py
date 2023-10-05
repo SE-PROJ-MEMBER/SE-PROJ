@@ -1,194 +1,92 @@
 import sqlite3
-import uuid
+from connect import cursor as cur
+from connect import conn
+import random
 
 
-# 1. 返回用户信息
-def get_user_info(user_id):
-    conn = sqlite3.connect('info.db')
-    cursor = conn.cursor()
-    try:
-        # 查询信息
-        cursor.execute('SELECT * FROM user_info WHERE user_id = ?'), (user_id,)
-        user_data = cursor.fetchone()
-
-        if user_data:
-            user_info = {
-                "user_id": user_data[0],
-                "user_name": user_data[1],
-                "user_phone": user_data[2],
-                "user_email": user_data[3],
-                "user_card": user_data[4],
-                "user_pwd": user_data[5],
-            }
-            return user_info
-        else:
-            return {"error": "user doesn't exist"}
-
-    except Exception as e:
-        return {"error": str(e)}
+# 1.返回用户信息
+def user_info(user_id):
+    cur.execute("SELECT * FROM user WHERE user_id = ?", (user_id,))
+    return cur.fetchone()
 
 
-# 生成唯一的user_id
-user_id = str(uuid.uuid4())
-user_info = get_user_info(user_id)
-if "error" in user_info:
-    print(user_info["error"])
-else:
-    print(user_info)
-
-
-# 2.判断是否登陆成功（返回失败原因）
-def user_login(user_phone=None, user_email=None, user_name=None, user_pwd=None):
-    if user_phone:
-        cursor.execute('SELECT * FROM user_info WHERE user_phone=? AND user_pwd=?', (user_phone, user_pwd))
-    elif user_email:
-        cursor.execute('SELECT * FROM user_info WHERE user_email=? AND user_pwd=?', (user_email, user_pwd))
-    elif user_name:
-        cursor.execute('SELECT * FROM user_info WHERE user_name=? AND user_pwd=?', (user_name, user_pwd))
+# 2.登录判断
+def user_login(login_info, pwd):
+    cur.execute(
+        f"SELECT user_id FROM user WHERE {login_info} = ?, "(login_info,))
+    id = cur.fetchone()
+    if not id:
+        return 'user_not_exist'
+    cur.execute(f"SELECT user_pwd FROM user WHERE user_id = ?, "(id,))
+    if cur.fetchone() == pwd:
+        return 'login_succeed', id
     else:
-        return {"status": "failure", "message": "user_pwd or user_name is empty"}
-
-    user_data = cursor.fetchone()
-
-    if user_data:
-        user_id = user_data[0]
-        return {"status": "success", "message": "log in successfully", "user_id": user_id}
-    else:
-        return {"status": "failure", "message": "user doesn't exist or password is wrong"}
+        return 'pwd_incorrect'
 
 
-# 3.注册成功返回user_id,失败返回原信息
-def user_register(user_phone, user_email, user_name, user_card, user_pwd):
-    try:
-        cursor.execute('SELECT * FROM user_info WHERE user_phone=? OR user_email=? OR user_name = ? OR user_card=?',
-                       (user_phone, user_email, user_name, user_card))
-        existing_user = cursor.fetchone()
-
-        if existing_user:
-            return {"status": "failure", "message": "fail to register"}
-        # 生成唯一的user_id
-        user_id = generate_user_id()
-        cursor.execute('INSERT INTO user_info VALUES (?, ?, ?, ?, ?, ?)',
-                       (user_id, user_name, user_phone, user_email, user_card, user_pwd))
-        conn.commit()
-
-        return {"status": "success", "message": "rigister successfully", "user_id": user_id}
-
-    except Exception as e:
-        return {"status": "failure", "message": "fail to register"}
-
-
-# 4.通过user_id修改用户信息
-def update_user_info(user_id, new_user_phone=None, new_user_email=None, new_user_name=None, new_user_card=None,
-                     new_user_pwd=None):
-    try:
-        # 检查用户是否存在
-        cursor.execute('SELECT * FROM user_info WHERE user_id=?', (user_id,))
-        existing_user = cursor.fetchone()
-
-        if not existing_user:
-            return {"status": "failure", "message": "user doesn't exist"}
-        # 更新用户信息
-        update_query = 'UPDATE user_info SET'
-        update_valuse = []
-
-        if new_user_phone:
-            update_query += ' user_phone=?,'
-            update_valuse.append(new_user_phone)
-        if new_user_email:
-            update_query += ' user_email=?,'
-            update_valuse.append(new_email)
-        if new_user_name:
-            update_query += ' user_name=?,'
-            update_valuse.append(new_username)
-        if new_user_card:
-            update_query += ' user_card=?,'
-            update_valuse.append(new_bank_card)
-        if new_user_pwd:
-            update_query += ' user_pwd=?,'
-            update_valuse.append(new_password)
-
-        update_query = update_query.rstrip(',')
-
-        update_query += ' WHERE user_id=?'
-        update_valuse.append(user_id)
-        cursor.execute(update_query, tuple(update_valuse))
-        conn.commit()
-
-        return {"status": "success", "message": "user's information has been changed successfully"}
-    except Exception as e:
-        return {"status": "failure", "message": "failed to change the information"}
-
-
-# 5. 查找可预定房间
-def find_available_rooms(ck_in, ck_out, room_type):
-    try:
-        # 查询可预定的房间
-        cursor.execute(
-            '''
-        SELECT * FROM room WHERE room_type=? AND room_id NOT IN (SELECT room_id FROM reservation WHERE ck_in <= ? AND ck_out >= ? )
-        ''',
-            (room_type, ck_out, ck_in)
-        )
-
-        available_rooms = []
-        for row in cursor.fetchall():
-            room_info = {
-                "room_id": row[0],
-                "room_type": row[1],
-                "price": row[2],
-            }
-            available_rooms.append(room_info)
-
-        return {"status": "success", "rooms": available_rooms}
-
-    except Exception as e:
-        return {"status": "failure",
-                "message": "failed to find the room can be ordered ,please check the information you enter"}
-
-
-# 6.返回order_id
-def create_order(room_number, user_id, ck_in, ck_out):
-    conn.cursor().execute(
-        '''
-    INSERT INTO orders (room_number, user_id, ck_in, ck_out) VALUES (?, ?, ?, ?)
-    ''',
-        (room_number, user_id, ck_in, ck_out)
-    )
-    order_id = conn.cursor().lastrowid
+# 3.注册
+def user_register(phone, email, name, card, pwd):
+    if name in cur.execute("SELECT user_name FROM user"):
+        return 'user_name_exist'
+    if name[:4] == 'admin':
+        return 'user_name_invalid'
+    id = random.randint(10000000, 99999999)
+    cur.execute("INSERT INTO user VALUES(?,?,?,?,?,?)",
+                (id, name, phone, email, card, pwd))
     conn.commit()
-    conn.close()
-
-    return order_id
+    return 'register_succeed', id
 
 
-# 7.计算价格并返回
-
-conn = sqlite3.connect('room_info.db')
-cursor = conn.cursor()
-
-def calculate_price(room_type, ck_in, ck_out):
-    cursor.execute('''
-        SELECT price
-        FROM room_info
-        WHERE room_type = ? AND ck_in <= ? AND ck_out >= ?
-    ''', (room_type, ck_in, ck_out))
-
-    result = cursor.fetchone()
-    if room_price:
-        price_per_night = room_price[0]
-        num_nights =(ck_out - ck_in).days
-        total_price = price_per_night * num_nights
-        return total_price
-    else:
-        return 'the room does not exist'
+# 4.修改用户信息
+def update_user(alter_item, alter_value, user_id):
+    if alter_item == 'name' and alter_value[:4] == 'admin':
+        return 'invalid_name'
+    if alter_item == 'name' and alter_value in cur.execute("SELECT user_name FROM user"):
+        return 'name_exist'
+    cur.execute(
+        f"UPDATE user SET {alter_item} = ? WHERE user_id = ?", (alter_value, user_id))
+    conn.commit()
+    return 'update_succeed'
 
 
-conn.close()
+# 5.返回房间信息
+def find_room(ck_in, ck_out, type):
+    cur.execute(
+        '''
+        SELECT * FROM room WHERE room_type=? AND room_nun NOT IN (SELECT room_num FROM orderl WHERE ck_in <= ? AND ck_out >= ? )
+        ''',
+        (type, ck_out, ck_in)
+    )
+    return cur.fetchall()
 
-# 8. 返回订单信息
-conn = sqlite3.connect('booking.db')
-cursor = conn.cursor()
+
+# 6.返回订单信息
+def create_order(room_num, user_id, ck_in, ck_out):
+    order_id = random.randint(10000000, 99999999)
+    cur.execute(
+        "INSERT INTO orderl VALUES(?,?,?,?,?,?,?)", (order_id, room_num, user_id, ck_in, ck_out, 0, ''))
+    conn.commit()
+    return 'create_order_succeed', order_id
+
+
+# 7.返回价格
+def get_price(type):
+    cur.execute("SELECT room_price FROM room WHERE room_type = ?", (type,))
+    return cur.fetchone()
+
+
+# 8.返回订单信息
+def get_order_info(order_id):
+    cur.execute("SELECT * FROM orderl WHERE order_id = ?", (order_id,))
+    return cur.fetchone()
+
+
+# 9.更新订单信息
+def update_order(alter_item, alter_value, order_id):
+    cur.execute(
+        f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (alter_value, order_id))
+    cur.commit()
+    return 'update_succeed'
 
 # 查询订单信息的函数
 def get_order_info(order_id):
@@ -298,28 +196,11 @@ def get_all_orders():
 
 
 # 13.通过房间号修改房间信息
-def update_room(conn, room_num, room_type=None, room_price=None):
-    try:
-        cursor = conn.cursor()
-        query = 'UPDATE room SET '
-        params = []
-        
-        if room_type is not None:
-            query += 'room_type = ?, '
-            params.append(room_type)
-        
-        if room_price is not None:
-            query += 'room_price = ?, '
-            params.append(room_price)
-        
-        query = query.rstrip(', ')  
-        query += ' WHERE room_num = ?'
-        params.append(room_num)
-
-        cursor.execute(query, params)
-        conn.commit()
-    except sqlite3.Error as e:
-        print(f"An error occurred: {e}")
+def update_room(alter_item, alter_value, room_num):
+    cur.execute(
+        f"UPDATE orderl SET {alter_item} = ? WHERE room_num = ?", (alter_value, room_num))
+    conn.commit()
+    return 'update_succeed'
 
 
 # 14.通过房间号返回房间信息
