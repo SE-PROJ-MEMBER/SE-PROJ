@@ -88,39 +88,6 @@ def update_order(alter_item, alter_value, order_id):
     cur.commit()
     return 'update_succeed'
 
-# 查询订单信息的函数
-def get_order_info(order_id):
-    cursor.execute('''
-        SELECT order_id, room_num, ck_in, ck_out, room_type, price
-        FROM orders
-        WHERE order_id = ?
-    ''', (order_id,))
-
-    result = cursor.fetchone()
-
-    if result:
-        return result
-    else:
-        return 'can"t find the matched order information'
-
-# 用户输入订单号
-order_id = int(input('please enter the order_id：'))
-
-# 获取订单信息并返回
-order_info = get_order_info(order_id)
-
-if order_info != '未找到匹配的订单信息':
-    print('order_id:', order_info[0])
-    print('room_num:', order_info[1])
-    print('ck_in:', order_info[2])
-    print('ck_out:', order_info[3])
-    print('room_type:', order_info[4])
-    print('price:', order_info[5])
-else:
-    print(order_info)
-
-conn.close()
-
 
 # 10. 添加订单评论
 def comment_order(order_id, comment):
@@ -140,9 +107,6 @@ def get_all_users():
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM user")
     return cursor.fetchall()
-
-
-import sqlite3
 
 
 # 12.返回所有订单信息
@@ -171,15 +135,6 @@ def get_room(room_num):
         result = cursor.fetchone()
         cursor.close()
     return result
-
-
-if __name__ == '__main__':
-    res = get_all_orders()
-
-    for r in res:
-        print(r)
-
-import random
 
 
 # 15. 通过用户名和密码新建用户
@@ -243,6 +198,7 @@ def delete_room(room_num):
     )
     conn.commit()
     cur.close()
+
 
 # 19.通过user_id删除订单（删除相应行）
 def delete_order(user_id):
