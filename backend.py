@@ -183,10 +183,10 @@ def delete_room(room_num):
     return '200'
 
 
-# 19.通过user_id删除订单（删除相应行）
+# 19.通过user_id删除用户（删除相应行）
 def delete_order(user_id):
     cur.execute("""
-                DELETE FROM orderl WHERE user_id = ?
+                DELETE FROM user WHERE user_id = ?
                 """,
                 (user_id,)
     )
