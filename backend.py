@@ -19,7 +19,7 @@ def user_login(login_info, pwd):
         return 'user_not_exist'
     cur.execute(f"SELECT user_pwd FROM user WHERE user_id = ?, "(id,))
     if cur.fetchone() == pwd:
-        return 'login_succeed', id
+        return '200', id
     else:
         return 'pwd_incorrect'
 
@@ -34,7 +34,7 @@ def user_register(phone, email, name, card, pwd):
     cur.execute("INSERT INTO user VALUES(?,?,?,?,?,?)",
                 (id, name, phone, email, card, pwd))
     conn.commit()
-    return 'register_succeed', id
+    return '200', id
 
 
 # 4.修改用户信息
@@ -46,7 +46,7 @@ def update_user(alter_item, alter_value, user_id):
     cur.execute(
         f"UPDATE user SET {alter_item} = ? WHERE user_id = ?", (alter_value, user_id))
     conn.commit()
-    return 'update_succeed'
+    return '200'
 
 
 # 5.返回房间信息
@@ -66,7 +66,7 @@ def create_order(room_num, user_id, ck_in, ck_out):
     cur.execute(
         "INSERT INTO orderl VALUES(?,?,?,?,?,?,?)", (order_id, room_num, user_id, ck_in, ck_out, 0, ''))
     conn.commit()
-    return 'create_order_succeed', order_id
+    return '200', order_id
 
 
 # 7.返回价格
@@ -86,7 +86,7 @@ def update_order(alter_item, alter_value, order_id):
     cur.execute(
         f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (alter_value, order_id))
     cur.commit()
-    return 'update_succeed'
+    return '200'
 
 
 # 10. 添加订单评论
