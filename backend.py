@@ -184,7 +184,7 @@ def delete_room(room_num):
 
 
 # 19.通过user_id删除用户（删除相应行）
-def delete_order(user_id):
+def delete_user(user_id):
     cur.execute("""
                 DELETE FROM user WHERE user_id = ?
                 """,
