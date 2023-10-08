@@ -86,7 +86,7 @@ def update_order(alter_item, alter_value, order_id):
     cur.execute(
         f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (alter_value, order_id))
     cur.commit()
-    return 'update_succeed'
+    return '200'
 
 
 # 10. 添加订单评论
@@ -98,7 +98,7 @@ def comment_order(order_id, comment_str):
         conn.commit()
         return '200'
     else:
-        return 'Failed'
+        return 'status_error'
 
 
 # 11. 获取所有用户信息
@@ -110,8 +110,7 @@ def get_all_users():
 # 12.返回所有订单信息
 def get_all_orders():
     cur.execute("SELECT * FROM orderl")
-    result = cur.fetchall()
-    return result
+    return cur.fetchall()
 
 
 # 13.通过房间号修改房间信息
@@ -125,17 +124,18 @@ def update_room(alter_item, alter_value, room_num):
 # 14.通过房间号返回房间信息
 def get_room_info(room: int):
     cur.execute(f'SELECT * FROM room WHERE room_num = {room}')
-    result = cur.fetchone()
-    return result
+    return cur.fetchone()
 
 
 # 15. 通过用户名和密码新建用户
 def create_user_np(name, pwd):
     new_id = random.randint(10000000, 99999999)
-    cur.execute('SELECT user_id FROM user')
-    tmp = cur.fetchall()
-    while new_id in tmp:
-        new_id = random.randint(10000000, 99999999)
+    # cur.execute('SELECT user_id FROM user')
+    # tmp = cur.fetchall()
+    # while new_id in tmp:
+        # new_id = random.randint(10000000, 99999999)
+    if name in cur.execute("SELECT user_name FROM user"):
+        return 'user_name_exist'
     cur.execute('''
                 INSERT INTO user VALUES (?, ?, NULL, NULL, NULL, ?)
                 ''',
@@ -162,10 +162,10 @@ def create_room(room_num, room_type, price):
 # 17.新建订单
 def create_order(item, value):
     new_id = random.randint(10000000, 99999999)
-    cur.execute('SELECT order_id FROM orderl')
-    tmp = cur.fetchall()
-    while new_id in tmp:
-        new_id = random.randint(10000000, 99999999)
+    # cur.execute('SELECT order_id FROM orderl')
+    # tmp = cur.fetchall()
+    # while new_id in tmp:
+        # new_id = random.randint(10000000, 99999999)
     cur.execute(f'INSERT INTO orderl VALUES ({new_id}, NULL, NULL, NULL, NULL, NULL, NULL)')
     cur.execute(f'UPDATE orderl SET {item} = {value} WHERE order_id = {new_id}')
     conn.commit()
