@@ -245,38 +245,37 @@ update_order(conn, 1, 101, 1, "2023-10-01", "2023-10-10", 1, "Great room!")
 
 ---
 
-### 函数 10: `comment_order(conn, order_id, comment)`
+### 函数 10: `comment_order(order_id, comment_str)`
 
 **概述：** 添加订单评论。
 
 **参数：**
 
-- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
 - `order_id (int)`: 订单ID。
-- `comment (string)`: 评论。
+- `comment_str (str)`: 评论。
 
 **返回值：**
 
-- 如果订单状态为2（已退房），返回字符串 "Comment posted successfully."。
-- 如果订单状态不为2，返回字符串 "Cannot comment on this order. Only orders with status 2 can be commented."。
+- 如果订单状态为2（已退房），返回字符串 "200"。
+- 如果订单状态不为2，返回字符串 "Failed"。
 
 **示例：**
 
 ```python
 import sqlite3
 conn = sqlite3.connect('info.db')
-print(comment_order(conn, 1, "Great room!"))  # 输出: "Comment posted successfully."
+comment_order(1, "Great room!")
 ```
 
 ---
 
-### 函数 11: `get_all_users(conn)`
+### 函数 11: `get_all_users()`
 
 **概述：** 获取所有用户信息。
 
 **参数：**
 
-- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+无
 
 **返回值：** 返回一个包含所有用户信息的列表，每个用户的信息是一个包含`user`表中所有字段的元组。
 
@@ -285,19 +284,19 @@ print(comment_order(conn, 1, "Great room!"))  # 输出: "Comment posted successf
 ```python
 import sqlite3
 conn = sqlite3.connect('info.db')
-print(get_all_users(conn))  # 输出: [(1, "John Doe", 1234567890, "john.doe@example.com", 1234567890123456, "password"), ...]
+print(get_all_users())  # 输出: [(1, "John Doe", 1234567890, "john.doe@example.com", 1234567890123456, "password"), ...]
 ```
 
 ---
 ---
 
-### 函数 12: `get_all_orders(conn)`
+### 函数 12: `get_all_orders()`
 
 **概述：** 获取所有订单信息。
 
 **参数：**
 
-- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
+无
 
 **返回值：** 返回一个包含所有订单信息的列表，每个订单的信息是一个包含`orderl`表中所有字段的元组。
 
@@ -306,21 +305,20 @@ print(get_all_users(conn))  # 输出: [(1, "John Doe", 1234567890, "john.doe@exa
 ```python
 import sqlite3
 conn = sqlite3.connect('info.db')
-print(get_all_orders(conn))  # 输出: [(1, 101, 1, "2023-10-01", "2023-10-10", 1, "Great room!"), ...]
+print(get_all_orders())  # 输出: [(1, 101, 1, "2023-10-01", "2023-10-10", 1, "Great room!"), ...]
 ```
 
 ---
 
-### 函数 13: `update_room(conn, room_num, room_type, room_price)`
+### 函数 13: `update_room(alter_item, alter_value, room_num)`
 
 **概述：** 更新房间信息。
 
 **参数：**
 
-- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
-- `room_num (int)`: 房间编号。
-- `room_type (int)`: 房间类型。
-- `room_price (int)`: 房间价格。
+- `alter_item(str)`: 要更新的项目
+- `alter_value(str)`: 更新后的值
+- `room_num(int)`: 房间号
 
 **返回值：** 无。
 
@@ -334,14 +332,13 @@ update_room(conn, 101, 2, 500.0)
 
 ---
 
-### 函数 14: `get_room(conn, room_num)`
+### 函数 14: `get_room_info(room)`
 
 **概述：** 获取特定房间的信息。
 
 **参数：**
 
-- `conn (sqlite3.Connection)`: SQLite数据库的连接实例。
-- `room_num (int)`: 房间编号。
+- `room (int)`: 房间编号。
 
 **返回值：** 一个包含特定房间信息的元组，包含`room`表中所有字段。
 
@@ -350,20 +347,20 @@ update_room(conn, 101, 2, 500.0)
 ```python
 import sqlite3
 conn = sqlite3.connect('info.db')
-print(get_room(conn, 101))  # 输出: (101, 2, 500.0)
+print(get_room_info(101))  # 输出: (101, 2, 500.0)
 ```
 
 ---
 
 
-## 15. create_user(user_name, user_pwd)
+## 15. create_user_np(name, pwd)
 
-此函数用于创建新的用户。
+此函数用于通过用户名和密码创建新的用户。
 
 ### 参数：
 
-- `user_name`：新用户的用户名，必须为字符串类型。
-- `user_pwd`：新用户的密码，必须为字符串类型。
+- `user_name`: 新用户的用户名，必须为字符串类型。
+- `user_pwd`: 新用户的密码，必须为字符串类型。
 
 ### 返回值：
 
@@ -379,32 +376,30 @@ create_user("JohnDoe", "password123")
 
 ### 备注：
 
-在此函数中，我们生成一个在1000到9999之间的随机`user_id`作为用户的唯一标识。我们在数据库中检查这个`user_id`是否唯一，如果不唯一，我们会再次生成新的`user_id`。
+在此函数中，我们生成一个在10000000到99999999之间的随机`user_id`作为用户的唯一标识。我们在数据库中检查这个`user_id`是否唯一，如果不唯一，我们会再次生成新的`user_id`。
 
 ---
 
-## 16. create_room(room_num, room_type=None, room_price=None)
+## 16. create_room(room_num, room_type, room_price)
 
 此函数用于创建新的房间。
 
 ### 参数：
 
-- `room_num`：新房间的房间号，必须为三位数的整数。
-- `room_type`：新房间的类型，为可选参数，如果不提供则为`None`。
-- `room_price`：新房间的价格，为可选参数，如果不提供则为`None`。
+- `room_num`: 新房间的房间号, 必须为三位数的整数
+- `room_type`: 新房间的类型
+- `room_price`: 新房间的价格
 
 ### 返回值：
 
-无返回值。
+如果房间号已存在, 返回信息'room already existed'
+如果房间号不是三位数, 返回信息'invalid room number'
+如果成功创建, 返回'200'
 
 ### 例子：
 
 ```python
-create_room(101, "Single", 100)
+create_room(101, 'A', 100)
 ```
 
-在上述例子中，函数将在数据库中创建一个新的房间，其房间号为101，类型为"Single"，价格为100。
-
-### 备注：
-
-在此函数中，我们检查`room_num`是否为三位数的整数，如果不是，我们会抛出一个异常。
+在上述例子中，函数将在数据库中创建一个新的房间，其房间号为101，类型为'A'，价格为100。
