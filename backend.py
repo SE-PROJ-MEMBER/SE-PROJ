@@ -90,33 +90,28 @@ def update_order(alter_item, alter_value, order_id):
 
 
 # 10. 添加订单评论
-def comment_order(order_id, comment):
-    cursor = conn.cursor()
-    cursor.execute('SELECT order_status FROM orderl WHERE order_id = ?', (order_id,))
-    result = cursor.fetchone()
-    if result and result[0] == 2:
-        cursor.execute('UPDATE orderl SET comment = ? WHERE order_id = ?', (comment, order_id))
+def comment_order(order_id, comment_str):
+    cur.execute(f'SELECT order_status FROM orderl WHERE order_id = {order_id}')
+    status = cur.fetchone()
+    if status[0] == 2:
+        cur.execute(f'UPDATE orderl SET comment = ? WHERE order_id = ?', (comment_str, order_id))
         conn.commit()
-        return "Comment posted successfully."
+        return '200'
     else:
-        return "Cannot comment on this order. Only orders with status 2 can be commented."
+        return 'Failed'
 
 
 # 11. 获取所有用户信息
 def get_all_users():
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM user")
-    return cursor.fetchall()
+    cur.execute("SELECT * FROM user")
+    return cur.fetchall()
 
 
 # 12.返回所有订单信息
 def get_all_orders():
-    with sqlite3.connect('info.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT * FROM orderl")
-        result = cursor.fetchall()
-        cursor.close()
-        return result
+    cur.execute("SELECT * FROM orderl")
+    result = cur.fetchall()
+    return result
 
 
 # 13.通过房间号修改房间信息
@@ -124,89 +119,76 @@ def update_room(alter_item, alter_value, room_num):
     cur.execute(
         f"UPDATE orderl SET {alter_item} = ? WHERE room_num = ?", (alter_value, room_num))
     conn.commit()
-    return 'update_succeed'
+    return '200'
 
 
 # 14.通过房间号返回房间信息
-def get_room(room_num):
-    with sqlite3.connect('info.db') as conn:
-        cursor = conn.cursor()
-        cursor.execute('SELECT * FROM room WHERE room_num=?', (room_num,))
-        result = cursor.fetchone()
-        cursor.close()
+def get_room_info(room: int):
+    cur.execute(f'SELECT * FROM room WHERE room_num = {room}')
+    result = cur.fetchone()
     return result
 
 
 # 15. 通过用户名和密码新建用户
-def create_user(user_name, user_pwd):
-    cursor = conn.cursor()
-    while True:
-        user_id = random.randint(1000, 9999)  # Generate a random user_id
-        cursor.execute('SELECT * FROM user WHERE user_id = ?', (user_id,))
-        if not cursor.fetchone():
-            break
-    cursor.execute(
-        '''
-        INSERT INTO user (user_id, user_name, user_pwd)
-        VALUES (?, ?, ?)
-        ''',
-        (user_id, user_name, user_pwd)
-    )
+def create_user_np(name, pwd):
+    new_id = random.randint(10000000, 99999999)
+    cur.execute('SELECT user_id FROM user')
+    tmp = cur.fetchall()
+    while new_id in tmp:
+        new_id = random.randint(10000000, 99999999)
+    cur.execute('''
+                INSERT INTO user VALUES (?, ?, NULL, NULL, NULL, ?)
+                ''',
+                (new_id, name, pwd))
     conn.commit()
-    cursor.close()
+    return '200'
 
 
 # 16. 新建房间
-def create_room(room_num, room_type=None, room_price=None):
-    if not 100 <= room_num <= 999:  # Ensure room_num is a three-digit number
-        raise ValueError("Room number must be a three-digit number.")
-
-    cursor = conn.cursor()
-    cursor.execute(
-        '''
-        INSERT INTO room (room_num, room_type, room_price)
-        VALUES (?, ?, ?)
-        ''',
-        (room_num, room_type, room_price)
-    )
+def create_room(room_num, room_type, price):
+    cur.execute('SELECT room_num FROM room')
+    result = cur.fetchall()
+    if room_num in result:
+        return 'room already existed'
+    if room_num < 100 or room_num > 999:
+        return 'invalid room number'
+    cur.execute('''
+                INSERT INTO room VALUES (?, ?, ?)
+                ''',
+                (room_num, room_type, price))
     conn.commit()
-    cursor.close()
+    return '200'
 
 # 17.新建订单
-def create_room(room_num, user_id, ck_in, ck_out, comment):
-    cur = conn.cursor()
-    import random
-    order_id = random.randint(1,1000)
-    order_status = 0
-    cur.execute("""
-                INSERT INTO orderl(order_id, room_num, user_id, ck_in, ck_out, order_status, comment) 
-                VALUES(?,?,?,?,?,?,?)
-                """, 
-                (order_id, room_num, user_id, ck_in, ck_out, order_status, comment)
-    )
+def create_order(item, value):
+    new_id = random.randint(10000000, 99999999)
+    cur.execute('SELECT order_id FROM orderl')
+    tmp = cur.fetchall()
+    while new_id in tmp:
+        new_id = random.randint(10000000, 99999999)
+    cur.execute(f'INSERT INTO orderl VALUES ({new_id}, NULL, NULL, NULL, NULL, NULL, NULL)')
+    cur.execute(f'UPDATE orderl SET {item} = {value} WHERE order_id = {new_id}')
     conn.commit()
-    cur.close()
+    return '200'
 
 
 # 18.通过房间号删除房间（删除相应行）
 def delete_room(room_num):
-    cur = conn.cursor()
     cur.execute("""
                 DELETE FROM room WHERE room_num = ?
                 """,
                 (room_num,)
     )
     conn.commit()
-    cur.close()
+    return '200'
 
 
 # 19.通过user_id删除订单（删除相应行）
 def delete_order(user_id):
-    cur = conn.cursor()
     cur.execute("""
                 DELETE FROM orderl WHERE user_id = ?
                 """,
                 (user_id,)
     )
     conn.commit()
-    cur.close()
+    return '200'
