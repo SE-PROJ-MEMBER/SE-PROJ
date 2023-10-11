@@ -70,8 +70,8 @@ def create_order(room_num, user_id, ck_in, ck_out):
 
 
 # 7.返回价格
-def get_price(type):
-    cur.execute("SELECT room_price FROM room WHERE room_type = ?", (type,))
+def get_price(num):
+    cur.execute("SELECT room_price FROM room WHERE room_num = ?", (num,))
     return cur.fetchone()
 
 

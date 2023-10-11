@@ -4,6 +4,7 @@ import GUI_v1_2
 from backend import *
 import threading
 from functools import partial
+from datetime import datetime
 
 
 g_current_user_id = 0
@@ -195,17 +196,27 @@ def show_current_user_email():
 
 
 def show_current_order():
-    '''need info from page 7'''
     global g_user_selection
     info = f'room number: {g_user_selection[1]}check in: {g_user_selection[3]}check out: {g_user_selection[4]}'
     UI.order_info.setText(info)
 
 
 def calculate_price():
-    '''need info from page 7'''
-    pass
+    global g_user_selection
+    room_num = g_user_selection[1]
+    p = get_price(room_num)
+    p_final = p*calculate_date(g_user_selection[3], g_user_selection[4])
+    UI.pay_total.display(p_final)
 
 
+def calculate_date(st, en):
+    st_ = datetime.strptime(st, "%Y-%m-%d")
+    en_ = datetime.strptime(en, "%Y-%m-%d")
+    delta = en_ - st_
+    days = delta.days
+    return days
+
+show_current_order()
 def show_current_user_email():
     '''billed to'''
     info = str(user_info(g_current_user_id)[3])
@@ -214,7 +225,7 @@ def show_current_user_email():
 
 def page8_to_page9():
     calculate_price()
-    show_current_order()
+    show_current_user_email()
     turn_page(8)
 
 
