@@ -192,3 +192,9 @@ def delete_user(user_id):
     )
     conn.commit()
     return '200'
+
+
+#20.通过user_id返回订单信息
+def get_orders_of_user(user_id):
+    cur.execute(f'SELECT * FROM orderl WHERE user_id = {user_id}')
+    return cur.fetchall()
