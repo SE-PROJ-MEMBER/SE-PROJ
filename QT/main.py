@@ -114,6 +114,7 @@ def sign_in_slot():
         # login succeed
         g_current_user_id = chk_result[-1]
         g_sign_in_status = True
+        UI.user_name_dis.setText(user_info(g_current_user_id)[1])
         delay_jump(1, 2)
         if selection == 'name' and login_param[:5:] == 'admin':
             # check admin account
@@ -138,6 +139,7 @@ def create_account_slot():
     if type(reg_status) == tuple:
         g_current_user_id = reg_status[-1]
         g_sign_in_status = True
+        UI.user_name_dis.setText(user_info(g_current_user_id)[1])
         delay_jump(1, 2)
     else:
         turn_page(4)
@@ -277,6 +279,7 @@ if __name__ == '__main__':
     UI.to_sign_in_page_2.clicked.connect(lambda ret: turn_page(0))
     UI.confirm.clicked.connect(create_account_slot)
     UI.to_sign_up_page_2.clicked.connect(lambda ret: turn_page(3))
+    UI.to_sign_in_page_5.clicked.connect(lambda ret: turn_page(0))
     UI.to_room_select_page.clicked.connect(search_slot(6))
     UI.to_confirm_order_page.clicked.connect(select_slot)
     UI.to_book_info_page.clicked.connect(lambda ret: turn_page(6))
