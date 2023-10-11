@@ -200,6 +200,7 @@ def page10_to_page11():
 
 
 def get_order_info_from_table():
+    global g_current_user_id
     index_of_row = UI.tableWidget.currentItem().row()
     info = get_orders_of_user(g_current_user_id)
     g_current_user_id = info[index_of_row][0]
