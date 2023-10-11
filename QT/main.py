@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-import GUI_v1_1
+import GUI_v1_2
 from backend import *
 
 
@@ -159,7 +159,8 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
 
     Main = QtWidgets.QMainWindow()
-    UI = GUI_v1_1.Ui_MainWindow()
+    UI = GUI_v1_2.Ui_MainWindow()
     UI.tableWidget.cellClicked.connect(table_show)
+    
     
     
