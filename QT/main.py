@@ -13,9 +13,8 @@ g_admin_status = False
 g_pre_page = 0
 g_pre_row = 0
 g_current_order_id = 0
-g_search_result = []
-g_user_selection = []
-
+g_search_result = [None for i in range(100)]
+g_user_selection = [None for i in range(7)]
 
 def turn_page(index):
     '''public'''
@@ -107,7 +106,13 @@ def delay_jump(page_index, sec):
 
 def sign_in_slot():
     global g_sign_in_status, g_current_user_id, g_admin_status
-    selection = UI.Sign_in_choose.currentText()
+    sel = UI.Sign_in_choose.currentText()
+    if sel == 'Name':
+        selection = 'user_name'
+    if  sel == 'Phone':
+        selection = 'user_phone'
+    if sel == 'Email':
+        selection = 'user_email'  
     login_param = UI.ID_IN.text()
     pwd_input = UI.Pwd_in.text()
     chk_result = user_login(selection, login_param, pwd_input)
@@ -216,7 +221,7 @@ def calculate_date(st, en):
     days = delta.days
     return days
 
-show_current_order()
+
 def show_current_user_email():
     '''billed to'''
     info = str(user_info(g_current_user_id)[3])
@@ -283,6 +288,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
     UI = GUI_v1_2.Ui_MainWindow()
+    UI.setupUi(Main)
     UI.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.room_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
 
@@ -294,7 +300,7 @@ if __name__ == '__main__':
     UI.confirm.clicked.connect(create_account_slot)
     UI.to_sign_up_page_2.clicked.connect(lambda ret: turn_page(3))
     UI.to_sign_in_page_5.clicked.connect(lambda ret: turn_page(0))
-    UI.to_room_select_page.clicked.connect(search_slot(6))
+    UI.to_room_select_page.clicked.connect(lambda ret: turn_page(6))
     UI.to_confirm_order_page.clicked.connect(select_slot)
     UI.to_book_info_page.clicked.connect(lambda ret: turn_page(6))
 
@@ -313,3 +319,8 @@ if __name__ == '__main__':
     UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
     UI.tableWidget.cellClicked.connect(table_show)
+    
+    
+    UI.pages.setCurrentIndex(0)
+    Main.show()
+    sys.exit(app.exec())

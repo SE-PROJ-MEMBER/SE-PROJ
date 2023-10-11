@@ -13,11 +13,11 @@ def user_info(user_id):
 # 2.登录判断
 def user_login(login_item, login_info, pwd):
     cur.execute(
-        f"SELECT user_id FROM user WHERE {login_item} = ?, "(login_info,))
+        f"SELECT user_id FROM user WHERE {login_item} = ?",(login_info,))
     id = cur.fetchone()
-    if not id:
+    if id[0] == None:
         return 'user_not_exist'
-    cur.execute(f"SELECT user_pwd FROM user WHERE user_id = ?, "(id,))
+    cur.execute(f"SELECT user_pwd FROM user WHERE user_id = ?",(id,))
     if cur.fetchone() == pwd:
         return 'login_succeed', id
     else:
