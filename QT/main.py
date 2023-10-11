@@ -9,6 +9,7 @@ g_sign_in_status = False
 g_admin_status = False
 g_pre_page = 0
 g_pre_row = 0
+g_current_order_id = 0
 
 
 def turn_page(index):
@@ -79,8 +80,18 @@ def setCellText(row: int, column: int, text: str, tablename):
     tablename.setItem(row, column, QtWidgets.QTableWidgetItem(text))
 
 
+def log_out():
+    '''public'''
+    g_sign_in_status = False
+    g_admin_status = False
+    g_current_user_id = 0
+    turn_page(1)
 
 
+
+
+
+# page 8-13
 def show_current_user_email():
     '''billed to'''
     info =  str(user_info(g_current_user_id)[3])
@@ -101,10 +112,15 @@ def calculate_price():
 def show_current_user_email():
     '''billed to'''
     info = str(user_info(g_current_user_id)[3])
-    turn_page(9)
     UI.user_name.setText(info)
 
 
+def page8_to_page9():
+    calculate_price()
+    show_current_order()
+    turn_page(9)
+    
+    
 def show_persoanl_details():
     info = user_info(g_current_user_id)
     turn_page(11)
@@ -113,17 +129,17 @@ def show_persoanl_details():
     
 
 def modify_user_info():
-    turn_page(12)
     alter_item = UI.co_to_modify.currentText()
     alter_value = UI.modify_info.text()
     alter_status = update_user(alter_item, alter_value, g_current_user_id)
     if alter_status != 'update_succeed':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
            # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
-        turn_page(21)
         UI.reason.setText(alter_status)
+        turn_page(21)
+        return        
     g_pre_page = 12
-
+    turn_page(13)
 
 
 def show_orders_info():
@@ -140,12 +156,17 @@ def show_orders_info():
         setCellText(i, 3, str(info[i][5]), UI.tableWidget)
         setCellText(i, 4, str(info[i][6]), UI.tableWidget)
         
-    
+
+def page10_to_page11():
+    show_persoanl_details()
+    show_orders_info()
+    turn_page(11)
+       
 
 def get_order_info_from_table():
     index_of_row = UI.tableWidget.currentItem().row()
     info = get_orders_of_user(g_current_user_id)
-    return info[index_of_row][0]
+    g_current_user_id = info[index_of_row][0]
 
     
     
@@ -163,19 +184,22 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
     UI = GUI_v1_2.Ui_MainWindow()
+    UI.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     
+    
+    # page 8-13
     UI.to_select_page.clicked.connect(lambda ret: turn_page(7))
-    UI.to_payment_details.clicked.connect(lambda ret: turn_page(9))
+    UI.to_payment_details.clicked.connect(page8_to_page9)
     UI.to_confirm_order_page.clicked.connect(lambda ret: turn_page(8))
     UI.to_payment_su_page.clicked.connect(lambda ret: turn_page(10))
-    UI.to_personal_homepage.clicked.connect(lambda ret: turn_page(11))
+    UI.to_personal_homepage.clicked.connect(page10_to_page11)
     UI.to_book_info_page_2.clicked.connect(lambda ret: turn_page(6))
     UI.if_and_to_modify.clicked.connect(lambda ret: turn_page(12))  
     UI.modify_order.clicked.connect(lambda ret: turn_page(14))
     UI.to_book_info_page6.clicked.connect(lambda ret: turn_page(6))
     UI.to_personal_main_page.clicked.connect(lambda ret: turn_page(11))
-    UI.to_op_su_page.clicked.connect(lambda ret: turn_page(13))
-    UI.pushButton_2.clicked.connect(lambda ret: turn_page(1))
+    UI.to_op_su_page.clicked.connect(modify_user_info)
+    UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
     UI.tableWidget.cellClicked.connect(table_show)
     
