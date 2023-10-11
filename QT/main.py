@@ -122,6 +122,7 @@ def modify_user_info():
            # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         turn_page(21)
         UI.reason.setText(alter_status)
+    g_pre_page = 12
 
 
 
@@ -157,9 +158,23 @@ def show_orders_info():
     
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-
     Main = QtWidgets.QMainWindow()
     UI = GUI_v1_2.Ui_MainWindow()
+    
+    UI.to_select_page.clicked.connect(lambda ret: turn_page(7))
+    UI.to_payment_details.clicked.connect(lambda ret: turn_page(9))
+    UI.to_confirm_order_page.clicked.connect(lambda ret: turn_page(8))
+    UI.to_payment_su_page.clicked.connect(lambda ret: turn_page(10))
+    UI.to_personal_homepage.clicked.connect(lambda ret: turn_page(11))
+    UI.to_book_info_page_2.clicked.connect(lambda ret: turn_page(6))
+    UI.if_and_to_modify.clicked.connect(lambda ret: turn_page(12))  
+    UI.modify_order.clicked.connect(lambda ret: turn_page(14))
+    UI.to_book_info_page6.clicked.connect(lambda ret: turn_page(6))
+    UI.to_personal_main_page.clicked.connect(lambda ret: turn_page(11))
+    UI.to_op_su_page.clicked.connect(lambda ret: turn_page(13))
+    UI.pushButton_2.clicked.connect(lambda ret: turn_page(1))
+    UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
+    
     UI.tableWidget.cellClicked.connect(table_show)
     
     
