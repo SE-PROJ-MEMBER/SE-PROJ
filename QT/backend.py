@@ -11,9 +11,9 @@ def user_info(user_id):
 
 
 # 2.登录判断
-def user_login(login_info, pwd):
+def user_login(login_item, login_info, pwd):
     cur.execute(
-        f"SELECT user_id FROM user WHERE {login_info} = ?, "(login_info,))
+        f"SELECT user_id FROM user WHERE {login_item} = ?, "(login_info,))
     id = cur.fetchone()
     if not id:
         return 'user_not_exist'

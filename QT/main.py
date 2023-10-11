@@ -92,7 +92,39 @@ def log_out():
     turn_page(1)
 
 
+def sign_in_slot():
+    global g_sign_in_status, g_current_user_id
+    selection = UI.Sign_in_choose.currentText()
+    login_param = UI.ID_IN.text()
+    pwd_input = UI.Pwd_in.text()
+    chk_result = user_login(selection, login_param, pwd_input)
+    if type(chk_result) == tuple:
+        g_current_user_id = chk_result[-1]
+        g_sign_in_status = True
+        turn_page(1)
+    else:
+        UI.textBrowser.setText(chk_result)
+        turn_page(2)
+
+
+def create_account_slot():
+    turn_page(3)
+    name = UI.Name_in.text()
+    phone = UI.phone_num_in.text()
+    email = UI.email_in.text()
+    card_num = UI.card_in.text()
+    pwd = UI.pwd_in.text()
+    reg_status = user_register(phone, email, name, card_num, pwd)
+    global g_current_user_id, g_sign_in_status
+    if type(reg_status) == tuple:
+        g_current_user_id = reg_status[-1]
+        g_sign_in_status = True
+    else:
+        turn_page(4)
+
 # page 8-13
+
+
 def show_current_user_email():
     '''billed to'''
     info = str(user_info(g_current_user_id)[3])
