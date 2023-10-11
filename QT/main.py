@@ -84,10 +84,7 @@ def setCellText(row: int, column: int, text: str, tablename):
 
 def log_out():
     '''public'''
-    global g_sign_in_status
-    global g_admin_status
-    global g_current_user_id
-    global g_current_order_id
+    global g_sign_in_status, g_admin_status, g_current_user_id, g_current_order_id
     g_sign_in_status = False
     g_admin_status = False
     g_current_user_id = 0
