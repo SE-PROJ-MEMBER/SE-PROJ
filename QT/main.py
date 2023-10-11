@@ -91,6 +91,8 @@ def log_out():
     g_current_order_id = 0
     turn_page(1)
 
+# page 1-7
+
 
 def sign_in_slot():
     global g_sign_in_status, g_current_user_id
