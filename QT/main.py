@@ -126,8 +126,6 @@ def modify_user_info():
 
 
 
-     
-
 def show_orders_info():
     table_show(UI.tableWidget)
     addMultiColumn(['room number', 'check-in', 'check-out', 'order status', 'comment'], UI.tableWidget)
@@ -143,7 +141,12 @@ def show_orders_info():
         setCellText(i, 4, str(info[i][6]), UI.tableWidget)
         
     
-    
+
+def get_order_info_from_table():
+    index_of_row = UI.tableWidget.currentItem().row()
+    info = get_orders_of_user(g_current_user_id)
+    return info[index_of_row][0]
+
     
     
         
@@ -174,7 +177,6 @@ if __name__ == '__main__':
     UI.to_op_su_page.clicked.connect(lambda ret: turn_page(13))
     UI.pushButton_2.clicked.connect(lambda ret: turn_page(1))
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
-    
     UI.tableWidget.cellClicked.connect(table_show)
     
     
