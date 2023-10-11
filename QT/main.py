@@ -118,8 +118,10 @@ def modify_user_info():
     alter_value = UI.modify_info.text()
     alter_status = update_user(alter_item, alter_value, g_current_user_id)
     if alter_status != 'update_succeed':
-        UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
-            Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+        # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+           # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+        turn_page(21)
+        UI.reason.setText(alter_status)
 
 
 
@@ -158,4 +160,6 @@ if __name__ == '__main__':
 
     Main = QtWidgets.QMainWindow()
     UI = GUI_v1_1.Ui_MainWindow()
-    # UI.tableWidget.
+    UI.tableWidget.cellClicked.connect(table_show)
+    
+    

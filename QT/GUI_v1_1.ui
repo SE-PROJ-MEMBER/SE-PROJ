@@ -40,7 +40,7 @@
             <string notr="true">QPushButton{background-color: rgb(189,189,189); border-radius:20px; color:rgb(0,0,0);}</string>
            </property>
            <property name="currentIndex">
-            <number>15</number>
+            <number>11</number>
            </property>
            <widget class="QWidget" name="sign_in_page1">
             <layout class="QGridLayout" name="gridLayout" rowstretch="1,2,1">
@@ -2873,7 +2873,31 @@
                      </spacer>
                     </item>
                     <item row="0" column="3">
-                     <widget class="QPushButton" name="to_book_info_page_3">
+                     <widget class="QPushButton" name="modify_order">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Bahnschrift SemiBold</family>
+                        <pointsize>18</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton{background-color: rgb(255,255,255); border-radius:20px; color:rgb(0, 119, 237);border-width:2px;border-color:rgb(0, 119, 237);border-style:outset;}</string>
+                      </property>
+                      <property name="text">
+                       <string>Modify order</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="5">
+                     <widget class="QPushButton" name="to_book_info_page6">
                       <property name="sizePolicy">
                        <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
                         <horstretch>0</horstretch>
@@ -2893,30 +2917,6 @@
                       </property>
                       <property name="text">
                        <string>return</string>
-                      </property>
-                     </widget>
-                    </item>
-                    <item row="0" column="5">
-                     <widget class="QPushButton" name="to_sign_in_page_3">
-                      <property name="sizePolicy">
-                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-                        <horstretch>0</horstretch>
-                        <verstretch>0</verstretch>
-                       </sizepolicy>
-                      </property>
-                      <property name="font">
-                       <font>
-                        <family>Bahnschrift SemiBold</family>
-                        <pointsize>18</pointsize>
-                        <weight>75</weight>
-                        <bold>true</bold>
-                       </font>
-                      </property>
-                      <property name="styleSheet">
-                       <string notr="true">QPushButton{background-color: rgb(255,255,255); border-radius:20px; color:rgb(251, 74, 62);border-width:2px;border-color:rgb(251, 74, 62);border-style:outset;}</string>
-                      </property>
-                      <property name="text">
-                       <string>Log out</string>
                       </property>
                      </widget>
                     </item>
@@ -3181,11 +3181,37 @@
                  </property>
                  <layout class="QGridLayout" name="gridLayout_74">
                   <item row="0" column="0">
-                   <layout class="QGridLayout" name="gridLayout_73" columnstretch="2,4,2,4,2">
-                    <item row="0" column="1">
-                     <widget class="QPushButton" name="to_personal_main_page">
+                   <layout class="QGridLayout" name="gridLayout_73" columnstretch="1,2,1,2,1,2,1">
+                    <item row="0" column="0">
+                     <spacer name="horizontalSpacer_48">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="0" column="6">
+                     <spacer name="horizontalSpacer_49">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="0" column="5">
+                     <widget class="QPushButton" name="pushButton_2">
                       <property name="sizePolicy">
-                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
@@ -3199,25 +3225,12 @@
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QPushButton{background-color: rgb(0, 119, 237); border-radius:20px; color:rgb(255,255,255);}</string>
+                       <string notr="true">QPushButton{background-color: rgb(255,255,255); border-radius:20px; color:rgb(251, 74, 62);border-width:2px;border-color:rgb(251, 74, 62);border-style:outset;}</string>
                       </property>
                       <property name="text">
-                       <string>Cancel</string>
+                       <string>Log out</string>
                       </property>
                      </widget>
-                    </item>
-                    <item row="0" column="0">
-                     <spacer name="horizontalSpacer_48">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
                     </item>
                     <item row="0" column="3">
                      <widget class="QPushButton" name="to_op_su_page">
@@ -3256,19 +3269,6 @@
                       </property>
                      </spacer>
                     </item>
-                    <item row="0" column="4">
-                     <spacer name="horizontalSpacer_49">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
                     <item row="1" column="1">
                      <spacer name="verticalSpacer_30">
                       <property name="orientation">
@@ -3278,6 +3278,43 @@
                        <size>
                         <width>20</width>
                         <height>40</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="to_personal_main_page">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Bahnschrift SemiBold</family>
+                        <pointsize>18</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton{background-color: rgb(0, 119, 237); border-radius:20px; color:rgb(255,255,255);}</string>
+                      </property>
+                      <property name="text">
+                       <string>Cancel</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="4">
+                     <spacer name="horizontalSpacer_119">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
                        </size>
                       </property>
                      </spacer>
