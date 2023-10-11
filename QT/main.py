@@ -180,6 +180,7 @@ def room_selection_result():
 
 def select_slot():
     room_selection_result()
+    show_current_order()
     turn_page(7)
 
 
@@ -189,13 +190,15 @@ def select_slot():
 def show_current_user_email():
     '''billed to'''
     info = str(user_info(g_current_user_id)[3])
-    turn_page(9)
+    turn_page(8)
     UI.order_info.setText(info)
 
 
 def show_current_order():
     '''need info from page 7'''
-    pass
+    global g_user_selection
+    info = f'room number: {g_user_selection[1]}check in: {g_user_selection[3]}check out: {g_user_selection[4]}'
+    UI.order_info.setText(info)
 
 
 def calculate_price():
@@ -212,12 +215,12 @@ def show_current_user_email():
 def page8_to_page9():
     calculate_price()
     show_current_order()
-    turn_page(9)
+    turn_page(8)
 
 
 def show_persoanl_details():
     info = user_info(g_current_user_id)
-    turn_page(11)
+    turn_page(10)
     info_str = f'name: {info[1]}phone: {info[3]}email: {info[4]}card: {info[5]}'
     UI.orders.setText(info_str)
 
@@ -230,10 +233,10 @@ def modify_user_info():
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
-        turn_page(21)
+        turn_page(20)
         return
-    g_pre_page = 12
-    turn_page(13)
+    g_pre_page = 11
+    turn_page(12)
 
 
 def show_orders_info():
@@ -255,7 +258,7 @@ def show_orders_info():
 def page10_to_page11():
     show_persoanl_details()
     show_orders_info()
-    turn_page(11)
+    turn_page(10)
 
 
 def get_order_info_from_table():
@@ -285,16 +288,16 @@ if __name__ == '__main__':
     UI.to_book_info_page.clicked.connect(lambda ret: turn_page(6))
 
     # page 8-13
-    UI.to_select_page.clicked.connect(lambda ret: turn_page(7))
+    UI.to_select_page.clicked.connect(lambda ret: turn_page(6))
     UI.to_payment_details.clicked.connect(page8_to_page9)
-    UI.to_confirm_order_page.clicked.connect(lambda ret: turn_page(8))
-    UI.to_payment_su_page.clicked.connect(lambda ret: turn_page(10))
+    UI.to_confirm_order_page.clicked.connect(lambda ret: turn_page(7))
+    UI.to_payment_su_page.clicked.connect(lambda ret: turn_page(9))
     UI.to_personal_homepage.clicked.connect(page10_to_page11)
-    UI.to_book_info_page_2.clicked.connect(lambda ret: turn_page(6))
-    UI.if_and_to_modify.clicked.connect(lambda ret: turn_page(12))
-    UI.modify_order.clicked.connect(lambda ret: turn_page(14))
-    UI.to_book_info_page6.clicked.connect(lambda ret: turn_page(6))
-    UI.to_personal_main_page.clicked.connect(lambda ret: turn_page(11))
+    UI.to_book_info_page_2.clicked.connect(lambda ret: turn_page(5))
+    UI.if_and_to_modify.clicked.connect(lambda ret: turn_page(11))
+    UI.modify_order.clicked.connect(lambda ret: turn_page(13))
+    UI.to_book_info_page6.clicked.connect(lambda ret: turn_page(5))
+    UI.to_personal_main_page.clicked.connect(lambda ret: turn_page(10))
     UI.to_op_su_page.clicked.connect(modify_user_info)
     UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
