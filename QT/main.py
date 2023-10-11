@@ -2,6 +2,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import GUI_v1_2
 from backend import *
+import threading
+from functools import partial
 
 
 g_current_user_id = 0
@@ -10,6 +12,7 @@ g_admin_status = False
 g_pre_page = 0
 g_pre_row = 0
 g_current_order_id = 0
+g_search_result = []
 
 
 def turn_page(index):
@@ -91,20 +94,32 @@ def log_out():
     g_current_order_id = 0
     turn_page(1)
 
+
+def delay_jump(page_index, sec):
+    ui_sleep = threading.Timer(sec, partial(turn_page, page_index))
+    ui_sleep.start()
+
 # page 1-7
 
-
 def sign_in_slot():
-    global g_sign_in_status, g_current_user_id
+    global g_sign_in_status, g_current_user_id, g_admin_status
     selection = UI.Sign_in_choose.currentText()
     login_param = UI.ID_IN.text()
     pwd_input = UI.Pwd_in.text()
     chk_result = user_login(selection, login_param, pwd_input)
     if type(chk_result) == tuple:
+        # login succeed
         g_current_user_id = chk_result[-1]
         g_sign_in_status = True
-        turn_page(1)
+        delay_jump(1, 2)
+        if selection == 'name' and login_param[:5:] == 'admin':
+            # check admin account
+            g_admin_status = True
+            turn_page(15)
+        else:
+            turn_page(5)
     else:
+        # login error
         UI.textBrowser.setText(chk_result)
         turn_page(2)
 
@@ -121,8 +136,20 @@ def create_account_slot():
     if type(reg_status) == tuple:
         g_current_user_id = reg_status[-1]
         g_sign_in_status = True
+        delay_jump(1, 2)
     else:
         turn_page(4)
+
+
+def start_search():
+    UI.ck_in.setDate(QtCore.QDate.currentDate())
+    UI.ck_out.setDate(QtCore.QDate.currentDate())
+    date_format_str = "yyyy-MM-dd"
+    begin = UI.ck_in.date().toString(date_format_str)
+    end = UI.ck_out.date().toString(date_format_str)
+    rtype = UI.Room_type.currentText()
+    global g_search_result
+    g_search_result = find_room(begin, end, rtype)
 
 # page 8-13
 

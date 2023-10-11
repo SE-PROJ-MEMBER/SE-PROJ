@@ -28,7 +28,7 @@ def user_login(login_item, login_info, pwd):
 def user_register(phone, email, name, card, pwd):
     if name in cur.execute("SELECT user_name FROM user"):
         return 'user_name_exist'
-    if name[:4] == 'admin':
+    if name[:5] == 'admin':
         return 'user_name_invalid'
     id = random.randint(10000000, 99999999)
     cur.execute("INSERT INTO user VALUES(?,?,?,?,?,?)",
