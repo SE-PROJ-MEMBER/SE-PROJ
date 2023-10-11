@@ -344,5 +344,33 @@
 
 + 登录状态：0代表未登录，1代表已登录，2代表管理员登录
 
+### 前端函数说明
++ 所有函数写到main.py中
++ 对ui文件进行任何更改都应该重新生成相应的py文件，并修改版本号以及main里的调用；如果改动按钮名称，应告知相应人员；不得轻易改动页面序号
++ 函数绑定到相应按钮，绑定相应按钮的代码放到if __name__ == '__main__':下面
++ 如果存在显示信息的函数，应先显示相应信息再跳转页面
++ 关于全局变量的说明
+  + g_current_user_id为当前用户的user_id，初始值为0
+  + g_sign_in_status为当前登录状态，初始值为False   
+  + g_admin_status为当前管理员登录状态，初始值为False
+  + g_pre_page为上一个页面的index，初始值为0
+  + g_pre_row无需理解
+  + g_current_order_id为现在订单的order_id，初始值为0
++ 关于public函数的说明
+  + public函数为公共函数，用于实现一些功能，如显示信息，修改信息等，可以重用
+  + turn_page()函数用于跳转页面，参数为页面index, 无返回值
+  + to_pre_page()函数用于跳转到上一个页面，无参数，无返回值
+  + set_color,highlight_row,table_show,addColumn,addRow为中间函数，无需理解
+  + addMultiColumn,addMultiRow,setCellText适用于QTableWidget，用于显示信息并且高亮显示鼠标所点击的行
+  + addMultiColumn用于在QTableWidget中添加列，参数为列名列表，QTableWidget对象，无返回值
+  + addMultiRow用于在QTableWidget中添加行，参数为行列表，QTableWidget对象，无返回值
+    + 注意行列表中可以包含数字，用于显示行的index
+    + 行列表中的内容不会占用QTableWidget的列
+  + setCellText用于在QTableWidget中显示信息，参数为行序号，列序号，显示内容和QTableWidget对象，无返回值
+    + 行序号和列序号用于确定显示位置
+    + 此函数一次只能设置一个单元格的内容，如果需要设置多个单元格的内容，需要多次调用此函数
++ log_out用于登出，可重置登陆状态，管理员登陆状态，当前用户id，当前订单id并跳转到登录页面无参数，无返回值
++ 如果需要实现跳转到之前页面的功能，需要利用全局变量g_pre_page
+
 
 

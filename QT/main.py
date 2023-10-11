@@ -87,6 +87,7 @@ def log_out():
     g_sign_in_status = False
     g_admin_status = False
     g_current_user_id = 0
+    g_current_order_id = 0
     turn_page(1)
 
 
