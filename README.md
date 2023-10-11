@@ -356,6 +356,8 @@
   + g_pre_page为上一个页面的index，初始值为0
   + g_pre_row无需理解
   + g_current_order_id为现在订单的order_id，初始值为0
+  + g_search_result为搜索可选房间的结果，初始为空列表
+  + g_user_selection为用户选择房间的结果，初始为空列表
 + 关于public函数的说明
   + public函数为公共函数，用于实现一些功能，如显示信息，修改信息等，可以重用
   + turn_page()函数用于跳转页面，参数为页面index, 无返回值

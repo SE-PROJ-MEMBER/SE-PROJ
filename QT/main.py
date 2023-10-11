@@ -13,6 +13,7 @@ g_pre_page = 0
 g_pre_row = 0
 g_current_order_id = 0
 g_search_result = []
+g_user_selection = []
 
 
 def turn_page(index):
@@ -96,10 +97,12 @@ def log_out():
 
 
 def delay_jump(page_index, sec):
+    '''public'''
     ui_sleep = threading.Timer(sec, partial(turn_page, page_index))
     ui_sleep.start()
 
 # page 1-7
+
 
 def sign_in_slot():
     global g_sign_in_status, g_current_user_id, g_admin_status
@@ -125,7 +128,6 @@ def sign_in_slot():
 
 
 def create_account_slot():
-    turn_page(3)
     name = UI.Name_in.text()
     phone = UI.phone_num_in.text()
     email = UI.email_in.text()
@@ -150,6 +152,34 @@ def start_search():
     rtype = UI.Room_type.currentText()
     global g_search_result
     g_search_result = find_room(begin, end, rtype)
+
+
+def show_search_result():
+    global g_search_result
+    addMultiColumn(['room_num', 'room_type', 'room_price'], UI.room_info)
+    result_length = len(g_search_result)
+    addMultiRow([i + 1 for i in range(result_length)], UI.room_info)
+    for i in range(result_length):
+        for j in range(3):
+            setCellText(i, j, g_search_result[i][j])
+    table_show(UI.room_info)
+
+
+def search_slot():
+    start_search()
+    show_search_result()
+    turn_page(6)
+
+
+def room_selection_result():
+    global g_user_selection
+    g_user_selection = g_search_result[UI.room_info.currentItem().row()]
+
+
+def select_slot():
+    room_selection_result()
+    turn_page(7)
+
 
 # page 8-13
 
@@ -238,6 +268,18 @@ if __name__ == '__main__':
     Main = QtWidgets.QMainWindow()
     UI = GUI_v1_2.Ui_MainWindow()
     UI.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    UI.room_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+
+    # page 1-7
+    UI.sign_in.clicked.connect(sign_in_slot)
+    UI.to_sign_up_page.clicked.connect(lambda ret: turn_page(3))
+    UI.to_sign_in_page.clicked.connect(lambda ret: turn_page(0))
+    UI.to_sign_in_page_2.clicked.connect(lambda ret: turn_page(0))
+    UI.confirm.clicked.connect(create_account_slot)
+    UI.to_sign_up_page_2.clicked.connect(lambda ret: turn_page(3))
+    UI.to_room_select_page.clicked.connect(search_slot(6))
+    UI.to_confirm_order_page.clicked.connect(select_slot)
+    UI.to_book_info_page.clicked.connect(lambda ret: turn_page(6))
 
     # page 8-13
     UI.to_select_page.clicked.connect(lambda ret: turn_page(7))
