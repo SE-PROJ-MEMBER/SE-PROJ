@@ -16,6 +16,7 @@ g_current_order_id = 0
 g_search_result = [None for i in range(100)]
 g_user_selection = [None for i in range(7)]
 g_user_selection_date = [None for i in range(2)]
+g_table_name = None
 
 def turn_page(index):
     '''public'''
@@ -37,21 +38,30 @@ def set_color(row, r, g, b):
 
 def highlight_row():
     '''public'''
-    g_pre_row
+    global g_pre_row
     set_color(g_pre_row, 255, 255, 255)
     set_color(UI.tableWidget.currentRow(), 0, 119, 237)
     g_pre_row = UI.tableWidget.currentRow()
 
 
-def table_show(tablename):
-    '''public'''
-    global g_pre_row
-    for i in range(tablename.columnCount()):
-        tablename.item(g_pre_row, i).setBackground(
+def table_show():
+    '''public,调用前需要先设置g_table_name'''
+    global g_pre_row, g_table_name
+    print(type(g_table_name))
+    for i in range(g_table_name.columnCount()):
+        g_table_name.item(g_pre_row, i).setBackground(
             QtGui.QBrush(QtGui.QColor(255, 255, 255)))
-        tablename.item(tablename.currentItem().row(), i).setBackground(
+        
+        if g_table_name.currentItem() is None:
+            # pass
+            break
+        
+        g_table_name.item(g_table_name.currentItem().row(), i).setBackground(
             QtGui.QBrush(QtGui.QColor(0, 119, 237)))
-    g_pre_row = tablename.currentItem().row()
+    if g_table_name.currentItem() is not None:
+        g_pre_row = g_table_name.currentItem().row()
+    # g_pre_row = tablename.currentItem().row()
+    
 
 
 def addColumn(col: int, header: str, tablename):
@@ -64,7 +74,7 @@ def addColumn(col: int, header: str, tablename):
 def addMultiColumn(header_list: list | tuple, tablename):
     '''public'''
     for i in range(len(header_list)):
-        addColumn(tablename.columnCount(), header_list[i])
+        addColumn(tablename.columnCount(), header_list[i],tablename)
 
 
 def addRow(row: int, header: str, tablename):
@@ -77,14 +87,14 @@ def addRow(row: int, header: str, tablename):
 def addMultiRow(header_list: list | tuple, tablename):
     '''public'''
     for i in range(len(header_list)):
-        addRow(tablename.rowCount(), header_list[i])
+        addRow(tablename.rowCount(), header_list[i],tablename)
 
 
 def setCellText(row: int, column: int, text: str, tablename):
     '''public'''
     # assert 0 <= row <= UI.tableWidget.rowCount()
     # assert 0 <= column <= UI.tableWidget.columnCount()
-    tablename.setItem(row, column, QtWidgets.QTableWidgetItem(text))
+    tablename.setItem(row, column, QtWidgets.QTableWidgetItem(str(text)))
 
 
 def log_out():
@@ -97,10 +107,10 @@ def log_out():
     turn_page(1)
 
 
-def delay_jump(page_index, sec):
-    '''public'''
-    ui_sleep = threading.Timer(sec, partial(turn_page, page_index))
-    ui_sleep.start()
+# def delay_jump(page_index, sec):
+    # '''public'''
+    # ui_sleep = threading.Timer(sec, partial(turn_page, page_index))
+    # ui_sleep.start()
 
 # page 1-7
 
@@ -123,9 +133,12 @@ def sign_in_slot():
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
         
-        ui_sleep = threading.Timer(2, partial(turn_page, 5))
-        ui_sleep.start()
-        turn_page(1)
+        # UI.pages.setCurrentIndex(1)
+        # ui_timer = threading.Timer(5, partial(turn_page, 5))
+        # ui_timer.start()
+        
+        turn_page(5)
+        
         if selection == 'name' and login_param[:5:] == 'admin':
             # check admin account
             g_admin_status = True
@@ -151,8 +164,10 @@ def create_account_slot():
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
         
-        ui_sleep = threading.Timer(2, partial(turn_page, 5))
-        ui_sleep.start()
+        # ui_sleep = threading.Timer(2, partial(turn_page, 5))
+        # ui_sleep.start()
+        
+        turn_page(5)
         turn_page(1)
     else:
         turn_page(4)
@@ -170,17 +185,22 @@ def start_search():
     rtype = UI.Room_type.currentText()
     global g_search_result
     g_search_result = find_room(begin, end, rtype)
+    # print(g_search_result)
 
 
 def show_search_result():
     global g_search_result
     addMultiColumn(['room_num', 'room_type', 'room_price'], UI.room_info)
     result_length = len(g_search_result)
-    addMultiRow([i + 1 for i in range(result_length)], UI.room_info)
+    addMultiRow([str(i + 1) for i in range(result_length)], UI.room_info)
     for i in range(result_length):
         for j in range(3):
-            setCellText(i, j, g_search_result[i][j])
-    table_show(UI.room_info)
+            setCellText(i, j, g_search_result[i][j], UI.room_info)
+    print(str(type(UI.room_info))+'a')
+    global g_table_name
+    g_table_name = UI.room_info
+    table_show()
+    print(str(type(UI.room_info))+'b')
 
 
 def search_slot():
@@ -276,7 +296,9 @@ def modify_user_info():
 
 
 def show_orders_info():
-    table_show(UI.tableWidget)
+    global g_table_name
+    g_table_name = UI.tableWidget
+    table_show()
     addMultiColumn(['room number', 'check-in', 'check-out',
                    'order status', 'comment'], UI.tableWidget)
     info = get_orders_of_user(g_current_user_id)
@@ -330,10 +352,12 @@ if __name__ == '__main__':
     UI.confirm.clicked.connect(create_account_slot)
     UI.to_sign_up_page_2.clicked.connect(lambda ret: turn_page(3))
     UI.to_sign_in_page_5.clicked.connect(lambda ret: turn_page(0))
-    UI.to_room_select_page.clicked.connect(lambda ret: turn_page(6))
-    UI.to_confirm_order_page.clicked.connect(select_slot)
-    UI.to_book_info_page.clicked.connect(lambda ret: turn_page(6))
-
+    UI.to_room_select_page.clicked.connect(search_slot)
+    # UI.to_confirm_order_page.clicked.connect(select_slot)
+    UI.to_book_info_page.clicked.connect(lambda ret: turn_page(5))
+    UI.room_info.cellClicked.connect(table_show)
+    
+    
     # page 8-13
     UI.to_select_page.clicked.connect(lambda ret: turn_page(6))
     UI.to_payment_details.clicked.connect(page8_to_page9)
@@ -348,9 +372,9 @@ if __name__ == '__main__':
     UI.to_op_su_page.clicked.connect(modify_user_info)
     UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
-    UI.tableWidget.cellClicked.connect(table_show)
+    UI.tableWidget.cellClicked.connect(table_show)    
     
     
-    UI.pages.setCurrentIndex(7)
+    UI.pages.setCurrentIndex(0)
     Main.show()
     sys.exit(app.exec())
