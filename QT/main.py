@@ -109,6 +109,13 @@ def log_out():
     turn_page(1)
 
 
+def clear_table(tablename):
+    '''public'''
+    tablename.setRowCount(0)
+    tablename.setColumnCount(0)
+
+    
+
 # page 1-7
 
 
@@ -212,10 +219,8 @@ def return_slot_5():
     turn_page(5)
     global g_pre_row
     g_pre_row = 0
-    UI.room_info.clear
-    UI.room_info.clearContents()
-    UI.room_info.clearFocus()
-    # UI.QStandardItemModel().clear()
+    clear_table(UI.room_info)
+
 
 # page 8-13
 
