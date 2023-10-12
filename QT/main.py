@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-import GUI_v1_3
+import GUI_v1_5
 from backend import *
 import threading
 from functools import partial
@@ -122,7 +122,10 @@ def sign_in_slot():
         g_current_user_id = chk_result[-1]
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
-        delay_jump(1, 2)
+        
+        ui_sleep = threading.Timer(2, partial(turn_page, 5))
+        ui_sleep.start()
+        turn_page(1)
         if selection == 'name' and login_param[:5:] == 'admin':
             # check admin account
             g_admin_status = True
@@ -147,7 +150,10 @@ def create_account_slot():
         g_current_user_id = reg_status[-1]
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
-        delay_jump(1, 2)
+        
+        ui_sleep = threading.Timer(2, partial(turn_page, 5))
+        ui_sleep.start()
+        turn_page(1)
     else:
         turn_page(4)
 
@@ -247,7 +253,16 @@ def show_persoanl_details():
 
 
 def modify_user_info():
-    alter_item = UI.co_to_modify.currentText()
+    if UI.co_to_modify.currentText() == 'Name':
+        alter_item = 'user_name'
+    if UI.co_to_modify.currentText() == 'Phone':
+        alter_item = 'user_phone'
+    if UI.co_to_modify.currentText() == 'Email':
+        alter_item = 'user_email'
+    if UI.co_to_modify.currentText() == 'Card':
+        alter_item = 'user_card'
+    if UI.co_to_modify.currentText() == 'Password':
+        alter_item = 'user_pwd'
     alter_value = UI.modify_info.text()
     alter_status = update_user(alter_item, alter_value, g_current_user_id)
     if alter_status != 'update_succeed':
@@ -302,7 +317,7 @@ def createeee_order():
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
-    UI = GUI_v1_3.Ui_MainWindow()
+    UI = GUI_v1_5.Ui_MainWindow()
     UI.setupUi(Main)
     UI.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.room_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
@@ -336,6 +351,6 @@ if __name__ == '__main__':
     UI.tableWidget.cellClicked.connect(table_show)
     
     
-    UI.pages.setCurrentIndex(0)
+    UI.pages.setCurrentIndex(7)
     Main.show()
     sys.exit(app.exec())
