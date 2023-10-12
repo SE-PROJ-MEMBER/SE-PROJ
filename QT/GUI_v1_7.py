@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI_v1_6.ui'
+# Form implementation generated from reading ui file 'GUI_v1_7.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -3780,7 +3780,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Sign in to book a room or manage your account"))
         self.sign_in.setText(_translate("MainWindow", "Sign in"))
         self.label_6.setText(_translate("MainWindow", "Do not have an account?"))
-        self.to_sign_up_page.setText(_translate("MainWindow", "Creat account"))
+        self.to_sign_up_page.setText(_translate("MainWindow", "Create account"))
         self.label_7.setText(_translate("MainWindow", "Welcome,"))
         self.label_8.setText(_translate("MainWindow", "Jumping off the page……"))
         self.label_9.setText(_translate("MainWindow", "You have been signed in"))

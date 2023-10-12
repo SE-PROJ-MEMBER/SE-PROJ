@@ -431,7 +431,7 @@
                           <string notr="true">QCommandLinkButton{background-color: rgb(0, 119, 237,0);}</string>
                          </property>
                          <property name="text">
-                          <string>Creat account</string>
+                          <string>Create account</string>
                          </property>
                         </widget>
                        </item>
