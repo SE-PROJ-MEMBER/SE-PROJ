@@ -19,7 +19,7 @@ def user_login(login_item, login_info, pwd):
         return 'user_not_exist'
     cur.execute(f"SELECT user_pwd FROM user WHERE user_id = ?",(id[0],))
     if cur.fetchone()[0] == pwd:
-        return 'login_succeed', id[0]
+        return '200', id[0]
     else:
         return 'pwd_incorrect'
 
@@ -36,7 +36,7 @@ def user_register(phone, email, name, card, pwd):
     cur.execute("INSERT INTO user VALUES(?,?,?,?,?,?)",
                 (id, name, phone, email, card, pwd))
     conn.commit()
-    return 'register_succeed', id
+    return '200', id
 
 
 # 4.修改用户信息pass
@@ -50,7 +50,7 @@ def update_user(alter_item, alter_value, user_id):
     cur.execute(
         f"UPDATE user SET {alter_item} = ? WHERE user_id = ?", (alter_value, user_id))
     conn.commit()
-    return 'update_succeed'
+    return '200'
 
 
 # 5.返回房间信息pass
@@ -63,14 +63,13 @@ def find_room(ck_in, ck_out, type):
     )
     return cur.fetchall()
 
-
 # 6.创建订单信息pass
 def create_order(room_num, user_id, ck_in, ck_out):
     order_id = random.randint(10000000, 99999999)
     cur.execute(
         "INSERT INTO orderl VALUES(?,?,?,?,?,?,?)", (order_id, room_num, user_id, ck_in, ck_out, 0, ''))
     conn.commit()
-    return 'create_order_succeed', order_id
+    return '200', order_id
 
 
 # 7.返回价格pass
@@ -150,11 +149,11 @@ def create_user_np(name, pwd):
     return '200'
 
 
-# 16. 新建房间
+# 16. 新建房间pass
 def create_room(room_num, room_type, price):
     cur.execute('SELECT room_num FROM room')
     result = cur.fetchall()
-    if room_num in result:
+    if (room_num,) in result:
         return 'room already existed'
     if room_num < 100 or room_num > 999:
         return 'invalid room number'
@@ -165,7 +164,7 @@ def create_room(room_num, room_type, price):
     conn.commit()
     return '200'
 
-# 17.新建订单
+# 17.新建订单pass
 def create_order(item, value):
     new_id = random.randint(10000000, 99999999)
     # cur.execute('SELECT order_id FROM orderl')
@@ -178,7 +177,7 @@ def create_order(item, value):
     return '200'
 
 
-# 18.通过房间号删除房间（删除相应行）
+# 18.通过房间号删除房间（删除相应行）pass
 def delete_room(room_num):
     cur.execute("""
                 DELETE FROM room WHERE room_num = ?
@@ -189,7 +188,7 @@ def delete_room(room_num):
     return '200'
 
 
-# 19.通过user_id删除用户（删除相应行）
+# 19.通过user_id删除用户（删除相应行）pass
 def delete_user(user_id):
     cur.execute("""
                 DELETE FROM user WHERE user_id = ?
@@ -200,7 +199,9 @@ def delete_user(user_id):
     return '200'
 
 
-#20.通过user_id返回订单信息
+# 20.通过user_id返回订单信息pass
 def get_orders_of_user(user_id):
     cur.execute(f'SELECT * FROM orderl WHERE user_id = {user_id}')
-    return cur.fetchall()
+    if cur.fetchall() == []:
+        return 'no order'
+    return cur.fetchall()[0]
