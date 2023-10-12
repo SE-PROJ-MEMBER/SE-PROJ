@@ -105,40 +105,42 @@ def comment_order(order_id, comment_str):
         return 'status_error'
 
 
-# 11. 获取所有用户信息
+# 11. 获取所有用户信息pass
 def get_all_users():
     cur.execute("SELECT * FROM user")
     return cur.fetchall()
 
 
-# 12.返回所有订单信息
+# 12.返回所有订单信息pass
 def get_all_orders():
     cur.execute("SELECT * FROM orderl")
     return cur.fetchall()
 
 
-# 13.通过房间号修改房间信息
+# 13.通过房间号修改房间信息pass
 def update_room(alter_item, alter_value, room_num):
     cur.execute(
-        f"UPDATE orderl SET {alter_item} = ? WHERE room_num = ?", (alter_value, room_num))
+        f"UPDATE room SET {alter_item} = ? WHERE room_num = ?", (alter_value, room_num))
     conn.commit()
     return '200'
 
 
-# 14.通过房间号返回房间信息
+# 14.通过房间号返回房间信息pass
 def get_room_info(room: int):
     cur.execute(f'SELECT * FROM room WHERE room_num = {room}')
     return cur.fetchone()
 
 
-# 15. 通过用户名和密码新建用户
+# 15. 通过用户名和密码新建用户pass
 def create_user_np(name, pwd):
     new_id = random.randint(10000000, 99999999)
     # cur.execute('SELECT user_id FROM user')
     # tmp = cur.fetchall()
     # while new_id in tmp:
         # new_id = random.randint(10000000, 99999999)
-    if name in cur.execute("SELECT user_name FROM user"):
+    cur.execute('SELECT user_id FROM user')
+    namelist = cur.fetchall()
+    if (name,) in namelist:
         return 'user_name_exist'
     cur.execute('''
                 INSERT INTO user VALUES (?, ?, NULL, NULL, NULL, ?)
