@@ -4,31 +4,33 @@ from connect import conn
 import random
 
 
-# 1.返回用户信息
+# 1.返回用户信息pass
 def user_info(user_id):
     cur.execute("SELECT * FROM user WHERE user_id = ?", (user_id,))
     return cur.fetchone()
 
 
-# 2.登录判断
-def user_login(login_info, pwd):
+# 2.登录判断pass
+def user_login(login_item, login_info, pwd):
     cur.execute(
-        f"SELECT user_id FROM user WHERE {login_info} = ?, "(login_info,))
+        f"SELECT user_id FROM user WHERE {login_item} = ?",(login_info,))
     id = cur.fetchone()
-    if not id:
+    if id == None:
         return 'user_not_exist'
-    cur.execute(f"SELECT user_pwd FROM user WHERE user_id = ?, "(id,))
-    if cur.fetchone() == pwd:
-        return 'login_succeed', id
+    cur.execute(f"SELECT user_pwd FROM user WHERE user_id = ?",(id[0],))
+    if cur.fetchone()[0] == pwd:
+        return 'login_succeed', id[0]
     else:
         return 'pwd_incorrect'
 
 
-# 3.注册
+# 3.注册pass
 def user_register(phone, email, name, card, pwd):
-    if name in cur.execute("SELECT user_name FROM user"):
+    cur.execute("SELECT user_name FROM user")
+    namelist = cur.fetchall()  
+    if (name,) in namelist:
         return 'user_name_exist'
-    if name[:4] == 'admin':
+    if name[:5] == 'admin':
         return 'user_name_invalid'
     id = random.randint(10000000, 99999999)
     cur.execute("INSERT INTO user VALUES(?,?,?,?,?,?)",
@@ -37,11 +39,13 @@ def user_register(phone, email, name, card, pwd):
     return 'register_succeed', id
 
 
-# 4.修改用户信息
+# 4.修改用户信息pass
 def update_user(alter_item, alter_value, user_id):
-    if alter_item == 'name' and alter_value[:4] == 'admin':
+    if alter_item == 'user_name' and alter_value[:5] == 'admin':
         return 'invalid_name'
-    if alter_item == 'name' and alter_value in cur.execute("SELECT user_name FROM user"):
+    cur.execute("SELECT user_name FROM user")
+    namelist = cur.fetchall()
+    if alter_item == 'user_name' and (alter_value,) in namelist:
         return 'name_exist'
     cur.execute(
         f"UPDATE user SET {alter_item} = ? WHERE user_id = ?", (alter_value, user_id))
@@ -49,11 +53,11 @@ def update_user(alter_item, alter_value, user_id):
     return 'update_succeed'
 
 
-# 5.返回房间信息
+# 5.返回房间信息pass
 def find_room(ck_in, ck_out, type):
     cur.execute(
         '''
-        SELECT * FROM room WHERE room_type=? AND room_nun NOT IN (SELECT room_num FROM orderl WHERE ck_in <= ? AND ck_out >= ? )
+        SELECT * FROM room WHERE room_type=? AND room_num NOT IN (SELECT room_num FROM orderl WHERE ck_in <= ? AND ck_out >= ? )
         ''',
         (type, ck_out, ck_in)
     )
