@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI_v1_2.ui'
+# Form implementation generated from reading ui file 'GUI_v1_3.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -266,7 +266,7 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName("label_7")
         self.gridLayout_10.addWidget(self.label_7, 1, 1, 1, 1)
         self.user_name_dis = QtWidgets.QTextBrowser(self.frame_6)
-        self.user_name_dis.setStyleSheet("QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(255,255,255);}")
+        self.user_name_dis.setStyleSheet("QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(0,0,0);}")
         self.user_name_dis.setObjectName("user_name_dis")
         self.gridLayout_10.addWidget(self.user_name_dis, 1, 2, 1, 1)
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -372,7 +372,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.textBrowser.setFont(font)
-        self.textBrowser.setStyleSheet("QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(255,255,255);}")
+        self.textBrowser.setStyleSheet("QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(0,0,0);}")
         self.textBrowser.setObjectName("textBrowser")
         self.gridLayout_17.addWidget(self.textBrowser, 1, 1, 1, 1)
         self.gridLayout_17.setColumnStretch(0, 1)
@@ -2942,7 +2942,7 @@ class Ui_MainWindow(object):
         font.setBold(True)
         font.setWeight(75)
         self.reason.setFont(font)
-        self.reason.setStyleSheet("QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(255,255,255);}")
+        self.reason.setStyleSheet("QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(0,0,0);}")
         self.reason.setObjectName("reason")
         self.gridLayout_123.addWidget(self.reason, 0, 1, 1, 1)
         spacerItem144 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -3728,7 +3728,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.pages.setCurrentIndex(11)
+        self.pages.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

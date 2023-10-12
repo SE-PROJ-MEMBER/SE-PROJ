@@ -40,7 +40,7 @@
             <string notr="true">QPushButton{background-color: rgb(189,189,189); border-radius:20px; color:rgb(0,0,0);}</string>
            </property>
            <property name="currentIndex">
-            <number>11</number>
+            <number>2</number>
            </property>
            <widget class="QWidget" name="sign_in_page1">
             <layout class="QGridLayout" name="gridLayout" rowstretch="1,2,1">
@@ -496,7 +496,7 @@
                     <item row="1" column="2">
                      <widget class="QTextBrowser" name="user_name_dis">
                       <property name="styleSheet">
-                       <string notr="true">QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(255,255,255);}</string>
+                       <string notr="true">QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(0,0,0);}</string>
                       </property>
                      </widget>
                     </item>
@@ -704,7 +704,7 @@
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(255,255,255);}</string>
+                       <string notr="true">QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(0,0,0);}</string>
                       </property>
                      </widget>
                     </item>
@@ -5702,7 +5702,7 @@
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(255,255,255);}</string>
+                       <string notr="true">QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(0,0,0);}</string>
                       </property>
                      </widget>
                     </item>
