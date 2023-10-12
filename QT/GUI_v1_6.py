@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI_v1_5.ui'
+# Form implementation generated from reading ui file 'GUI_v1_6.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -996,6 +996,12 @@ class Ui_MainWindow(object):
         self.gridLayout_43 = QtWidgets.QGridLayout()
         self.gridLayout_43.setObjectName("gridLayout_43")
         self.room_info = QtWidgets.QTableWidget(self.frame_20)
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift SemiBold")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.room_info.setFont(font)
         self.room_info.setObjectName("room_info")
         self.room_info.setColumnCount(0)
         self.room_info.setRowCount(0)
@@ -1425,6 +1431,12 @@ class Ui_MainWindow(object):
         self.gridLayout_65 = QtWidgets.QGridLayout()
         self.gridLayout_65.setObjectName("gridLayout_65")
         self.tableWidget = QtWidgets.QTableWidget(self.frame_31)
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift SemiBold")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.tableWidget.setFont(font)
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
@@ -2076,6 +2088,12 @@ class Ui_MainWindow(object):
         self.gridLayout_95 = QtWidgets.QGridLayout()
         self.gridLayout_95.setObjectName("gridLayout_95")
         self.orders_2 = QtWidgets.QTableWidget(self.frame_45)
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift SemiBold")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.orders_2.setFont(font)
         self.orders_2.setObjectName("orders_2")
         self.orders_2.setColumnCount(0)
         self.orders_2.setRowCount(0)
@@ -2083,6 +2101,12 @@ class Ui_MainWindow(object):
         spacerItem96 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_95.addItem(spacerItem96, 3, 2, 1, 1)
         self.users = QtWidgets.QTableWidget(self.frame_45)
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift SemiBold")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.users.setFont(font)
         self.users.setObjectName("users")
         self.users.setColumnCount(0)
         self.users.setRowCount(0)
@@ -3031,6 +3055,12 @@ class Ui_MainWindow(object):
         self.gridLayout_132 = QtWidgets.QGridLayout()
         self.gridLayout_132.setObjectName("gridLayout_132")
         self.rooms = QtWidgets.QTableWidget(self.frame_63)
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift SemiBold")
+        font.setPointSize(18)
+        font.setBold(True)
+        font.setWeight(75)
+        self.rooms.setFont(font)
         self.rooms.setObjectName("rooms")
         self.rooms.setColumnCount(0)
         self.rooms.setRowCount(0)
@@ -3734,7 +3764,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.pages.setCurrentIndex(1)
+        self.pages.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
