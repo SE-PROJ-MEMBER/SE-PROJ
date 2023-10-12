@@ -40,7 +40,7 @@
             <string notr="true">QPushButton{background-color: rgb(189,189,189); border-radius:20px; color:rgb(0,0,0);}</string>
            </property>
            <property name="currentIndex">
-            <number>0</number>
+            <number>5</number>
            </property>
            <widget class="QWidget" name="sign_in_page1">
             <layout class="QGridLayout" name="gridLayout" rowstretch="1,2,1">
@@ -1734,8 +1734,45 @@
                  </property>
                  <layout class="QGridLayout" name="gridLayout_38">
                   <item row="0" column="0">
-                   <layout class="QGridLayout" name="gridLayout_37" columnstretch="2,4,2,4,2">
-                    <item row="0" column="4">
+                   <layout class="QGridLayout" name="gridLayout_37" columnstretch="1,2,1,2,1,2,1">
+                    <item row="0" column="2">
+                     <spacer name="horizontalSpacer_93">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QPushButton" name="to_room_select_page">
+                      <property name="sizePolicy">
+                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                        <horstretch>0</horstretch>
+                        <verstretch>0</verstretch>
+                       </sizepolicy>
+                      </property>
+                      <property name="font">
+                       <font>
+                        <family>Bahnschrift SemiBold</family>
+                        <pointsize>18</pointsize>
+                        <weight>75</weight>
+                        <bold>true</bold>
+                       </font>
+                      </property>
+                      <property name="styleSheet">
+                       <string notr="true">QPushButton{background-color: rgb(0, 119, 237); border-radius:20px; color:rgb(255,255,255);}</string>
+                      </property>
+                      <property name="text">
+                       <string>Search</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="6">
                      <spacer name="horizontalSpacer_24">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
@@ -1757,6 +1794,19 @@
                        <size>
                         <width>20</width>
                         <height>40</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                    <item row="0" column="0">
+                     <spacer name="horizontalSpacer_23">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
                        </size>
                       </property>
                      </spacer>
@@ -1785,10 +1835,10 @@
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="1">
-                     <widget class="QPushButton" name="to_room_select_page">
+                    <item row="0" column="5">
+                     <widget class="QPushButton" name="to_homepage">
                       <property name="sizePolicy">
-                       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                         <horstretch>0</horstretch>
                         <verstretch>0</verstretch>
                        </sizepolicy>
@@ -1802,28 +1852,15 @@
                        </font>
                       </property>
                       <property name="styleSheet">
-                       <string notr="true">QPushButton{background-color: rgb(0, 119, 237); border-radius:20px; color:rgb(255,255,255);}</string>
+                       <string notr="true">QPushButton{background-color: rgb(255,255,255); border-radius:20px; color:rgb(0, 119, 237);border-width:2px;border-color:rgb(0, 119, 237);border-style:outset;}</string>
                       </property>
                       <property name="text">
-                       <string>Search</string>
+                       <string>My home</string>
                       </property>
                      </widget>
                     </item>
-                    <item row="0" column="0">
-                     <spacer name="horizontalSpacer_23">
-                      <property name="orientation">
-                       <enum>Qt::Horizontal</enum>
-                      </property>
-                      <property name="sizeHint" stdset="0">
-                       <size>
-                        <width>40</width>
-                        <height>20</height>
-                       </size>
-                      </property>
-                     </spacer>
-                    </item>
-                    <item row="0" column="2">
-                     <spacer name="horizontalSpacer_93">
+                    <item row="0" column="4">
+                     <spacer name="horizontalSpacer_120">
                       <property name="orientation">
                        <enum>Qt::Horizontal</enum>
                       </property>

@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-import GUI_v1_7
+import GUI_v2_1
 from backend import *
 import threading
 from functools import partial
@@ -354,7 +354,7 @@ def return_slot_5_2():
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
-    UI = GUI_v1_7.Ui_MainWindow()
+    UI = GUI_v2_1.Ui_MainWindow()
     UI.setupUi(Main)
     UI.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.room_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
