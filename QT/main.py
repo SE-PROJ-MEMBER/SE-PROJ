@@ -56,6 +56,7 @@ def table_show():
         
         if g_table_name.currentItem() is None:
             # pass
+            # turn_page(UI.pages.currentIndex())
             break
         
         g_table_name.item(g_table_name.currentItem().row(), i).setBackground(
@@ -169,14 +170,15 @@ def create_account_slot():
 
 
 def start_search():
-    UI.ck_in.setDate(QtCore.QDate.currentDate())
-    UI.ck_out.setDate(QtCore.QDate.currentDate())
+    
     date_format_str = "yyyy-MM-dd"
     begin = UI.ck_in.date().toString(date_format_str)
-    end = UI.ck_out.date().toString(date_format_str)
-    global g_user_selection_date
-    g_user_selection_date[0] = begin
-    g_user_selection_date[1] = end
+    end = UI.ck_2.date().toString(date_format_str)
+    if begin >= end:
+        UI.ck_2.setDate(UI.ck_in.date().addDays(1))
+        global g_user_selection_date
+    g_user_selection_date[0] = UI.ck_in.date().toString(date_format_str)
+    g_user_selection_date[1] = UI.ck_2.date().toString(date_format_str)
     rtype = UI.Room_type.currentText()
     global g_search_result
     g_search_result = find_room(begin, end, rtype)
@@ -206,6 +208,8 @@ def search_slot():
 
 def room_selection_result():
     global g_user_selection
+    if UI.room_info.currentItem() is None:
+        return
     g_user_selection = g_search_result[UI.room_info.currentItem().row()]
 
 
@@ -234,15 +238,16 @@ def show_current_user_email():
 
 def show_current_order():
     global g_user_selection
-    info = f'room number: {g_user_selection[1]}check in: {g_user_selection[3]}check out: {g_user_selection[4]}'
+    global g_user_selection_date
+    info = f'room number: {g_user_selection[0]}\ncheck in: {g_user_selection_date[0]}\ncheck out: {g_user_selection_date[1]}'
     UI.order_info.setText(info)
 
 
 def calculate_price():
     global g_user_selection
-    room_num = g_user_selection[1]
+    room_num = g_user_selection[0]
     p = get_price(room_num)
-    p_final = p*calculate_date(g_user_selection[3], g_user_selection[4])
+    p_final = p*calculate_date(g_user_selection_date[0], g_user_selection_date[1])
     UI.pay_total.display(p_final)
 
 
@@ -287,7 +292,7 @@ def modify_user_info():
         alter_item = 'user_pwd'
     alter_value = UI.modify_info.text()
     alter_status = update_user(alter_item, alter_value, g_current_user_id)
-    if alter_status != 'update_succeed':
+    if alter_status != '200':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
@@ -344,6 +349,7 @@ def modify_order_slot():
 def return_slot_5_2():
     turn_page(5)
     clear_table(UI.tableWidget) 
+    clear_table(UI.room_info)
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
@@ -352,6 +358,8 @@ if __name__ == '__main__':
     UI.setupUi(Main)
     UI.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.room_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    UI.ck_in.setDate(QtCore.QDate.currentDate())
+    UI.ck_2.setDate(QtCore.QDate.currentDate())
 
     # page 1-7
     UI.sign_in.clicked.connect(sign_in_slot)
@@ -362,7 +370,7 @@ if __name__ == '__main__':
     UI.to_sign_up_page_2.clicked.connect(lambda ret: turn_page(3))
     UI.to_sign_in_page_5.clicked.connect(lambda ret: turn_page(0))
     UI.to_room_select_page.clicked.connect(search_slot)
-    # UI.to_confirm_order_page.clicked.connect(select_slot)
+    UI.to_confirm_order_page.clicked.connect(select_slot)
     UI.to_book_info_page.clicked.connect(return_slot_5)
     UI.room_info.cellClicked.connect(table_show)
     
@@ -381,6 +389,7 @@ if __name__ == '__main__':
     UI.to_op_su_page.clicked.connect(modify_user_info)
     UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
+    UI.to_comfirm_order_page.clicked.connect(lambda ret: turn_page(7))
     UI.tableWidget.cellClicked.connect(table_show)    
     
     
