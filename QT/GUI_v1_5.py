@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI_v1_3.ui'
+# Form implementation generated from reading ui file 'GUI_v1_5.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -266,6 +266,12 @@ class Ui_MainWindow(object):
         self.label_7.setObjectName("label_7")
         self.gridLayout_10.addWidget(self.label_7, 1, 1, 1, 1)
         self.user_name_dis = QtWidgets.QTextBrowser(self.frame_6)
+        font = QtGui.QFont()
+        font.setFamily("Bahnschrift SemiBold")
+        font.setPointSize(36)
+        font.setBold(True)
+        font.setWeight(75)
+        self.user_name_dis.setFont(font)
         self.user_name_dis.setStyleSheet("QTextBrowser{background-color: rgb(0, 119, 237,0); border-radius:20px; color:rgb(0,0,0);}")
         self.user_name_dis.setObjectName("user_name_dis")
         self.gridLayout_10.addWidget(self.user_name_dis, 1, 2, 1, 1)
@@ -3728,7 +3734,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.pages.setCurrentIndex(2)
+        self.pages.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
