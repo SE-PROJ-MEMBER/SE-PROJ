@@ -335,8 +335,15 @@ def createeee_order():
     global g_current_order_id
     g_current_order_id = create_order(g_user_selection[0], g_current_user_id,  g_user_selection_date[0], g_user_selection_date[1])[1]
     
-    
-    
+
+def modify_order_slot():
+    turn_page(13)
+    clear_table(UI.tableWidget)    
+
+
+def return_slot_5_2():
+    turn_page(5)
+    clear_table(UI.tableWidget) 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
@@ -368,8 +375,8 @@ if __name__ == '__main__':
     UI.to_personal_homepage.clicked.connect(page10_to_page11)
     UI.to_book_info_page_2.clicked.connect(lambda ret: turn_page(5))
     UI.if_and_to_modify.clicked.connect(lambda ret: turn_page(11))
-    UI.modify_order.clicked.connect(lambda ret: turn_page(13))
-    UI.to_book_info_page6.clicked.connect(lambda ret: turn_page(5))
+    UI.modify_order.clicked.connect(modify_order_slot)
+    UI.to_book_info_page6.clicked.connect(return_slot_5_2)
     UI.to_personal_main_page.clicked.connect(lambda ret: turn_page(10))
     UI.to_op_su_page.clicked.connect(modify_user_info)
     UI.pushButton_2.clicked.connect(log_out)
