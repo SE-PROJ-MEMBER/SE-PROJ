@@ -15,6 +15,7 @@ g_pre_row = 0
 g_current_order_id = 0
 g_search_result = [None for i in range(100)]
 g_user_selection = [None for i in range(7)]
+g_user_selection_date = [None for i in range(2)]
 
 def turn_page(index):
     '''public'''
@@ -157,6 +158,9 @@ def start_search():
     date_format_str = "yyyy-MM-dd"
     begin = UI.ck_in.date().toString(date_format_str)
     end = UI.ck_out.date().toString(date_format_str)
+    global g_user_selection_date
+    g_user_selection_date[0] = begin
+    g_user_selection_date[1] = end
     rtype = UI.Room_type.currentText()
     global g_search_result
     g_search_result = find_room(begin, end, rtype)
@@ -231,6 +235,7 @@ def show_current_user_email():
 def page8_to_page9():
     calculate_price()
     show_current_user_email()
+    createeee_order()
     turn_page(8)
 
 
@@ -283,6 +288,16 @@ def get_order_info_from_table():
     info = get_orders_of_user(g_current_user_id)
     g_current_user_id = info[index_of_row][0]
 
+
+def createeee_order():
+    global g_current_user_id
+    global g_user_selection
+    global g_user_selection_date
+    global g_current_order_id
+    g_current_order_id = create_order(g_user_selection[0], g_current_user_id,  g_user_selection_date[0], g_user_selection_date[1])[1]
+    
+    
+    
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
