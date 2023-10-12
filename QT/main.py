@@ -49,6 +49,8 @@ def table_show():
     global g_pre_row, g_table_name
     print(type(g_table_name))
     for i in range(g_table_name.columnCount()):
+        if g_table_name.item(g_pre_row, i) == None:
+            break
         g_table_name.item(g_pre_row, i).setBackground(
             QtGui.QBrush(QtGui.QColor(255, 255, 255)))
         
@@ -107,11 +109,6 @@ def log_out():
     turn_page(1)
 
 
-# def delay_jump(page_index, sec):
-    # '''public'''
-    # ui_sleep = threading.Timer(sec, partial(turn_page, page_index))
-    # ui_sleep.start()
-
 # page 1-7
 
 
@@ -132,11 +129,6 @@ def sign_in_slot():
         g_current_user_id = chk_result[-1]
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
-        
-        # UI.pages.setCurrentIndex(1)
-        # ui_timer = threading.Timer(5, partial(turn_page, 5))
-        # ui_timer.start()
-        
         turn_page(5)
         
         if selection == 'name' and login_param[:5:] == 'admin':
@@ -163,10 +155,6 @@ def create_account_slot():
         g_current_user_id = reg_status[-1]
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
-        
-        # ui_sleep = threading.Timer(2, partial(turn_page, 5))
-        # ui_sleep.start()
-        
         turn_page(5)
         turn_page(1)
     else:
@@ -190,7 +178,7 @@ def start_search():
 
 def show_search_result():
     global g_search_result
-    addMultiColumn(['room_num', 'room_type', 'room_price'], UI.room_info)
+    addMultiColumn(['room num', 'room type', 'room price'], UI.room_info)
     result_length = len(g_search_result)
     addMultiRow([str(i + 1) for i in range(result_length)], UI.room_info)
     for i in range(result_length):
@@ -219,6 +207,15 @@ def select_slot():
     show_current_order()
     turn_page(7)
 
+
+def return_slot_5():
+    turn_page(5)
+    global g_pre_row
+    g_pre_row = 0
+    UI.room_info.clear
+    UI.room_info.clearContents()
+    UI.room_info.clearFocus()
+    # UI.QStandardItemModel().clear()
 
 # page 8-13
 
@@ -354,7 +351,7 @@ if __name__ == '__main__':
     UI.to_sign_in_page_5.clicked.connect(lambda ret: turn_page(0))
     UI.to_room_select_page.clicked.connect(search_slot)
     # UI.to_confirm_order_page.clicked.connect(select_slot)
-    UI.to_book_info_page.clicked.connect(lambda ret: turn_page(5))
+    UI.to_book_info_page.clicked.connect(return_slot_5)
     UI.room_info.cellClicked.connect(table_show)
     
     
