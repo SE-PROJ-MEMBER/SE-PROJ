@@ -64,7 +64,7 @@ def find_room(ck_in, ck_out, type):
     return cur.fetchall()
 
 
-# 6.返回订单信息
+# 6.创建订单信息pass
 def create_order(room_num, user_id, ck_in, ck_out):
     order_id = random.randint(10000000, 99999999)
     cur.execute(
@@ -73,19 +73,19 @@ def create_order(room_num, user_id, ck_in, ck_out):
     return 'create_order_succeed', order_id
 
 
-# 7.返回价格
-def get_price(type):
-    cur.execute("SELECT room_price FROM room WHERE room_type = ?", (type,))
-    return cur.fetchone()
+# 7.返回价格pass
+def get_price(num):
+    cur.execute("SELECT room_price FROM room WHERE room_num = ?", (num,))
+    return cur.fetchone()[0]
 
 
-# 8.返回订单信息
+# 8.返回订单信息pass
 def get_order_info(order_id):
     cur.execute("SELECT * FROM orderl WHERE order_id = ?", (order_id,))
     return cur.fetchone()
 
 
-# 9.更新订单信息
+# 9.更新订单信息pass
 def update_order(alter_item, alter_value, order_id):
     cur.execute(
         f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (alter_value, order_id))
@@ -93,7 +93,7 @@ def update_order(alter_item, alter_value, order_id):
     return '200'
 
 
-# 10. 添加订单评论
+# 10. 添加订单评论pass
 def comment_order(order_id, comment_str):
     cur.execute(f'SELECT order_status FROM orderl WHERE order_id = {order_id}')
     status = cur.fetchone()
