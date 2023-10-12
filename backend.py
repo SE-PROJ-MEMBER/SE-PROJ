@@ -165,7 +165,7 @@ def create_room(room_num, room_type, price):
     return '200'
 
 # 17.新建订单pass
-def create_order(item, value):
+def create_order_admin(item, value):
     new_id = random.randint(10000000, 99999999)
     # cur.execute('SELECT order_id FROM orderl')
     # tmp = cur.fetchall()
@@ -202,6 +202,7 @@ def delete_user(user_id):
 # 20.通过user_id返回订单信息pass
 def get_orders_of_user(user_id):
     cur.execute(f'SELECT * FROM orderl WHERE user_id = {user_id}')
-    if cur.fetchall() == []:
+    info = cur.fetchall()
+    if info == []:
         return 'no order'
-    return cur.fetchall()[0]
+    return info
