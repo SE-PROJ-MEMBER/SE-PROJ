@@ -18,6 +18,7 @@ g_search_result = [None for i in range(100)]
 g_user_selection = [None for i in range(7)]
 g_user_selection_date = [None for i in range(2)]
 g_table_name = None
+g_status_info = ['reversed', 'checked in', 'checked out', 'cancelled', 'unpaid']
 
 def turn_page(index):
     '''public'''
@@ -111,6 +112,13 @@ def log_out():
     turn_page(0)
     clear_table(UI.tableWidget)
     clear_table(UI.room_info)
+    UI.ID_IN.setText('')
+    UI.Pwd_in.setText('')
+    UI.Sign_in_choose.setCurrentIndex(0)
+    UI.Room_type.setCurrentIndex(0)
+    UI.ck_in.setDate(QtCore.QDate.currentDate())
+    UI.ck_2.setDate(QtCore.QDate.currentDate())
+    
 
 
 def clear_table(tablename):
@@ -144,7 +152,7 @@ def sign_in_slot():
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
         turn_page(1)
         
-        if selection == 'name' and login_param[:5:] == 'admin':
+        if sel == 'Name' and login_param[:5] == 'admin':
             # check admin account
             g_admin_status = True
             turn_page(15)
@@ -172,6 +180,11 @@ def create_account_slot():
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
         # turn_page(5)
+        UI.Name_in.setText('')
+        UI.phone_num_in.setText('')
+        UI.email_in.setText('')
+        UI.card_in.setText('')
+        UI.pwd_in.setText('')
         turn_page(1)
     else:
         turn_page(4)
@@ -235,7 +248,7 @@ def room_selection_result():
 def select_slot():
     print(1)
     show_current_order()
-    clear_table(UI.room_info)
+    # clear_table(UI.room_info)
     turn_page(7)
 
 
@@ -294,13 +307,15 @@ def page8_to_page9():
     calculate_price()
     show_current_user_email()
     createeee_order()
+    clear_table(UI.room_info)
+    UI.room_info.setCurrentItem(None)
     turn_page(8)
 
 
 def show_persoanl_details():
     info = user_info(g_current_user_id)
     turn_page(10)
-    info_str = f'name: {info[1]}phone: {info[3]}email: {info[4]}card: {info[5]}'
+    info_str = f'name: {info[1]}    phone: {info[3]}    email: {info[4]}    card: {info[5]}'
     UI.orders.setText(info_str)
 
 
@@ -331,7 +346,7 @@ def modify_user_info():
 
 
 def show_orders_info():
-    global g_table_name
+    global g_table_name,g_status_info
     g_table_name = UI.tableWidget
     table_show()
     addMultiColumn(['room number', 'check-in', 'check-out',
@@ -340,13 +355,13 @@ def show_orders_info():
     if info == 'no order':
         return
     order_num = len(info)
-    num_list = [i+1 for i in range(order_num)]
+    num_list = [str(i+1) for i in range(order_num)]
     addMultiRow(num_list, UI.tableWidget)
     for i in range(order_num):
         setCellText(i, 0, str(info[i][1]), UI.tableWidget)
         setCellText(i, 1, str(info[i][3]), UI.tableWidget)
         setCellText(i, 2, str(info[i][4]), UI.tableWidget)
-        setCellText(i, 3, str(info[i][5]), UI.tableWidget)
+        setCellText(i, 3, str(g_status_info[info[i][5]]), UI.tableWidget)
         setCellText(i, 4, str(info[i][6]), UI.tableWidget)
 
 
