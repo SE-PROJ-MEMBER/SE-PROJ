@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import GUI_v3
+import msgbox
 from backend import *
 import threading
 from functools import partial
@@ -174,6 +175,11 @@ def create_account_slot():
         turn_page(4)
 
 
+def msg_close_slot():
+    msg.close()
+    turn_page(5)
+
+
 def start_search():
     
     date_format_str = "yyyy-MM-dd"
@@ -182,6 +188,9 @@ def start_search():
     if begin >= end:
         UI.ck_2.setDate(UI.ck_in.date().addDays(1))
         global g_user_selection_date
+    if UI.ck_in.date().addDays(13) < UI.ck_2.date():
+        msg.show()
+        return
     g_user_selection_date[0] = UI.ck_in.date().toString(date_format_str)
     g_user_selection_date[1] = UI.ck_2.date().toString(date_format_str)
     rtype = UI.Room_type.currentText()
@@ -207,8 +216,9 @@ def show_search_result():
 
 def search_slot():
     start_search()
-    show_search_result()
-    turn_page(6)
+    if msg.isVisible() == False:
+        show_search_result()
+        turn_page(6)
 
 
 def room_selection_result():
@@ -311,7 +321,6 @@ def modify_user_info():
         UI.reason.setText(alter_status)
         turn_page(20)
         return
-    global g_pre_page
     g_pre_page = 11
     turn_page(12)
 
@@ -380,10 +389,15 @@ if __name__ == '__main__':
     Main = QtWidgets.QMainWindow()
     UI = GUI_v3.Ui_MainWindow()
     UI.setupUi(Main)
+    msg = QtWidgets.QDialog()
+    msg_UI = msgbox.Ui_Dialog()
+    msg_UI.setupUi(msg)
     UI.tableWidget.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.room_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.ck_in.setDate(QtCore.QDate.currentDate())
     UI.ck_2.setDate(QtCore.QDate.currentDate())
+    msg.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
+    msg.setWindowTitle("Warning!")
 
     # page 1-7
     UI.to_homepage.clicked.connect(page_1_to_homepage)
@@ -399,6 +413,9 @@ if __name__ == '__main__':
     UI.to_confirm_order_page.clicked.connect(room_selection_result)
     UI.to_book_info_page.clicked.connect(return_slot_5)
     UI.room_info.cellClicked.connect(table_show)
+
+    # message box
+    msg_UI.close_msg.clicked.connect(msg.close)
     
     
     # page 8-13
