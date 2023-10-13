@@ -212,14 +212,15 @@ def search_slot():
 
 
 def room_selection_result():
-    global g_user_selection
-    if UI.room_info.currentItem() is None:
+    global g_user_selection    
+    if UI.room_info.currentItem() is None or None in g_user_selection:
+        print(2)
         return
     g_user_selection = g_search_result[UI.room_info.currentItem().row()]
-
+    select_slot()
 
 def select_slot():
-    room_selection_result()
+    print(1)
     show_current_order()
     clear_table(UI.room_info)
     turn_page(7)
@@ -394,7 +395,7 @@ if __name__ == '__main__':
     UI.to_sign_up_page_2.clicked.connect(lambda ret: turn_page(3))
     UI.to_sign_in_page_5.clicked.connect(lambda ret: turn_page(0))
     UI.to_room_select_page.clicked.connect(search_slot)
-    UI.to_confirm_order_page.clicked.connect(select_slot)
+    UI.to_confirm_order_page.clicked.connect(room_selection_result)
     UI.to_book_info_page.clicked.connect(return_slot_5)
     UI.room_info.cellClicked.connect(table_show)
     
@@ -402,7 +403,7 @@ if __name__ == '__main__':
     # page 8-13
     UI.to_select_page.clicked.connect(lambda ret: turn_page(6))
     UI.to_payment_details.clicked.connect(page8_to_page9)
-    UI.to_confirm_order_page.clicked.connect(lambda ret: turn_page(7))
+    # UI.to_confirm_order_page.clicked.connect(lambda ret: turn_page(7))
     UI.to_payment_su_page.clicked.connect(lambda ret: turn_page(9))
     UI.to_personal_homepage.clicked.connect(page10_to_page11)
     UI.to_book_info_page_2.clicked.connect(lambda ret: turn_page(5))
