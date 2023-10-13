@@ -350,6 +350,13 @@ def return_slot_5_2():
     turn_page(5)
     clear_table(UI.tableWidget) 
     clear_table(UI.room_info)
+    
+    
+def turn_slot_10():
+    update_order('order_status', 4, g_current_order_id)
+    show_orders_info()
+    turn_page(10)
+
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
@@ -389,7 +396,7 @@ if __name__ == '__main__':
     UI.to_op_su_page.clicked.connect(modify_user_info)
     UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
-    UI.to_comfirm_order_page.clicked.connect(lambda ret: turn_page(7))
+    UI.to_comfirm_order_page.clicked.connect(turn_slot_10)
     UI.tableWidget.cellClicked.connect(table_show)    
     
     

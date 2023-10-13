@@ -88,7 +88,7 @@ def get_order_info(order_id):
 def update_order(alter_item, alter_value, order_id):
     cur.execute(
         f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (alter_value, order_id))
-    cur.commit()
+    conn.commit()
     return '200'
 
 
