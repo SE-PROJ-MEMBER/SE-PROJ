@@ -109,6 +109,8 @@ def log_out():
     g_current_user_id = 0
     g_current_order_id = 0
     turn_page(0)
+    clear_table(UI.tableWidget)
+    clear_table(UI.room_info)
 
 
 def clear_table(tablename):
@@ -215,6 +217,7 @@ def show_search_result():
 
 
 def search_slot():
+    UI.room_info.setCurrentItem(None)
     start_search()
     if msg.isVisible() == False:
         show_search_result()
@@ -245,6 +248,7 @@ def return_slot_5():
 def page_1_to_homepage():
     show_orders_info()
     show_persoanl_details()
+    UI.tableWidget.setCurrentItem(None)
     
     
 # page 8-13
@@ -349,6 +353,7 @@ def show_orders_info():
 def page10_to_page11():
     show_persoanl_details()
     show_orders_info()
+    UI.tableWidget.setCurrentItem(None)
     turn_page(10)
 
 
@@ -367,11 +372,13 @@ def createeee_order():
     g_current_order_id = create_order(g_user_selection[0], g_current_user_id,  g_user_selection_date[0], g_user_selection_date[1])[1]
     
 
-def modify_order_slot():
-    turn_page(13)
+def modify_order_slot():    
+    print(UI.tableWidget.currentItem())
     if UI.tableWidget.currentItem() is None:
+    
         print(2)
         return
+    turn_page(13)
     clear_table(UI.tableWidget)    
 
 
@@ -385,6 +392,7 @@ def turn_slot_10():
     update_order('order_status', 4, g_current_order_id)
     show_orders_info()
     show_persoanl_details()
+    UI.tableWidget.setCurrentItem(None)
     turn_page(10)
 
 
