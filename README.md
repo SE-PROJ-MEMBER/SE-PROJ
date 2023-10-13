@@ -148,7 +148,7 @@
     + order_status INT
     + comment TEXT
 + order_id为主键，使用随机生成的数字
-+ order_status 0代表已预订，1代表已入住，2代表已退房，3代表已取消
++ order_status 0代表已预订，1代表已入住，2代表已退房，3代表已取消，4代表未支付
 
 ## 具体功能说明（后端）
 ### 用户注册及登录
