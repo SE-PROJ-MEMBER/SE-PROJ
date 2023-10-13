@@ -206,3 +206,9 @@ def get_orders_of_user(user_id):
     if info == []:
         return 'no order'
     return info
+
+
+# 21.返回所有房间信息
+def get_all_rooms():
+    cur.execute('SELECT * FROM room')
+    return cur.fetchall()
