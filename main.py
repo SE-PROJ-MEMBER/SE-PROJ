@@ -107,7 +107,7 @@ def log_out():
     g_admin_status = False
     g_current_user_id = 0
     g_current_order_id = 0
-    turn_page(1)
+    turn_page(0)
 
 
 def clear_table(tablename):
@@ -128,7 +128,9 @@ def sign_in_slot():
     if  sel == 'Phone':
         selection = 'user_phone'
     if sel == 'Email':
-        selection = 'user_email'  
+        selection = 'user_email' 
+    if sel == '': 
+        return
     login_param = UI.ID_IN.text()
     pwd_input = UI.Pwd_in.text()
     chk_result = user_login(selection, login_param, pwd_input)
@@ -137,14 +139,14 @@ def sign_in_slot():
         g_current_user_id = chk_result[-1]
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
-        turn_page(5)
+        turn_page(1)
         
         if selection == 'name' and login_param[:5:] == 'admin':
             # check admin account
             g_admin_status = True
             turn_page(15)
         else:
-            turn_page(5)
+            turn_page(1)
     else:
         # login error
         UI.textBrowser.setText(chk_result)
@@ -157,13 +159,16 @@ def create_account_slot():
     email = UI.email_in.text()
     card_num = UI.card_in.text()
     pwd = UI.pwd_in.text()
+    if name == '' or phone == '' or email == '' or card_num == '' or pwd == '':
+        turn_page(4)
+        return
     reg_status = user_register(phone, email, name, card_num, pwd)
     global g_current_user_id, g_sign_in_status
     if type(reg_status) == tuple:
         g_current_user_id = reg_status[-1]
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
-        turn_page(5)
+        # turn_page(5)
         turn_page(1)
     else:
         turn_page(4)
@@ -216,6 +221,7 @@ def room_selection_result():
 def select_slot():
     room_selection_result()
     show_current_order()
+    clear_table(UI.room_info)
     turn_page(7)
 
 
@@ -225,7 +231,11 @@ def return_slot_5():
     g_pre_row = 0
     clear_table(UI.room_info)
 
-
+def page_1_to_homepage():
+    show_orders_info()
+    show_persoanl_details()
+    
+    
 # page 8-13
 
 
@@ -290,6 +300,8 @@ def modify_user_info():
         alter_item = 'user_card'
     if UI.co_to_modify.currentText() == 'Password':
         alter_item = 'user_pwd'
+    if UI.co_to_modify.currentText() == '':
+        return
     alter_value = UI.modify_info.text()
     alter_status = update_user(alter_item, alter_value, g_current_user_id)
     if alter_status != '200':
@@ -309,6 +321,8 @@ def show_orders_info():
     addMultiColumn(['room number', 'check-in', 'check-out',
                    'order status', 'comment'], UI.tableWidget)
     info = get_orders_of_user(g_current_user_id)
+    if info == 'no order':
+        return
     order_num = len(info)
     num_list = [i+1 for i in range(order_num)]
     addMultiRow(num_list, UI.tableWidget)
@@ -355,6 +369,7 @@ def return_slot_5_2():
 def turn_slot_10():
     update_order('order_status', 4, g_current_order_id)
     show_orders_info()
+    show_persoanl_details()
     turn_page(10)
 
 
@@ -369,6 +384,8 @@ if __name__ == '__main__':
     UI.ck_2.setDate(QtCore.QDate.currentDate())
 
     # page 1-7
+    UI.to_homepage.clicked.connect(page_1_to_homepage)
+    UI.to_book_a_room.clicked.connect(lambda ret: turn_page(5))
     UI.sign_in.clicked.connect(sign_in_slot)
     UI.to_sign_up_page.clicked.connect(lambda ret: turn_page(3))
     UI.to_sign_in_page.clicked.connect(lambda ret: turn_page(0))
