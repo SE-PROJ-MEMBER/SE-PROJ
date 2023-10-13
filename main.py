@@ -223,7 +223,7 @@ def search_slot():
 
 def room_selection_result():
     global g_user_selection    
-    if UI.room_info.currentItem() is None or None in g_user_selection:
+    if UI.room_info.currentItem() is None:
         print(2)
         return
     g_user_selection = g_search_result[UI.room_info.currentItem().row()]
@@ -368,6 +368,9 @@ def createeee_order():
 
 def modify_order_slot():
     turn_page(13)
+    if UI.tableWidget.currentItem() is None:
+        print(2)
+        return
     clear_table(UI.tableWidget)    
 
 
