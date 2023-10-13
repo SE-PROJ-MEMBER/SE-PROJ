@@ -222,7 +222,7 @@
     + 登录成功或失败跳到相应信息界面（2/3）
 2. 登录成功界面(sign_in_su_page2)
     + 显示登陆成功
-    + 自动跳转到房间预定界面
+    + 可以选择跳转到房间预定界面或个人主页
     + 修改登陆状态
     + 如果为管理员账户则跳转到管理员界面
     + 显示欢迎信息
@@ -261,7 +261,7 @@
     + 显示订单信息
     + 显示user邮箱
     + 用卡支付按钮（跳转到支付成功界面10）
-    + 取消按钮（跳转到8）
+    + 检查订单按钮（跳转到个人主页11）（订单状态为未支付）
 10. 支付成功界面(payment_approved_page10)
     + 检查订单按钮（跳转到个人主页11）
     + 继续订房按钮（跳转到6）
@@ -270,7 +270,7 @@
     + 显示订单信息
     + 修改按钮（根据用户点击修改个人信息12）
     + 修改个人信息按钮（跳转到订单信息14）
-    + 返回按钮（跳转到6）
+    + 预定房间按钮（跳转到6）
 12. 修改个人信息界面(modify_personal_page12)
     + 用户通过复选框选择修改条目
     + 实现修改功能，注意与后端数据交互
@@ -358,11 +358,14 @@
   + g_current_order_id为现在订单的order_id，初始值为0
   + g_search_result为搜索可选房间的结果，初始为空列表
   + g_user_selection为用户选择房间的结果，初始为空列表
+  + g_user_selection_date为用户选择的时间
+  + g_table_name为当前操作组件名
 + 关于public函数的说明
   + public函数为公共函数，用于实现一些功能，如显示信息，修改信息等，可以重用
   + turn_page()函数用于跳转页面，参数为页面index, 无返回值
   + to_pre_page()函数用于跳转到上一个页面，无参数，无返回值
-  + set_color,highlight_row,table_show,addColumn,addRow为中间函数，无需理解
+  + set_color,highlight_row,,addColumn,addRow为中间函数，无需理解
+  + table_show()为展示表格内容的函数，不接受参数，调用先修改g_table_name为当前组件名称，无返回值
   + addMultiColumn,addMultiRow,setCellText适用于QTableWidget，用于显示信息并且高亮显示鼠标所点击的行
   + addMultiColumn用于在QTableWidget中添加列，参数为列名列表，QTableWidget对象，无返回值
   + addMultiRow用于在QTableWidget中添加行，参数为行列表，QTableWidget对象，无返回值
@@ -371,8 +374,8 @@
   + setCellText用于在QTableWidget中显示信息，参数为行序号，列序号，显示内容和QTableWidget对象，无返回值
     + 行序号和列序号用于确定显示位置
     + 此函数一次只能设置一个单元格的内容，如果需要设置多个单元格的内容，需要多次调用此函数
-  + delay_jump用于延时跳转，参数页面索引和延时秒数，无返回值
-    + 延时跳转不能用time.sleep! 程序会卡死
+  + clear_table()用于清空QTableWidget中的内容，当一个QTableWidget需要多次显示，则跳出页面之前应调用此函数，无参数，无返回值
+  + delay_jump函数可能导致页面不在一个线程，已弃用
 + log_out用于登出，可重置登陆状态，管理员登陆状态，当前用户id，当前订单id并跳转到登录页面无参数，无返回值
 + 如果需要实现跳转到之前页面的功能，需要利用全局变量g_pre_page
 
