@@ -341,9 +341,9 @@ def modify_user_info():
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
         turn_page(20)
-        return
-    global g_pre_page
-    g_pre_page = 11
+        global g_pre_page
+        g_pre_page = 11
+        return    
     turn_page(12)
 
 
