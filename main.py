@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-import GUI_v3
+import GUI_v3_1
 import msgbox
 from backend import *
 import threading
@@ -418,7 +418,7 @@ def turn_slot_10():
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
-    UI = GUI_v3.Ui_MainWindow()
+    UI = GUI_v3_1.Ui_MainWindow()
     UI.setupUi(Main)
     msg = QtWidgets.QDialog()
     msg_UI = msgbox.Ui_Dialog()

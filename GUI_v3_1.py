@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI_v3.ui'
+# Form implementation generated from reading ui file 'GUI_v3_1.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -3814,7 +3814,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.pages.setCurrentIndex(0)
+        self.pages.setCurrentIndex(8)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -3862,7 +3862,7 @@ class Ui_MainWindow(object):
         self.to_sign_in_page_5.setText(_translate("MainWindow", "Log out"))
         self.label_26.setText(_translate("MainWindow", "Select a room"))
         self.to_book_info_page.setText(_translate("MainWindow", "Return"))
-        self.to_confirm_order_page.setText(_translate("MainWindow", "select"))
+        self.to_confirm_order_page.setText(_translate("MainWindow", "Select"))
         self.label_27.setText(_translate("MainWindow", "Confirm your order"))
         self.to_select_page.setText(_translate("MainWindow", "Return"))
         self.to_payment_details.setText(_translate("MainWindow", "Confirm"))
