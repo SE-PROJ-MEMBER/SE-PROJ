@@ -18,9 +18,7 @@ g_search_result = [None for i in range(100)]
 g_user_selection = [None for i in range(7)]
 g_user_selection_date = [None for i in range(2)]
 g_table_name = None
-g_status_info = ['reversed', 'checked in',
-                 'checked out', 'cancelled', 'unpaid']
-
+g_status_info = ['reserved', 'checked in', 'checked out', 'cancelled', 'unpaid']
 
 def turn_page(index):
     '''public'''
@@ -57,17 +55,18 @@ def table_show():
             break
         g_table_name.item(g_pre_row, i).setBackground(
             QtGui.QBrush(QtGui.QColor(255, 255, 255)))
-
+        
         if g_table_name.currentItem() is None:
             # pass
             # turn_page(UI.pages.currentIndex())
             break
-
+        
         g_table_name.item(g_table_name.currentItem().row(), i).setBackground(
             QtGui.QBrush(QtGui.QColor(0, 119, 237)))
     if g_table_name.currentItem() is not None:
         g_pre_row = g_table_name.currentItem().row()
     # g_pre_row = tablename.currentItem().row()
+    
 
 
 def addColumn(col: int, header: str, tablename):
@@ -80,7 +79,7 @@ def addColumn(col: int, header: str, tablename):
 def addMultiColumn(header_list: list | tuple, tablename):
     '''public'''
     for i in range(len(header_list)):
-        addColumn(tablename.columnCount(), header_list[i], tablename)
+        addColumn(tablename.columnCount(), header_list[i],tablename)
 
 
 def addRow(row: int, header: str, tablename):
@@ -93,7 +92,7 @@ def addRow(row: int, header: str, tablename):
 def addMultiRow(header_list: list | tuple, tablename):
     '''public'''
     for i in range(len(header_list)):
-        addRow(tablename.rowCount(), header_list[i], tablename)
+        addRow(tablename.rowCount(), header_list[i],tablename)
 
 
 def setCellText(row: int, column: int, text: str, tablename):
@@ -119,6 +118,7 @@ def log_out():
     UI.Room_type.setCurrentIndex(0)
     UI.ck_in.setDate(QtCore.QDate.currentDate())
     UI.ck_2.setDate(QtCore.QDate.currentDate())
+    
 
 
 def clear_table(tablename):
@@ -126,6 +126,7 @@ def clear_table(tablename):
     tablename.setRowCount(0)
     tablename.setColumnCount(0)
 
+    
 
 # page 1-7
 
@@ -135,11 +136,11 @@ def sign_in_slot():
     sel = UI.Sign_in_choose.currentText()
     if sel == 'Name':
         selection = 'user_name'
-    if sel == 'Phone':
+    if  sel == 'Phone':
         selection = 'user_phone'
     if sel == 'Email':
-        selection = 'user_email'
-    if sel == '':
+        selection = 'user_email' 
+    if sel == '': 
         return
     login_param = UI.ID_IN.text()
     pwd_input = UI.Pwd_in.text()
@@ -150,7 +151,7 @@ def sign_in_slot():
         g_sign_in_status = True
         UI.user_name_dis.setText(user_info(g_current_user_id)[1])
         turn_page(1)
-
+        
         if sel == 'Name' and login_param[:5] == 'admin':
             # check admin account
             g_admin_status = True
@@ -195,13 +196,17 @@ def msg_close_slot():
 
 
 def start_search():
-
+    
     date_format_str = "yyyy-MM-dd"
     begin = UI.ck_in.date().toString(date_format_str)
     end = UI.ck_2.date().toString(date_format_str)
+    if begin <= QtCore.QDate.currentDate().toString(date_format_str):
+        UI.ck_in.setDate(QtCore.QDate.currentDate())
+        begin = UI.ck_in.date().toString(date_format_str)
+        global g_user_selection_date
     if begin >= end:
         UI.ck_2.setDate(UI.ck_in.date().addDays(1))
-        global g_user_selection_date
+        # global g_user_selection_date
     if UI.ck_in.date().addDays(13) < UI.ck_2.date():
         msg.show()
         return
@@ -237,13 +242,12 @@ def search_slot():
 
 
 def room_selection_result():
-    global g_user_selection
+    global g_user_selection    
     if UI.room_info.currentItem() is None:
         print(2)
         return
     g_user_selection = g_search_result[UI.room_info.currentItem().row()]
     select_slot()
-
 
 def select_slot():
     print(1)
@@ -258,13 +262,12 @@ def return_slot_5():
     g_pre_row = 0
     clear_table(UI.room_info)
 
-
 def page_1_to_homepage():
     show_orders_info()
     show_persoanl_details()
     UI.tableWidget.setCurrentItem(None)
-
-
+    
+    
 # page 8-13
 
 
@@ -286,8 +289,7 @@ def calculate_price():
     global g_user_selection
     room_num = g_user_selection[0]
     p = get_price(room_num)
-    p_final = p * \
-        calculate_date(g_user_selection_date[0], g_user_selection_date[1])
+    p_final = p*calculate_date(g_user_selection_date[0], g_user_selection_date[1])
     UI.pay_total.display(p_final)
 
 
@@ -341,14 +343,14 @@ def modify_user_info():
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
         turn_page(20)
-        global g_pre_page
-        g_pre_page = 11
-        return    
+        return
+    global g_pre_page
+    g_pre_page = 11
     turn_page(12)
 
 
 def show_orders_info():
-    global g_table_name, g_status_info
+    global g_table_name,g_status_info
     g_table_name = UI.tableWidget
     table_show()
     addMultiColumn(['room number', 'check-in', 'check-out',
@@ -386,26 +388,25 @@ def createeee_order():
     global g_user_selection
     global g_user_selection_date
     global g_current_order_id
-    g_current_order_id = create_order(
-        g_user_selection[0], g_current_user_id,  g_user_selection_date[0], g_user_selection_date[1])[1]
+    g_current_order_id = create_order(g_user_selection[0], g_current_user_id,  g_user_selection_date[0], g_user_selection_date[1])[1]
+    
 
-
-def modify_order_slot():
+def modify_order_slot():    
     print(UI.tableWidget.currentItem())
     if UI.tableWidget.currentItem() is None:
-
+    
         print(2)
         return
     turn_page(13)
-    clear_table(UI.tableWidget)
+    clear_table(UI.tableWidget)    
 
 
 def return_slot_5_2():
     turn_page(5)
-    clear_table(UI.tableWidget)
+    clear_table(UI.tableWidget) 
     clear_table(UI.room_info)
-
-
+    
+    
 def turn_slot_10():
     update_order('order_status', 4, g_current_order_id)
     show_orders_info()
@@ -446,7 +447,8 @@ if __name__ == '__main__':
 
     # message box
     msg_UI.close_msg.clicked.connect(msg.close)
-
+    
+    
     # page 8-13
     UI.to_select_page.clicked.connect(lambda ret: turn_page(6))
     UI.to_payment_details.clicked.connect(page8_to_page9)
@@ -462,8 +464,9 @@ if __name__ == '__main__':
     UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
     UI.to_comfirm_order_page.clicked.connect(turn_slot_10)
-    UI.tableWidget.cellClicked.connect(table_show)
-
+    UI.tableWidget.cellClicked.connect(table_show)    
+    
+    
     UI.pages.setCurrentIndex(0)
     Main.show()
     sys.exit(app.exec())
