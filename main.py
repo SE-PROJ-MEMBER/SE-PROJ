@@ -457,7 +457,7 @@ if __name__ == '__main__':
     UI.room_info.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.ck_in.setDate(QtCore.QDate.currentDate())
     UI.ck_2.setDate(QtCore.QDate.currentDate())
-    msg.setWindowModality(QtCore.Qt.WindowModality.WindowModal)
+    msg.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
     msg.setWindowTitle("Warning!")
 
     # page 1-7
