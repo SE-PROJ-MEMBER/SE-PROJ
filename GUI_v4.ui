@@ -40,7 +40,7 @@
             <string notr="true">QPushButton{background-color: rgb(189,189,189); border-radius:20px; color:rgb(0,0,0);}</string>
            </property>
            <property name="currentIndex">
-            <number>8</number>
+            <number>4</number>
            </property>
            <widget class="QWidget" name="sign_in_page1">
             <layout class="QGridLayout" name="gridLayout" rowstretch="1,2,1">
@@ -1460,7 +1460,7 @@
                   <item row="0" column="0">
                    <layout class="QGridLayout" name="gridLayout_29">
                     <item row="0" column="0">
-                     <widget class="QLabel" name="label_21">
+                     <widget class="QTextBrowser" name="textBrowser_2">
                       <property name="font">
                        <font>
                         <family>Bahnschrift SemiBold</family>
@@ -1468,12 +1468,6 @@
                         <weight>75</weight>
                         <bold>true</bold>
                        </font>
-                      </property>
-                      <property name="text">
-                       <string>Please make sure you have enter all your imformation and try again</string>
-                      </property>
-                      <property name="alignment">
-                       <set>Qt::AlignCenter</set>
                       </property>
                      </widget>
                     </item>

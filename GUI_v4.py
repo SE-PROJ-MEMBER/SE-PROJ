@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'GUI_v3_1.ui'
+# Form implementation generated from reading ui file 'GUI_v4.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.9
 #
@@ -762,16 +762,15 @@ class Ui_MainWindow(object):
         self.gridLayout_30.setObjectName("gridLayout_30")
         self.gridLayout_29 = QtWidgets.QGridLayout()
         self.gridLayout_29.setObjectName("gridLayout_29")
-        self.label_21 = QtWidgets.QLabel(self.frame_13)
+        self.textBrowser_2 = QtWidgets.QTextBrowser(self.frame_13)
         font = QtGui.QFont()
         font.setFamily("Bahnschrift SemiBold")
         font.setPointSize(18)
         font.setBold(True)
         font.setWeight(75)
-        self.label_21.setFont(font)
-        self.label_21.setAlignment(QtCore.Qt.AlignCenter)
-        self.label_21.setObjectName("label_21")
-        self.gridLayout_29.addWidget(self.label_21, 0, 0, 1, 1)
+        self.textBrowser_2.setFont(font)
+        self.textBrowser_2.setObjectName("textBrowser_2")
+        self.gridLayout_29.addWidget(self.textBrowser_2, 0, 0, 1, 1)
         self.gridLayout_30.addLayout(self.gridLayout_29, 0, 0, 1, 1)
         self.verticalLayout_8.addWidget(self.frame_13)
         self.frame_12 = QtWidgets.QFrame(self.sign_up_fa_page5)
@@ -3814,7 +3813,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.pages.setCurrentIndex(8)
+        self.pages.setCurrentIndex(4)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -3849,7 +3848,6 @@ class Ui_MainWindow(object):
         self.confirm.setText(_translate("MainWindow", "Confirm"))
         self.label_19.setText(_translate("MainWindow", "Denied"))
         self.label_20.setText(_translate("MainWindow", "Failed to create account"))
-        self.label_21.setText(_translate("MainWindow", "Please make sure you have enter all your imformation and try again"))
         self.to_sign_up_page_2.setText(_translate("MainWindow", "Return"))
         self.label_22.setText(_translate("MainWindow", "Book a room"))
         self.label_23.setText(_translate("MainWindow", "From "))

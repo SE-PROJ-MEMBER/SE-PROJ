@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
-import GUI_v3_1
+import re
+import GUI_v4
 import msgbox
 from backend import *
 import threading
@@ -171,6 +172,35 @@ def create_account_slot():
     card_num = UI.card_in.text()
     pwd = UI.pwd_in.text()
     if name == '' or phone == '' or email == '' or card_num == '' or pwd == '':
+        UI.textBrowser_2.setText('Please fill in all the blanks')
+        turn_page(4)
+        return
+    if name[:5] == 'admin':
+        UI.textBrowser_2.setText('Invalid name')
+        turn_page(4)
+        return
+    if len(phone) != 11 or not phone.isdigit():
+        UI.textBrowser_2.setText('Invalid phone number')
+        turn_page(4)
+        return
+    if len(card_num) != 16 or not card_num.isdigit():
+        UI.textBrowser_2.setText('Invalid card number')
+        turn_page(4)
+        return
+    if len(pwd) < 6:
+        UI.textBrowser_2.setText('Password too short')
+        turn_page(4)
+        return
+    if len(pwd) > 16:
+        UI.textBrowser_2.setText('Password too long')
+        turn_page(4)
+        return
+    if not pwd.isalnum():
+        UI.textBrowser_2.setText('Password should only contain letters and numbers')
+        turn_page(4)
+        return
+    if not re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email):
+        UI.textBrowser_2.setText('Invalid email address')
         turn_page(4)
         return
     reg_status = user_register(phone, email, name, card_num, pwd)
@@ -418,7 +448,7 @@ def turn_slot_10():
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
-    UI = GUI_v3_1.Ui_MainWindow()
+    UI = GUI_v4.Ui_MainWindow()
     UI.setupUi(Main)
     msg = QtWidgets.QDialog()
     msg_UI = msgbox.Ui_Dialog()
