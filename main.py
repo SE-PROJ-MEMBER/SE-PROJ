@@ -1,6 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 import re
+
+from PyQt5.QtWidgets import QTableWidgetItem
+
 import GUI_v4
 import msgbox
 from backend import *
@@ -20,6 +23,7 @@ g_user_selection = [None for i in range(7)]
 g_user_selection_date = [None for i in range(2)]
 g_table_name = None
 g_status_info = ['reserved', 'checked in', 'checked out', 'cancelled', 'unpaid']
+g_current_room_number = 0
 
 def turn_page(index):
     '''public'''
@@ -445,6 +449,141 @@ def turn_slot_10():
     turn_page(10)
 
 
+# page20-25
+def page22_to_page23():
+    global g_current_room_number
+    if g_current_room_number == 0:
+        return
+    turn_page(22)
+
+def to_page22():
+    turn_page(21)
+    show_rooms_info()
+
+
+def user_deleter():
+    alter_status = delete_user(uesr_id) # 这个参数需要page16提供
+    if alter_status != '200':
+        # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+        # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+        UI.reason.setText(alter_status)
+        turn_page(20)
+        global g_pre_page
+        g_pre_page = 19
+        return
+    turn_page(12)
+
+
+def display_error_message():
+    """显示错误原因"""
+    pass
+
+
+def show_rooms_info():
+    global g_table_name
+    UI.rooms.clearContents()
+    room_data = get_all_rooms()  # [(101,'A',300)]
+    UI.rooms.setColumnCount(len(room_data[0]))
+    UI.rooms.setRowCount(len(room_data))
+    for row, room in enumerate(room_data):
+        for col, value in enumerate(room):
+            item = QTableWidgetItem(str(value))
+            UI.rooms.setItem(row, col, item)
+    g_table_name = UI.rooms
+    table_show()
+    UI.rooms.update()
+    pass
+
+def on_table_item_clicked(item):
+    global g_pre_row, g_current_room_number, g_table_name
+    g_table_name = UI.tableWidget
+    table_show()
+    if item is not None:
+        row = item.row()
+        g_current_room_number = UI.tableWidget.item(row, 0).text()
+
+
+def room_deleter():
+    current_row = UI.rooms.currentRow()
+    room_number = UI.tableWidget.item(current_row, 0).text()
+    alter_status = delete_room(room_number)
+    if alter_status != '200':
+        # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+        # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+        UI.reason.setText(alter_status)
+        turn_page(20)
+        global g_pre_page
+        g_pre_page = 21
+        return
+    turn_page(12)
+    pass
+
+
+def modify_room():
+    selected_option = UI.to_modify.currentText()
+    modified_value = UI.modified_info.currentText()
+    if selected_option == 'Room type':
+        alter_item = 'room_type'
+    elif selected_option == 'Room price':
+        alter_item = 'room_price'
+    else:
+        return
+    alter_status = update_room(alter_item, modified_value, g_current_room_number)
+    if alter_status != '200':
+        # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+        # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+        UI.reason.setText(alter_status)
+        turn_page(20)
+        global g_pre_page
+        g_pre_page = 22
+        return
+    turn_page(12)
+    pass
+
+
+def add_room():
+    room_num = UI.room_num_in_2.text()
+    room_type = UI.room_type.currentText()
+    price = UI.room_price_in.text()
+    if room_num is not None and room_type is not None and price is not None:
+        alter_status = create_room(room_num, room_type, price)
+        if alter_status != '200':
+            # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+            # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+            UI.reason.setText(alter_status)
+            turn_page(20)
+            global g_pre_page
+            g_pre_page = 23
+            return
+        turn_page(12)
+    return # none value error
+
+
+def add_user():
+    name = UI.name_in.text()
+    phone = UI.phone_num_in_2.text()
+    email = UI.email_in_2.text()
+    card_num = UI.card_in_2.text()
+    pwd = UI.pwd_in_2.text()
+    if name == ''or pwd == '':
+        return
+    if name[:5] == 'admin':
+        alter_status = create_user_np(name, pwd)
+    else:
+        if name == '' or phone == '' or email == '' or card_num == '' or pwd == '':
+            return
+        alter_status = user_register(phone, email, name, card_num, pwd)
+    if alter_status != '200':
+        # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+        # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+        UI.reason.setText(alter_status)
+        turn_page(20)
+        global g_pre_page
+        g_pre_page = 24
+        return
+    turn_page(12)
+
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
@@ -494,9 +633,28 @@ if __name__ == '__main__':
     UI.pushButton_2.clicked.connect(log_out)
     UI.to_pre_page.clicked.connect(lambda ret: turn_page(g_pre_page))
     UI.to_comfirm_order_page.clicked.connect(turn_slot_10)
-    UI.tableWidget.cellClicked.connect(table_show)    
-    
-    
+    UI.tableWidget.cellClicked.connect(table_show)
+
+
+    # page20-25
+    UI.to_add_user_page.clicked.connect(lambda ret: turn_page(22))
+    UI.delete_user_to_op_su_page.clicked.connect(lambda ret: user_deleter())
+    UI.to_log_in_page_2.clicked.connect(lambda ret: turn_page(0))
+    UI.to_admin_page_2.clicked.connect(lambda ret: turn_page(15))
+    UI.to_pre_page_2.clicked.connect(lambda ret: to_pre_page())
+    UI.to_admin_page_3.clicked.connect(lambda ret: turn_page(15))
+    UI.to_room_op_page.clicked.connect(lambda ret: turn_page(22))
+    UI.to_sign_in_page_6.clicked.connect(lambda ret: turn_page(0))
+    UI.delete_room.clicked.connect(lambda ret: room_deleter())
+    UI.to_add_room_page.clicked.connect(lambda ret: turn_page(23))
+    UI.to_manage_room_page.clicked.connect(lambda ret: to_page22())
+    UI.to_op_su_page_2.clicked.connect(lambda ret: modify_room())
+    UI.to_manage_room_page_2.clicked.connect(lambda ret: to_page22())
+    UI.to_op_su_page_3.clicked.connect(lambda ret: add_room())
+    UI.to_manage_user_page.clicked.connect(lambda ret: turn_page(19))
+    UI.to_op_su_page_4.clicked.connect(lambda ret: add_user())
+    UI.tableWidget.itemClicked.connect(on_table_item_clicked)
+
     UI.pages.setCurrentIndex(0)
     Main.show()
     sys.exit(app.exec())
