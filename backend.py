@@ -57,7 +57,7 @@ def update_user(alter_item, alter_value, user_id):
 def find_room(ck_in, ck_out, type):
     cur.execute(
         '''
-        SELECT * FROM room WHERE room_type=? AND room_num NOT IN (SELECT room_num FROM orderl WHERE ck_in <= ? AND ck_out >= ? )
+        SELECT * FROM room WHERE room_type=? AND room_num NOT IN (SELECT room_num FROM orderl WHERE ck_in < ? AND ck_out > ? )
         ''',
         (type, ck_out, ck_in)
     )
