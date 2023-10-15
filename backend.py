@@ -137,7 +137,7 @@ def create_user_np(name, pwd):
     # tmp = cur.fetchall()
     # while new_id in tmp:
         # new_id = random.randint(10000000, 99999999)
-    cur.execute('SELECT user_id FROM user')
+    cur.execute('SELECT user_name FROM user')
     namelist = cur.fetchall()
     if (name,) in namelist:
         return 'user_name_exist'
