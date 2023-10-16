@@ -353,7 +353,7 @@ def page8_to_page9():
 def show_persoanl_details():
     info = user_info(g_current_user_id)
     turn_page(10)
-    info_str = f'name: {info[1]}\nphone: {info[3]}\nemail: {info[4]}\n    card: {info[5]}'
+    info_str = f'name: {info[1]}\nphone: {info[2]}\nemail: {info[3]}\ncard: {info[4]}'
     UI.orders.setText(info_str)
 
 
