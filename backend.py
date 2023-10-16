@@ -212,3 +212,13 @@ def get_orders_of_user(user_id):
 def get_all_rooms():
     cur.execute('SELECT * FROM room')
     return cur.fetchall()
+
+
+# 22.
+def user_ser(name):
+    cur.execute(
+        f"SELECT * FROM user WHERE user_name = ?",(name,))
+    user_info = cur.fetchone()
+    if user_info == None:
+        return 'user_not_exist'
+    return user_info

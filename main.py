@@ -4,7 +4,7 @@ import re
 
 from PyQt5.QtWidgets import QTableWidgetItem
 
-import GUI_v4
+import GUI_v5
 import msgbox
 from backend import *
 import threading
@@ -584,10 +584,84 @@ def add_user():
     turn_page(12)
 
 
+# 26-27
+
+def reset_password():
+    r_name = UI.lineEdit.text()
+    r_phone = UI.lineEdit_2.text()
+    r_email = UI.lineEdit_3.text()
+    r_card = UI.lineEdit_4.text()
+    user_info = user_ser(r_name)
+    if r_name == '' or r_phone == '' or r_email == '' or r_card == '':
+        UI.reason.setText('Please fill in all the blanks')
+        global g_pre_page
+        g_pre_page = 25
+        turn_page(20)
+        return
+    if user_info == 'user_not_exist':
+        UI.reason.setText('user not exist')
+        # global g_pre_page
+        g_pre_page = 25
+        turn_page(20)
+        return
+    if str(user_info[2]) != r_phone or user_info[3] != r_email or str(user_info[4]) != r_card:
+        UI.reason.setText('information not match')
+        # global g_pre_page
+        g_pre_page = 25
+        turn_page(20)
+        return
+    global g_current_user_id
+    g_current_user_id = user_info[0]
+    turn_page(26)
+    
+    
+def reset_password2():
+    new_pwd = UI.lineEdit_5.text()
+    new_pwd2 = UI.lineEdit_6.text()
+    if new_pwd != new_pwd2:
+        UI.reason.setText('password not match')
+        global g_pre_page
+        g_pre_page = 26
+        turn_page(20)
+        return
+    if len(new_pwd) < 6:
+        UI.reason.setText('Password too short')
+        # global g_pre_page
+        g_pre_page = 26
+        turn_page(20)
+        return
+    if len(new_pwd) > 16:
+        UI.reason.setText('Password too long')
+        # global g_pre_page
+        g_pre_page = 26
+        turn_page(20)
+        return
+    if not new_pwd.isalnum():
+        UI.reason.setText('Password should only contain letters and numbers')
+        # global g_pre_page
+        g_pre_page = 26
+        turn_page(20)
+        return
+    global g_current_user_id
+    update_user('user_pwd',new_pwd,g_current_user_id)
+    g_current_user_id = 0
+    turn_page(0)
+    
+    
+def reset_password0():
+    UI.lineEdit.setText('')
+    UI.lineEdit_2.setText('')
+    UI.lineEdit_3.setText('')
+    UI.lineEdit_4.setText('')
+    UI.lineEdit_5.setText('')
+    UI.lineEdit_6.setText('')
+    turn_page(25)
+    
+
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
-    UI = GUI_v4.Ui_MainWindow()
+    UI = GUI_v5.Ui_MainWindow()
     UI.setupUi(Main)
     msg = QtWidgets.QDialog()
     msg_UI = msgbox.Ui_Dialog()
@@ -600,6 +674,7 @@ if __name__ == '__main__':
     msg.setWindowTitle("Warning!")
 
     # page 1-7
+    UI.commandLinkButton.clicked.connect(reset_password0)
     UI.to_homepage.clicked.connect(page_1_to_homepage)
     UI.to_book_a_room.clicked.connect(lambda ret: turn_page(5))
     UI.sign_in.clicked.connect(sign_in_slot)
@@ -655,6 +730,17 @@ if __name__ == '__main__':
     UI.to_op_su_page_4.clicked.connect(lambda ret: add_user())
     UI.tableWidget.itemClicked.connect(on_table_item_clicked)
 
+    
+    #26-27
+    UI.pushButton_3.clicked.connect(log_out)
+    UI.pushButton_4.clicked.connect(reset_password)
+    UI.pushButton_5.clicked.connect(reset_password2)
+    
+    
+    
+    
+    
+    
     UI.pages.setCurrentIndex(0)
     Main.show()
     sys.exit(app.exec())
