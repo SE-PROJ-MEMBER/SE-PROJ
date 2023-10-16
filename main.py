@@ -683,7 +683,7 @@ if __name__ == '__main__':
     UI.to_sign_in_page_2.clicked.connect(lambda ret: turn_page(0))
     UI.confirm.clicked.connect(create_account_slot)
     UI.to_sign_up_page_2.clicked.connect(lambda ret: turn_page(3))
-    UI.to_sign_in_page_5.clicked.connect(lambda ret: turn_page(0))
+    UI.to_sign_in_page_5.clicked.connect(log_out)
     UI.to_room_select_page.clicked.connect(search_slot)
     UI.to_confirm_order_page.clicked.connect(room_selection_result)
     UI.to_book_info_page.clicked.connect(return_slot_5)
