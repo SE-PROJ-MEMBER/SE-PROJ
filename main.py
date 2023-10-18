@@ -4,7 +4,7 @@ import re
 
 from PyQt5.QtWidgets import QTableWidgetItem
 
-import GUI_v5_1
+import GUI_v5_2
 import msgbox
 from backend import *
 import threading
@@ -661,7 +661,7 @@ def reset_password0():
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     Main = QtWidgets.QMainWindow()
-    UI = GUI_v5_1.Ui_MainWindow()
+    UI = GUI_v5_2.Ui_MainWindow()
     UI.setupUi(Main)
     msg = QtWidgets.QDialog()
     msg_UI = msgbox.Ui_Dialog()

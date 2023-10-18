@@ -2356,6 +2356,7 @@ class Ui_MainWindow(object):
         self.set_status.addItem("")
         self.set_status.addItem("")
         self.set_status.addItem("")
+        self.set_status.addItem("")
         self.gridLayout_101.addWidget(self.set_status, 2, 1, 1, 1)
         spacerItem111 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout_101.addItem(spacerItem111, 2, 0, 1, 1)
@@ -4183,7 +4184,7 @@ class Ui_MainWindow(object):
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        self.pages.setCurrentIndex(25)
+        self.pages.setCurrentIndex(16)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -4279,10 +4280,11 @@ class Ui_MainWindow(object):
         self.show_all_orders.setText(_translate("MainWindow", "Order"))
         self.label_46.setText(_translate("MainWindow", "Manage orders"))
         self.label_47.setText(_translate("MainWindow", "set status"))
-        self.set_status.setItemText(1, _translate("MainWindow", "0"))
-        self.set_status.setItemText(2, _translate("MainWindow", "1"))
-        self.set_status.setItemText(3, _translate("MainWindow", "2"))
-        self.set_status.setItemText(4, _translate("MainWindow", "3"))
+        self.set_status.setItemText(1, _translate("MainWindow", "reserved"))
+        self.set_status.setItemText(2, _translate("MainWindow", "checked in"))
+        self.set_status.setItemText(3, _translate("MainWindow", "check out"))
+        self.set_status.setItemText(4, _translate("MainWindow", "cancelled"))
+        self.set_status.setItemText(5, _translate("MainWindow", "unpaid"))
         self.to_admin_page.setText(_translate("MainWindow", "Return"))
         self.to_add_order_page.setText(_translate("MainWindow", "Add"))
         self.to_log_in_page.setText(_translate("MainWindow", "Log out"))

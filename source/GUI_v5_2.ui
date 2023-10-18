@@ -40,7 +40,7 @@
             <string notr="true">QPushButton{background-color: rgb(189,189,189); border-radius:20px; color:rgb(0,0,0);}</string>
            </property>
            <property name="currentIndex">
-            <number>25</number>
+            <number>16</number>
            </property>
            <widget class="QWidget" name="sign_in_page1">
             <layout class="QGridLayout" name="gridLayout" rowstretch="3,4,3">
@@ -4511,22 +4511,27 @@
                       </item>
                       <item>
                        <property name="text">
-                        <string>0</string>
+                        <string>reserved</string>
                        </property>
                       </item>
                       <item>
                        <property name="text">
-                        <string>1</string>
+                        <string>checked in</string>
                        </property>
                       </item>
                       <item>
                        <property name="text">
-                        <string>2</string>
+                        <string>check out</string>
                        </property>
                       </item>
                       <item>
                        <property name="text">
-                        <string>3</string>
+                        <string>cancelled</string>
+                       </property>
+                      </item>
+                      <item>
+                       <property name="text">
+                        <string>unpaid</string>
                        </property>
                       </item>
                      </widget>
