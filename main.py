@@ -24,6 +24,8 @@ g_user_selection_date = [None for i in range(2)]
 g_table_name = None
 g_status_info = ['reserved', 'checked in', 'checked out', 'cancelled', 'unpaid']
 g_current_room_number = 0
+g_user_id = 0
+g_order_id = 0
 
 def turn_page(index):
     '''public'''
@@ -448,6 +450,150 @@ def turn_slot_10():
     UI.tableWidget.setCurrentItem(None)
     turn_page(10)
 
+#page14-19
+def to_personal_homepage_2():
+    global g_pre_page
+    g_pre_page = 13
+    turn_page(10)
+
+def submit_comment_yo_op_su_page():
+    comment_text = UI.comment_text_edit.toPlainText()
+    if not comment_text:
+        turn_page(14)
+    else:
+        turn_page(12)
+
+def show_all_users_info():
+    users = get_all_users()
+    UI.users.setRowCount(len(users))
+    UI.users.setColumnCount(5)
+    UI.users.setHorizontalHeaderLabels(["User ID", "User Name", "Phone", "Email", "Card"])
+    for i, user in enumerate(users):
+        for j in range(5):
+            item = QTableWidgetItem(str(user[j]))
+            UI.users.setItem(i, j, item)
+
+def show_all_orders_info():
+    orders = get_all_orders()
+    UI.orders_2.setRowCount(len(orders))
+    UI.orders_2.setColumnCount(7)
+    UI.orders_2.setHorizontalHeaderLabels(["Order ID", "Room Number", "User ID", "Check-In Date", "Check-Out Date", "Status", "Comment"])
+    for i, order in enumerate(orders):
+        for j in range(7):
+            item = QTableWidgetItem(str(order[j]))
+            UI.orders_2.setItem(i, j, item)
+def admin_page16():
+    def show_all_users_info():
+        users = get_all_users()
+        UI.users.setRowCount(len(users))
+        UI.users.setColumnCount(5)
+        UI.users.setHorizontalHeaderLabels(["User ID", "User Name", "Phone", "Email", "Card"])
+        for i, user in enumerate(users):
+            for j in range(5):
+                item = QTableWidgetItem(str(user[j]))
+                UI.users.setItem(i, j, item)
+
+    def show_all_orders_info():
+        orders = get_all_orders()
+        UI.orders_2.setRowCount(len(orders))
+        UI.orders_2.setColumnCount(7)
+        UI.orders_2.setHorizontalHeaderLabels(["Order ID", "Room Number", "User ID", "Check-In Date", "Check-Out Date", "Status", "Comment"])
+        for i, order in enumerate(orders):
+            for j in range(7):
+                item = QTableWidgetItem(str(order[j]))
+                UI.orders_2.setItem(i, j, item)
+
+    show_all_users_info()
+    show_all_orders_info()
+
+def show_all_users():
+    selected_items = UI.users.selectedItems()
+    selected_row = selected_items[0].row()
+    global g_user_id
+    g_user_id = UI.users.item(selected_row, 0).text()
+    turn_page(19)
+
+def show_all_orders():
+    selected_items = UI.orders_2.selectedItems()
+    selected_row = selected_items[0].row()
+    global g_order_id
+    g_order_id = UI.orders_2.item(selected_row, 0).text()
+    turn_page(17)
+
+def log_out():
+    global g_admin_status, g_current_user_id
+    g_admin_status = False
+    g_current_user_id = 0
+    turn_page(0)
+
+def get_selected_order_status():
+    order_status = UI.set_status.currentText()
+    return order_status
+
+
+def confirm_status_change():
+    global g_current_order_id
+    order_status = get_selected_order_status()
+    if order_status:
+        order_id = g_current_order_id
+        result = update_order("order_status", order_status, order_id)
+        if result == '200':
+            return order_status
+
+
+def display_order_comments():
+    order_info = get_order_info(g_order_id)
+    if order_info:
+        comment = order_info[6]
+        UI.comment.setPlainText(comment)
+
+
+def to_comment_page_2():
+    def display_order_comments():
+        order_info = get_order_info(g_order_id)
+        if order_info:
+            comment = order_info[6]
+            UI.comment.setPlainText(comment)
+
+    display_order_comments()
+
+    turn_page(17)
+
+def clear_comment_to_op_su_page():
+    result = update_order("comment", "", g_order_id)
+    if result == '200':
+        turn_page(12)
+    else:
+        "show wrong message"
+        pass
+
+def add_order_to_op_su_page():
+    def validate_input():
+
+        room_num = UI.room_num_in.text()
+        user_id = UI.user_id_in.text()
+        status = UI.set_status_2.currentText()
+        ck_in = UI.ck_in_2.date().toString("yyyy-MM-dd")
+        ck_out = UI.ck_out.date().toString("yyyy-MM-dd")
+        if room_num == '' or user_id == '' or status == '' or ck_in == '' or ck_out == '':
+            return False
+        if ck_in >= ck_out:
+            return False
+        return True
+
+    if validate_input():
+        room_num = UI.room_num_in.text()
+        user_id = UI.user_id_in.text()
+        status = UI.set_status_2.currentText()
+        ck_in = UI.ck_in_2.date().toString("yyyy-MM-dd")
+        ck_out = UI.ck_out.date().toString("yyyy-MM-dd")
+        result = create_order(room_num, user_id, ck_in, ck_out)[0]
+        if result == '200':
+            turn_page(12)
+        else:
+            "show wrong message"
+            pass
+
 
 # page20-25
 def page22_to_page23():
@@ -457,12 +603,13 @@ def page22_to_page23():
     turn_page(22)
 
 def to_page22():
-    turn_page(21)
     show_rooms_info()
+    turn_page(21)
 
 
 def user_deleter():
-    alter_status = delete_user(uesr_id) # 这个参数需要page16提供
+    global g_user_id
+    alter_status = delete_user(g_user_id) # 这个参数需要page16提供
     if alter_status != '200':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
@@ -710,6 +857,24 @@ if __name__ == '__main__':
     UI.to_comfirm_order_page.clicked.connect(turn_slot_10)
     UI.tableWidget.cellClicked.connect(table_show)
 
+    #page 14-19
+    UI.to_personal_homepage_2.clicked.connect(to_personal_homepage_2)
+    UI.cancel_order_to_op_su_page.clicked.connect(lambda ret: turn_page(12))
+    UI.submit_comment_yo_op_su_page.clicked.connect(submit_comment_yo_op_su_page)
+    UI.to_modify_order_page.clicked.connect(lambda ret: turn_page(13))
+    UI.show_all_users_button.clicked.connect(show_all_users)
+    UI.show_all_orders_button.clicked.connect(show_all_orders)
+    UI.to_room_page.clicked.connect(lambda ret: turn_page(21))
+    UI.to_sign_in_page_4.clicked.connect(log_out)
+    UI.confirm_status_button.clicked.connect(confirm_status_change)
+    UI.to_comment_page_2.clicked.connect(to_comment_page_2)
+    UI.to_add_order_page_button.clicked.connect(lambda ret: turn_page(19))
+    UI.to_admin_page_button.clicked.connect(admin_page16)
+    UI.to_log_in_page_button.clicked.connect(log_out)
+    UI.clear_comment_to_op_su_page.clicked.connect(clear_comment_to_op_su_page)
+    UI.to_manage_order_page.clicked.connect(lambda ret: turn_page(16))
+    UI.add_order_button.clicked.connect(add_order_to_op_su_page)
+    UI.to_manage_order_page_2.clicked.connect(lambda ret: turn_page(16))
 
     # page20-25
     UI.to_add_user_page.clicked.connect(lambda ret: turn_page(22))
@@ -730,7 +895,7 @@ if __name__ == '__main__':
     UI.to_op_su_page_4.clicked.connect(lambda ret: add_user())
     UI.tableWidget.itemClicked.connect(on_table_item_clicked)
 
-    
+
     #26-27
     UI.pushButton_3.clicked.connect(log_out)
     UI.pushButton_4.clicked.connect(reset_password)
