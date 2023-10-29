@@ -482,7 +482,8 @@ def show_all_orders_info():
         for j in range(7):
             item = QTableWidgetItem(str(order[j]))
             UI.orders_2.setItem(i, j, item)
-def admin_page16():
+
+def to_admin_page():
     def show_all_users_info():
         users = get_all_users()
         UI.users.setRowCount(len(users))
@@ -531,7 +532,7 @@ def get_selected_order_status():
     return order_status
 
 
-def confirm_status_change():
+def confir_status_to_op_su_page():
     global g_current_order_id
     order_status = get_selected_order_status()
     if order_status:
@@ -567,7 +568,7 @@ def clear_comment_to_op_su_page():
         "show wrong message"
         pass
 
-def add_order_to_op_su_page():
+def Add_order_to_op_su_page():
     def validate_input():
 
         room_num = UI.room_num_in.text()
@@ -862,18 +863,18 @@ if __name__ == '__main__':
     UI.cancel_order_to_op_su_page.clicked.connect(lambda ret: turn_page(12))
     UI.submit_comment_yo_op_su_page.clicked.connect(submit_comment_yo_op_su_page)
     UI.to_modify_order_page.clicked.connect(lambda ret: turn_page(13))
-    UI.show_all_users_button.clicked.connect(show_all_users)
-    UI.show_all_orders_button.clicked.connect(show_all_orders)
+    UI.show_all_orders.clicked.connect(show_all_users)
+    UI.show_all_orders.clicked.connect(show_all_orders)
     UI.to_room_page.clicked.connect(lambda ret: turn_page(21))
     UI.to_sign_in_page_4.clicked.connect(log_out)
-    UI.confirm_status_button.clicked.connect(confirm_status_change)
+    UI.confir_status_to_op_su_page.clicked.connect(confir_status_to_op_su_page)
     UI.to_comment_page_2.clicked.connect(to_comment_page_2)
-    UI.to_add_order_page_button.clicked.connect(lambda ret: turn_page(19))
-    UI.to_admin_page_button.clicked.connect(admin_page16)
-    UI.to_log_in_page_button.clicked.connect(log_out)
+    UI.to_add_order_page.clicked.connect(lambda ret: turn_page(19))
+    UI.to_admin_page.clicked.connect(to_admin_page)
+    UI.to_log_in_page.clicked.connect(log_out)
     UI.clear_comment_to_op_su_page.clicked.connect(clear_comment_to_op_su_page)
     UI.to_manage_order_page.clicked.connect(lambda ret: turn_page(16))
-    UI.add_order_button.clicked.connect(add_order_to_op_su_page)
+    UI.Add_order_to_op_su_page.clicked.connect(Add_order_to_op_su_page)
     UI.to_manage_order_page_2.clicked.connect(lambda ret: turn_page(16))
 
     # page20-25
