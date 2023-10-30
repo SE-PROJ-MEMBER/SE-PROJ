@@ -656,7 +656,6 @@ def room_deleter():
     global g_pre_page
     g_pre_page = 21
     current_row = UI.rooms.currentRow()
-    print(current_row)
     if current_row != -1:
         room_number = UI.rooms.item(current_row, 0).text()
         alter_status = delete_room(int(room_number))
