@@ -656,16 +656,20 @@ def room_deleter():
     global g_pre_page
     g_pre_page = 21
     current_row = UI.rooms.currentRow()
-    room_number = UI.rooms.item(current_row, 0).text()
-    alter_status = delete_room(int(room_number))
-    if alter_status != '200':
-        # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
-        # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
-        UI.reason.setText(alter_status)
-        turn_page(20)
+    print(current_row)
+    if current_row != -1:
+        room_number = UI.rooms.item(current_row, 0).text()
+        alter_status = delete_room(int(room_number))
+        if alter_status != '200':
+            # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+            # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+            UI.reason.setText(alter_status)
+            turn_page(20)
+            return
+        show_rooms_info()
+        turn_page(12)
+    else:
         return
-    show_rooms_info()
-    turn_page(12)
     pass
 
 
@@ -896,7 +900,7 @@ if __name__ == '__main__':
     UI.to_admin_page_2.clicked.connect(lambda ret: turn_page(15))
     UI.to_pre_page_2.clicked.connect(lambda ret: to_pre_page())
     UI.to_admin_page_3.clicked.connect(lambda ret: turn_page(15))
-    UI.to_room_op_page.clicked.connect(lambda ret: turn_page(22))
+    UI.to_room_op_page.clicked.connect(lambda ret: page22_to_page23())
     UI.to_sign_in_page_6.clicked.connect(lambda ret: turn_page(0))
     UI.delete_room.clicked.connect(lambda ret: room_deleter())
     UI.to_add_room_page.clicked.connect(lambda ret: turn_page(23))
@@ -921,6 +925,6 @@ if __name__ == '__main__':
     
     
     
-    UI.pages.setCurrentIndex(0)
+    UI.pages.setCurrentIndex(15)
     Main.show()
     sys.exit(app.exec())
