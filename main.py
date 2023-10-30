@@ -924,6 +924,6 @@ if __name__ == '__main__':
     
     
     
-    UI.pages.setCurrentIndex(15)
+    UI.pages.setCurrentIndex(0)
     Main.show()
     sys.exit(app.exec())
