@@ -631,14 +631,17 @@ def show_rooms_info():
     global g_table_name
     UI.rooms.clearContents()
     room_data = get_all_rooms()  # [(101,'A',300)]
-    UI.rooms.setColumnCount(len(room_data[0]))
-    UI.rooms.setRowCount(len(room_data))
-    for row, room in enumerate(room_data):
-        for col, value in enumerate(room):
-            item = QTableWidgetItem(str(value))
-            UI.rooms.setItem(row, col, item)
-    g_table_name = UI.rooms
-    table_show()
+    if room_data:
+        UI.rooms.setColumnCount(len(room_data[0]))
+        UI.rooms.setRowCount(len(room_data))
+        for row, room in enumerate(room_data):
+            for col, value in enumerate(room):
+                item = QTableWidgetItem(str(value))
+                UI.rooms.setItem(row, col, item)
+        g_table_name = UI.rooms
+        table_show()
+    else:
+        return  # No room to display
     UI.rooms.update()
     pass
 
@@ -874,7 +877,7 @@ if __name__ == '__main__':
     UI.to_modify_order_page.clicked.connect(lambda ret: turn_page(13))
     UI.show_all_orders.clicked.connect(show_all_users)
     UI.show_all_orders.clicked.connect(show_all_orders)
-    UI.to_room_page.clicked.connect(lambda ret: turn_page(21))
+    UI.to_room_page.clicked.connect(lambda ret: to_page22())
     UI.to_sign_in_page_4.clicked.connect(log_out)
     UI.confir_status_to_op_su_page.clicked.connect(confir_status_to_op_su_page)
     UI.to_comment_page_2.clicked.connect(to_comment_page_2)
