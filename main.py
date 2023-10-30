@@ -603,21 +603,21 @@ def page22_to_page23():
         return
     turn_page(22)
 
+
 def to_page22():
     show_rooms_info()
     turn_page(21)
 
 
 def user_deleter():
-    global g_user_id
-    alter_status = delete_user(g_user_id) # 这个参数需要page16提供
+    global g_user_id, g_pre_page
+    g_pre_page = 19
+    alter_status = delete_user(g_user_id)  # 这个参数需要page16提供
     if alter_status != '200':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
         turn_page(20)
-        global g_pre_page
-        g_pre_page = 19
         return
     turn_page(12)
 
@@ -642,34 +642,35 @@ def show_rooms_info():
     UI.rooms.update()
     pass
 
-def on_table_item_clicked(item):
-    global g_pre_row, g_current_room_number, g_table_name
-    g_table_name = UI.tableWidget
+
+def on_table_item_clicked(row):  # 该函数已修改完毕
+    global g_current_room_number
     table_show()
-    if item is not None:
-        row = item.row()
-        g_current_room_number = UI.tableWidget.item(row, 0).text()
+    g_current_room_number = UI.rooms.item(row, 0).text()
 
 
 def room_deleter():
+    global g_pre_page
+    g_pre_page = 21
     current_row = UI.rooms.currentRow()
-    room_number = UI.tableWidget.item(current_row, 0).text()
-    alter_status = delete_room(room_number)
+    room_number = UI.rooms.item(current_row, 0).text()
+    alter_status = delete_room(int(room_number))
     if alter_status != '200':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
         turn_page(20)
-        global g_pre_page
-        g_pre_page = 21
         return
+    show_rooms_info()
     turn_page(12)
     pass
 
 
 def modify_room():
+    global g_pre_page
+    g_pre_page = 22
     selected_option = UI.to_modify.currentText()
-    modified_value = UI.modified_info.currentText()
+    modified_value = UI.modified_info.text()
     if selected_option == 'Room type':
         alter_item = 'room_type'
     elif selected_option == 'Room price':
@@ -682,38 +683,43 @@ def modify_room():
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
         turn_page(20)
-        global g_pre_page
-        g_pre_page = 22
         return
+    UI.to_modify.setCurrentIndex(0)
+    UI.modified_info.setText('')
     turn_page(12)
     pass
 
 
 def add_room():
+    global g_pre_page
+    g_pre_page = 23
     room_num = UI.room_num_in_2.text()
     room_type = UI.room_type.currentText()
     price = UI.room_price_in.text()
-    if room_num is not None and room_type is not None and price is not None:
-        alter_status = create_room(room_num, room_type, price)
+    if room_num and room_type and price:
+        alter_status = create_room(int(room_num), room_type, int(price))
         if alter_status != '200':
             # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
             # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
             UI.reason.setText(alter_status)
             turn_page(20)
-            global g_pre_page
-            g_pre_page = 23
             return
+        UI.room_num_in_2.setText('')
+        UI.room_type.setCurrentIndex(0)
+        UI.room_price_in.setText('')
         turn_page(12)
-    return # none value error
+    return  # none value error
 
 
 def add_user():
+    global g_pre_page
+    g_pre_page = 24
     name = UI.name_in.text()
     phone = UI.phone_num_in_2.text()
     email = UI.email_in_2.text()
     card_num = UI.card_in_2.text()
     pwd = UI.pwd_in_2.text()
-    if name == ''or pwd == '':
+    if name == '' or pwd == '':
         return
     if name[:5] == 'admin':
         alter_status = create_user_np(name, pwd)
@@ -726,9 +732,12 @@ def add_user():
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
         UI.reason.setText(alter_status)
         turn_page(20)
-        global g_pre_page
-        g_pre_page = 24
         return
+    UI.name_in.setText('')
+    UI.phone_num_in_2.setText('')
+    UI.email_in_2.setText('')
+    UI.card_in_2.setText('')
+    UI.pwd_in_2.setText('')
     turn_page(12)
 
 
@@ -895,6 +904,8 @@ if __name__ == '__main__':
     UI.to_manage_user_page.clicked.connect(lambda ret: turn_page(19))
     UI.to_op_su_page_4.clicked.connect(lambda ret: add_user())
     UI.tableWidget.itemClicked.connect(on_table_item_clicked)
+    UI.rooms.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+    UI.rooms.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
 
 
     #26-27
