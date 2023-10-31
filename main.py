@@ -909,7 +909,7 @@ if __name__ == '__main__':
     UI.to_op_su_page_3.clicked.connect(lambda ret: add_room())
     UI.to_manage_user_page.clicked.connect(lambda ret: turn_page(19))
     UI.to_op_su_page_4.clicked.connect(lambda ret: add_user())
-    UI.tableWidget.itemClicked.connect(on_table_item_clicked)
+    UI.rooms.cellClicked.connect(on_table_item_clicked)
     UI.rooms.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.rooms.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
 
