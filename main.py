@@ -26,6 +26,7 @@ g_status_info = ['reserved', 'checked in', 'checked out', 'cancelled', 'unpaid']
 g_current_room_number = 0
 g_user_id = 0
 g_order_id = 0
+g_id_list = [None]
 
 def turn_page(index):
     '''public'''
@@ -396,6 +397,7 @@ def show_orders_info():
         return
     order_num = len(info)
     num_list = [str(i+1) for i in range(order_num)]
+    global g_id_list
     addMultiRow(num_list, UI.tableWidget)
     for i in range(order_num):
         setCellText(i, 0, str(info[i][1]), UI.tableWidget)
@@ -403,6 +405,7 @@ def show_orders_info():
         setCellText(i, 2, str(info[i][4]), UI.tableWidget)
         setCellText(i, 3, str(g_status_info[info[i][5]]), UI.tableWidget)
         setCellText(i, 4, str(info[i][6]), UI.tableWidget)
+        g_id_list.append(info[i][0])
 
 
 def page10_to_page11():
@@ -434,7 +437,13 @@ def modify_order_slot():
         print(2)
         return
     turn_page(13)
-    clear_table(UI.tableWidget)    
+    global g_current_order_id
+    index = UI.tableWidget.currentItem().row()
+    g_current_order_id = g_id_list[index+1]
+    print(g_current_order_id)
+    clear_table(UI.tableWidget)  
+    global g_id_list
+    g_id_list = [None]  
 
 
 def return_slot_5_2():
