@@ -222,8 +222,19 @@ def create_account_slot():
         UI.card_in.setText('')
         UI.pwd_in.setText('')
         turn_page(1)
-    else:
+    elif reg_status == 'user_name_exist':
+        UI.textBrowser_2.setText('User name exist')
         turn_page(4)
+
+
+def to_sign_up_slot():
+    UI.Name_in.setText('')
+    UI.phone_num_in.setText('')
+    UI.email_in.setText('')
+    UI.card_in.setText('')
+    UI.pwd_in.setText('')
+    turn_page(3)
+
 
 
 def msg_close_slot():
@@ -968,7 +979,7 @@ if __name__ == '__main__':
     UI.to_homepage.clicked.connect(page_1_to_homepage)
     UI.to_book_a_room.clicked.connect(lambda ret: turn_page(5))
     UI.sign_in.clicked.connect(sign_in_slot)
-    UI.to_sign_up_page.clicked.connect(lambda ret: turn_page(3))
+    UI.to_sign_up_page.clicked.connect(to_sign_up_slot)
     UI.to_sign_in_page.clicked.connect(lambda ret: turn_page(0))
     UI.to_sign_in_page_2.clicked.connect(lambda ret: turn_page(0))
     UI.confirm.clicked.connect(create_account_slot)
