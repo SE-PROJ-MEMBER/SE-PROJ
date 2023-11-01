@@ -438,11 +438,12 @@ def modify_order_slot():
         return
     turn_page(13)
     global g_current_order_id
+    global g_id_list
     index = UI.tableWidget.currentItem().row()
     g_current_order_id = g_id_list[index+1]
     print(g_current_order_id)
     clear_table(UI.tableWidget)  
-    global g_id_list
+    
     g_id_list = [None]  
 
 
