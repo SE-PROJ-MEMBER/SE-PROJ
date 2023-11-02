@@ -565,19 +565,19 @@ def submit_comment_yo_op_su_page():
     global g_pre_page, g_current_order_id, g_table_name
     comment_text = UI.comment_in.toPlainText()
     order_info = get_order_info(g_current_order_id)
-    if not order_info or order_info[5] != 2:  # If order_status is not 2 跳转到失败页面
-        g_pre_page = 13  # Comment failed page
+    if not order_info or order_info[5] != 2:
+        g_pre_page = 13
         turn_page(14)
-    elif not comment_text:  # If comment is empty
-        g_pre_page = 13  # Comment failed page
+    elif not comment_text:
+        g_pre_page = 13
         turn_page(14)
     else:
         result = comment_order(g_current_order_id, comment_text)
-        if result == '200':  # If comment is successfully added
+        if result == '200':
             UI.comment_in.setPlainText('')
             UI.comment_in.update()
             show_orders_info()
-        g_pre_page = 13  # Comment success page
+        g_pre_page = 13
         turn_page(12)
         UI.tableWidget.clearContents()
         UI.tableWidget.setRowCount(0)
@@ -713,14 +713,16 @@ def to_comment_page_2():
 
 def clear_comment_to_op_su_page():
     global g_order_id
-    result = update_order("comment", "", g_order_id)
-    UI.comment.clear()
-    if result == '200':
-        global g_pre_page
-        g_pre_page = 17
-        turn_page(12)
+    comment = UI.comment.toPlainText().strip()  # Remove leading/trailing whitespace
+    if comment:
+        result = update_order("comment", "", g_order_id)
+        UI.comment.clear()
+        if result == '200':
+            global g_pre_page
+            g_pre_page = 17
+            turn_page(12)
     else:
-        pass
+        show_error_page("No comments exist. You cannot clear an empty comment.")
 
 
 def Add_order_to_op_su_page():
@@ -733,10 +735,24 @@ def Add_order_to_op_su_page():
         status = UI.set_status_2.currentText()
         ck_in = UI.ck_in_2.date().toString("yyyy-MM-dd")
         ck_out = UI.ck_out.date().toString("yyyy-MM-dd")
-        if room_num == '' or user_id == '' or status == '' or ck_in == '' or ck_out == '':
+
+        error_message = ""
+
+        if room_num == '':
+            error_message = "Room number is required."
+        elif user_id == '':
+            error_message = "User ID is required."
+        elif status == '':
+            error_message = "Status is required."
+        elif ck_in == '' or ck_out == '':
+            error_message = "Check-in and check-out dates are required."
+        elif ck_in >= ck_out:
+            error_message = "Invalid date range. Check-in date must be before check-out date."
+
+        if error_message:
+            show_error_page(error_message)
             return False
-        if ck_in >= ck_out:
-            return False
+
         return True
 
     if validate_input():
@@ -749,9 +765,12 @@ def Add_order_to_op_su_page():
         if result == '200':
             turn_page(12)
         else:
-            "show wrong message"
-            pass
+            show_error_page("An error occurred. Please try again.")
 
+
+def show_error_page(error_message):
+    UI.reason.setPlainText(error_message)
+    turn_page(20)
 
 # page20-25
 
