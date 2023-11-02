@@ -10,7 +10,6 @@ from backend import *
 from functools import partial
 from datetime import datetime
 
-
 g_current_user_id = 0
 g_sign_in_status = False
 g_admin_status = False
@@ -236,14 +235,12 @@ def to_sign_up_slot():
     turn_page(3)
 
 
-
 def msg_close_slot():
     msg.close()
     turn_page(5)
 
 
 def start_search():
-
     date_format_str = "yyyy-MM-dd"
     begin = UI.ck_in.date().toString(date_format_str)
     end = UI.ck_2.date().toString(date_format_str)
@@ -273,11 +270,11 @@ def show_search_result():
     for i in range(result_length):
         for j in range(3):
             setCellText(i, j, g_search_result[i][j], UI.room_info)
-    print(str(type(UI.room_info))+'a')
+    print(str(type(UI.room_info)) + 'a')
     global g_table_name
     g_table_name = UI.room_info
     table_show()
-    print(str(type(UI.room_info))+'b')
+    print(str(type(UI.room_info)) + 'b')
 
 
 def search_slot():
@@ -339,7 +336,7 @@ def calculate_price():
     room_num = g_user_selection[0]
     p = get_price(room_num)
     p_final = p * \
-        calculate_date(g_user_selection_date[0], g_user_selection_date[1])
+              calculate_date(g_user_selection_date[0], g_user_selection_date[1])
     UI.pay_total.display(p_final)
 
 
@@ -449,12 +446,12 @@ def show_orders_info():
     g_table_name = UI.tableWidget
     table_show()
     addMultiColumn(['room number', 'check-in', 'check-out',
-                   'order status', 'comment'], UI.tableWidget)
+                    'order status', 'comment'], UI.tableWidget)
     info = get_orders_of_user(g_current_user_id)
     if info == 'no order':
         return
     order_num = len(info)
-    num_list = [str(i+1) for i in range(order_num)]
+    num_list = [str(i + 1) for i in range(order_num)]
     global g_id_list
     addMultiRow(num_list, UI.tableWidget)
     for i in range(order_num):
@@ -486,20 +483,19 @@ def createeee_order():
     global g_user_selection_date
     global g_current_order_id
     g_current_order_id = create_order(
-        g_user_selection[0], g_current_user_id,  g_user_selection_date[0], g_user_selection_date[1])[1]
+        g_user_selection[0], g_current_user_id, g_user_selection_date[0], g_user_selection_date[1])[1]
 
 
 def modify_order_slot():
     print(UI.tableWidget.currentItem())
     if UI.tableWidget.currentItem() is None:
-
         print(2)
         return
     turn_page(13)
     global g_current_order_id
     global g_id_list
     index = UI.tableWidget.currentItem().row()
-    g_current_order_id = g_id_list[index+1]
+    g_current_order_id = g_id_list[index + 1]
     print(g_current_order_id)
     clear_table(UI.tableWidget)
 
@@ -521,7 +517,6 @@ def turn_slot_10():
 
 
 def return_from_alter_page():
-
     show_orders_info()
     UI.tableWidget.setCurrentItem(None)
     show_persoanl_details()
@@ -534,6 +529,7 @@ def to_alter_personal_info_page():
     turn_page(11)
     clear_table(UI.tableWidget)
 
+
 # page14-19
 
 
@@ -542,6 +538,13 @@ def clicked_table_item_clicked(row):
     g_table_name = UI.orders_2
     table_show()
     g_current_order_id = UI.orders_2.item(row, 0).text()
+
+
+def clicked_table_item_clicked_2(row):
+    global g_user_id, g_table_name
+    g_table_name = UI.users
+    table_show()
+    g_user_id = UI.users.item(row, 0).text()
 
 
 def to_modify_order_page():
@@ -553,23 +556,32 @@ def to_modify_order_page():
 
 def to_personal_homepage_2():
     global g_pre_page
+    show_orders_info()
     g_pre_page = 13
     turn_page(10)
 
 
 def submit_comment_yo_op_su_page():
-    global g_pre_page, g_current_order_id
+    global g_pre_page, g_current_order_id, g_table_name
     comment_text = UI.comment_in.toPlainText()
-    if comment_text != '':
+    order_info = get_order_info(g_current_order_id)
+    if not order_info or order_info[5] != 2:  # If order_status is not 2 跳转到失败页面
+        g_pre_page = 13  # Comment failed page
+        turn_page(14)
+    elif not comment_text:  # If comment is empty
+        g_pre_page = 13  # Comment failed page
+        turn_page(14)
+    else:
         result = comment_order(g_current_order_id, comment_text)
-        if result == '200':
+        if result == '200':  # If comment is successfully added
             UI.comment_in.setPlainText('')
             UI.comment_in.update()
             show_orders_info()
-        g_pre_page = 13
+        g_pre_page = 13  # Comment success page
         turn_page(12)
-    else:
-        turn_page(14)
+        UI.tableWidget.clearContents()
+        UI.tableWidget.setRowCount(0)
+        UI.tableWidget.setColumnCount(0)
 
 
 def show_all_orders_info():
@@ -610,8 +622,7 @@ def show_all_users_info():
     users = get_all_users()
     UI.users.setRowCount(len(users))
     UI.users.setColumnCount(6)
-    UI.users.setHorizontalHeaderLabels(
-        ["user_id", "user_name", "user_phone", "user_email", "user_card", "user_pwd"])
+    UI.users.setHorizontalHeaderLabels(["user_id", "user_name", "user_phone", "user_email", "user_card", "user_pwd"])
     for i, user in enumerate(users):
         for j in range(6):
             item = QTableWidgetItem(str(user[j]))
@@ -623,7 +634,16 @@ def show_all_users_info():
 def to_admin_page():
     show_all_orders_info()
     show_all_users_info()
+    UI.orders_2.update()
+    UI.users.update()
     turn_page(15)
+
+
+def to_admin_page_2():
+    show_all_orders_info()
+    show_all_users_info()
+    UI.orders_2.update()
+    UI.users.update()
 
 
 def show_all_orders():
@@ -669,6 +689,7 @@ def confir_status_to_op_su_page():
     order_id = g_current_order_id
     result = update_order("order_status", order_status, order_id)
     if result == '200':
+        UI.set_status.setCurrentIndex(-1)
         global g_pre_page
         g_pre_page = 16
         turn_page(12)
@@ -731,6 +752,7 @@ def Add_order_to_op_su_page():
             "show wrong message"
             pass
 
+
 # page20-25
 
 
@@ -749,14 +771,22 @@ def to_page22():
 def user_deleter():
     global g_user_id, g_pre_page
     g_pre_page = 19
-    alter_status = delete_user(g_user_id)  # 这个参数需要page16提供
-    if alter_status != '200':
-        # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
-        # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
-        UI.reason.setText(alter_status)
-        turn_page(20)
+    current_user_info = user_info(g_user_id)
+    if g_user_id == "admin":
         return
-    turn_page(12)
+    else:
+        alter_status = delete_user(g_user_id)  # 这个参数需要page16提供
+        if alter_status != '200':
+            # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
+            # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
+            UI.reason.setText(alter_status)
+            turn_page(20)
+            return
+    if g_user_id == g_current_user_id:
+        turn_page(0)
+    else:
+        show_all_users_info()
+        turn_page(12)
 
 
 def display_error_message():
@@ -882,6 +912,7 @@ def add_user():
     UI.email_in_2.setText('')
     UI.card_in_2.setText('')
     UI.pwd_in_2.setText('')
+    show_all_users_info()
     turn_page(12)
 
 
@@ -1013,16 +1044,15 @@ if __name__ == '__main__':
     # page 14-19
     UI.to_personal_homepage_2.clicked.connect(to_personal_homepage_2)
     UI.cancel_order_to_op_su_page.clicked.connect(lambda ret: turn_page(12))
-    UI.submit_comment_yo_op_su_page.clicked.connect(
-        submit_comment_yo_op_su_page)
-    UI.to_modify_order_page.clicked.connect(lambda ret: turn_page(13))
+    UI.submit_comment_yo_op_su_page.clicked.connect(submit_comment_yo_op_su_page)
+    UI.to_modify_order_page.clicked.connect(to_modify_order_page)
     UI.show_all_users.clicked.connect(show_all_users)
     UI.show_all_orders.clicked.connect(show_all_orders)
     UI.to_room_page.clicked.connect(lambda ret: to_page22())
     UI.to_sign_in_page_4.clicked.connect(log_out)
     UI.confir_status_to_op_su_page.clicked.connect(confir_status_to_op_su_page)
     UI.to_comment_page_2.clicked.connect(to_comment_page_2)
-    UI.to_add_order_page.clicked.connect(lambda ret: turn_page(19))
+    UI.to_add_order_page.clicked.connect(lambda ret: turn_page(18))
     UI.to_admin_page.clicked.connect(to_admin_page)
     UI.to_log_in_page.clicked.connect(log_out)
     UI.clear_comment_to_op_su_page.clicked.connect(clear_comment_to_op_su_page)
@@ -1033,11 +1063,12 @@ if __name__ == '__main__':
     UI.orders_2.cellClicked.connect(clicked_table_item_clicked)
     UI.orders_2.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.orders_2.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+    UI.users.cellClicked.connect(clicked_table_item_clicked_2)
     UI.users.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
     UI.users.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
 
     # page20-25
-    UI.to_add_user_page.clicked.connect(lambda ret: turn_page(22))
+    UI.to_add_user_page.clicked.connect(lambda ret: turn_page(24))
     UI.delete_user_to_op_su_page.clicked.connect(lambda ret: user_deleter())
     UI.to_log_in_page_2.clicked.connect(log_out)
     UI.to_admin_page_2.clicked.connect(lambda ret: turn_page(15))
