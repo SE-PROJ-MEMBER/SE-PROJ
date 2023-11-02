@@ -768,11 +768,13 @@ def to_page22():
     turn_page(21)
 
 
-def user_deleter():
+def user_deleter():  # 该函数已修改完毕
     global g_user_id, g_pre_page
     g_pre_page = 19
     current_user_info = user_info(g_user_id)
-    if g_user_id == "admin":
+    if current_user_info[1] == "admin":
+        UI.reason.setText('Can not deleter Master administrator')
+        turn_page(20)
         return
     else:
         alter_status = delete_user(g_user_id)  # 这个参数需要page16提供
@@ -782,16 +784,15 @@ def user_deleter():
             UI.reason.setText(alter_status)
             turn_page(20)
             return
-    if g_user_id == g_current_user_id:
-        turn_page(0)
+    # print(g_user_id, g_current_user_id)
+    # print(g_user_id == g_current_user_id)
+    # print(str(g_user_id) == str(g_current_user_id))
+    # 奇怪的断言错误，尚未理解
+    if str(g_user_id) == str(g_current_user_id):
+        log_out()
     else:
         show_all_users_info()
         turn_page(12)
-
-
-def display_error_message():
-    """显示错误原因"""
-    pass
 
 
 def show_rooms_info():
@@ -844,14 +845,21 @@ def modify_room():
     g_pre_page = 22
     selected_option = UI.to_modify.currentText()
     modified_value = UI.modified_info.text()
+    if not (selected_option and modified_value):
+        UI.reason.setText('Please fill in all the blanks')
+        turn_page(20)
+        return
     if selected_option == 'Room type':
         alter_item = 'room_type'
     elif selected_option == 'Room price':
         alter_item = 'room_price'
+        if not modified_value.isdigit():
+            UI.reason.setText('invalid room price')
+            turn_page(20)
+            return
     else:
         return
-    alter_status = update_room(
-        alter_item, modified_value, g_current_room_number)
+    alter_status = update_room(alter_item, modified_value, g_current_room_number)
     if alter_status != '200':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
@@ -871,6 +879,14 @@ def add_room():
     room_type = UI.room_type.currentText()
     price = UI.room_price_in.text()
     if room_num and room_type and price:
+        if not room_num.isdigit():
+            UI.reason.setText('invalid room number')
+            turn_page(20)
+            return
+        if not price.isdigit():
+            UI.reason.setText('invalid room price')
+            turn_page(20)
+            return
         alter_status = create_room(int(room_num), room_type, int(price))
         if alter_status != '200':
             # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
@@ -882,7 +898,10 @@ def add_room():
         UI.room_type.setCurrentIndex(0)
         UI.room_price_in.setText('')
         turn_page(12)
-    return  # none value error
+    else:
+        UI.reason.setText('Please fill in all the blanks')
+        turn_page(20)
+        return
 
 
 def add_user():
@@ -899,6 +918,32 @@ def add_user():
         alter_status = create_user_np(name, pwd)
     else:
         if name == '' or phone == '' or email == '' or card_num == '' or pwd == '':
+            UI.reason.setText('Please fill in all the blanks')
+            turn_page(20)
+            return
+        if len(phone) != 11 or not phone.isdigit():
+            UI.reason.setText('Invalid phone number')
+            turn_page(20)
+            return
+        if len(card_num) != 16 or not card_num.isdigit():
+            UI.reason.setText('Invalid card number')
+            turn_page(20)
+            return
+        if len(pwd) < 6:
+            UI.reason.setText('Password too short')
+            turn_page(20)
+            return
+        if len(pwd) > 16:
+            UI.reason.setText('Password too long')
+            turn_page(20)
+            return
+        if not pwd.isalnum():
+            UI.reason.setText('Password should only contain letters and numbers')
+            turn_page(20)
+            return
+        if not re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email):
+            UI.reason.setText('Invalid email address')
+            turn_page(20)
             return
         alter_status = user_register(phone, email, name, card_num, pwd)
     if alter_status != '200':
