@@ -550,15 +550,28 @@ def clicked_table_item_clicked_2(row):
 def to_modify_order_page():
     global g_pre_page
     show_orders_info()
-    g_pre_page = 16
+    g_pre_page = 14
     turn_page(13)
 
 
 def to_personal_homepage_2():
     global g_pre_page
+    UI.tableWidget.clearContents()
+    UI.tableWidget.setRowCount(0)
+    UI.tableWidget.setColumnCount(0)
     show_orders_info()
     g_pre_page = 13
     turn_page(10)
+
+
+def cancel_order_to_op_su_page():
+    global g_current_order_id
+    result = update_order("order_status", 3, g_current_order_id)
+    if result == '200':
+        global g_pre_page
+        g_pre_page = 13
+        turn_page(12)
+        return
 
 
 def submit_comment_yo_op_su_page():
@@ -713,7 +726,7 @@ def to_comment_page_2():
 
 def clear_comment_to_op_su_page():
     global g_order_id
-    comment = UI.comment.toPlainText().strip()  # Remove leading/trailing whitespace
+    comment = UI.comment.toPlainText().strip()
     if comment:
         result = update_order("comment", "", g_order_id)
         UI.comment.clear()
@@ -1107,7 +1120,7 @@ if __name__ == '__main__':
 
     # page 14-19
     UI.to_personal_homepage_2.clicked.connect(to_personal_homepage_2)
-    UI.cancel_order_to_op_su_page.clicked.connect(lambda ret: turn_page(12))
+    UI.cancel_order_to_op_su_page.clicked.connect(cancel_order_to_op_su_page)
     UI.submit_comment_yo_op_su_page.clicked.connect(submit_comment_yo_op_su_page)
     UI.to_modify_order_page.clicked.connect(to_modify_order_page)
     UI.show_all_users.clicked.connect(show_all_users)
