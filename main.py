@@ -160,7 +160,7 @@ def sign_in_slot():
         if sel == 'Name' and login_param[:5] == 'admin':
             # check admin account
             g_admin_status = True
-            turn_page(15)
+            to_admin_page()
         else:
             turn_page(1)
     else:
@@ -596,7 +596,6 @@ def submit_comment_yo_op_su_page():
         UI.tableWidget.setRowCount(0)
         UI.tableWidget.setColumnCount(0)
 
-
 def show_all_orders_info():
     global g_table_name
     g_table_name = UI.orders_2
@@ -649,14 +648,9 @@ def to_admin_page():
     show_all_users_info()
     UI.orders_2.update()
     UI.users.update()
-    turn_page(15)
-
-
-def to_admin_page_2():
     show_all_orders_info()
     show_all_users_info()
-    UI.orders_2.update()
-    UI.users.update()
+    turn_page(15)
 
 
 def show_all_orders():
@@ -751,8 +745,8 @@ def Add_order_to_op_su_page():
 
         error_message = ""
 
-        if room_num == '':
-            error_message = "Room number is required."
+        if room_num == '' or not room_num.isdigit():
+            error_message = "Invalid Room number."
         elif user_id == '':
             error_message = "User ID is required."
         elif status == '':
