@@ -336,7 +336,7 @@ def calculate_price():
     room_num = g_user_selection[0]
     p = get_price(room_num)
     p_final = p * \
-              calculate_date(g_user_selection_date[0], g_user_selection_date[1])
+        calculate_date(g_user_selection_date[0], g_user_selection_date[1])
     UI.pay_total.display(p_final)
 
 
@@ -596,6 +596,7 @@ def submit_comment_yo_op_su_page():
         UI.tableWidget.setRowCount(0)
         UI.tableWidget.setColumnCount(0)
 
+
 def show_all_orders_info():
     global g_table_name
     g_table_name = UI.orders_2
@@ -634,7 +635,8 @@ def show_all_users_info():
     users = get_all_users()
     UI.users.setRowCount(len(users))
     UI.users.setColumnCount(6)
-    UI.users.setHorizontalHeaderLabels(["user_id", "user_name", "user_phone", "user_email", "user_card", "user_pwd"])
+    UI.users.setHorizontalHeaderLabels(
+        ["user_id", "user_name", "user_phone", "user_email", "user_card", "user_pwd"])
     for i, user in enumerate(users):
         for j in range(6):
             item = QTableWidgetItem(str(user[j]))
@@ -656,6 +658,7 @@ def to_admin_page():
 def show_all_orders():
     selected_items = UI.orders_2.selectedItems()
     if not selected_items:
+        turn_page(16)
         return
     selected_row = selected_items[0].row()
     global g_order_id
@@ -693,6 +696,8 @@ def get_selected_order_status():
 def confir_status_to_op_su_page():
     global g_current_order_id
     order_status = get_selected_order_status()
+    if order_status == None:
+        return
     order_id = g_current_order_id
     result = update_order("order_status", order_status, order_id)
     if result == '200':
@@ -729,7 +734,8 @@ def clear_comment_to_op_su_page():
             g_pre_page = 17
             turn_page(12)
     else:
-        show_error_page("No comments exist. You cannot clear an empty comment.")
+        show_error_page(
+            "No comments exist. You cannot clear an empty comment.")
 
 
 def Add_order_to_op_su_page():
@@ -770,6 +776,11 @@ def Add_order_to_op_su_page():
         ck_out = UI.ck_out.date().toString("yyyy-MM-dd")
         result = create_order(room_num, user_id, ck_in, ck_out)[0]
         if result == '200':
+            UI.room_num_in.setText('')
+            UI.user_id_in.setText('')
+            UI.set_status_2.setCurrentIndex(0)
+            UI.ck_in_2.setDate(QtCore.QDate.currentDate())
+            UI.ck_out.setDate(QtCore.QDate.currentDate())
             turn_page(12)
         else:
             show_error_page("An error occurred. Please try again.")
@@ -885,7 +896,8 @@ def modify_room():
             return
     else:
         return
-    alter_status = update_room(alter_item, modified_value, g_current_room_number)
+    alter_status = update_room(
+        alter_item, modified_value, g_current_room_number)
     if alter_status != '200':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
@@ -964,7 +976,8 @@ def add_user():
             turn_page(20)
             return
         if not pwd.isalnum():
-            UI.reason.setText('Password should only contain letters and numbers')
+            UI.reason.setText(
+                'Password should only contain letters and numbers')
             turn_page(20)
             return
         if not re.fullmatch(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', email):
@@ -972,10 +985,10 @@ def add_user():
             turn_page(20)
             return
         alter_status = user_register(phone, email, name, card_num, pwd)
-    if alter_status != '200':
+    if alter_status[0] != '200':
         # UI.gridLayout_71.addWidget(QtWidgets.QMessageBox.warning(
         # Main, 'Error', alter_status, QtWidgets.QMessageBox.Ok))
-        UI.reason.setText(alter_status)
+        UI.reason.setText(alter_status[0])
         turn_page(20)
         return
     UI.name_in.setText('')
@@ -1115,7 +1128,8 @@ if __name__ == '__main__':
     # page 14-19
     UI.to_personal_homepage_2.clicked.connect(to_personal_homepage_2)
     UI.cancel_order_to_op_su_page.clicked.connect(cancel_order_to_op_su_page)
-    UI.submit_comment_yo_op_su_page.clicked.connect(submit_comment_yo_op_su_page)
+    UI.submit_comment_yo_op_su_page.clicked.connect(
+        submit_comment_yo_op_su_page)
     UI.to_modify_order_page.clicked.connect(to_modify_order_page)
     UI.show_all_users.clicked.connect(show_all_users)
     UI.show_all_orders.clicked.connect(show_all_orders)
