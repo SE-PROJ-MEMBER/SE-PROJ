@@ -7,8 +7,8 @@ from PyQt5.QtWidgets import QTableWidgetItem
 import GUI_v5_2
 import msgbox
 from backend import *
-from functools import partial
 from datetime import datetime
+from encrypt import decrypt
 
 g_current_user_id = 0
 g_sign_in_status = False
@@ -154,13 +154,15 @@ def sign_in_slot():
         # login succeed
         g_current_user_id = chk_result[-1]
         g_sign_in_status = True
-        UI.user_name_dis.setText(user_info(g_current_user_id)[1])
+        UI.user_name_dis.setText(decrypt(user_info(g_current_user_id)[1]))
+        print(user_info(g_current_user_id)[1])
+        print(decrypt(user_info(g_current_user_id)[1]))
         turn_page(1)
 
         if sel == 'Name' and login_param[:5] == 'admin':
             # check admin account
             g_admin_status = True
-            to_admin_page()
+            turn_page(15)
         else:
             turn_page(1)
     else:
@@ -213,7 +215,7 @@ def create_account_slot():
     if type(reg_status) == tuple:
         g_current_user_id = reg_status[-1]
         g_sign_in_status = True
-        UI.user_name_dis.setText(user_info(g_current_user_id)[1])
+        UI.user_name_dis.setText(decrypt(user_info(g_current_user_id)[1]))
         # turn_page(5)
         UI.Name_in.setText('')
         UI.phone_num_in.setText('')
@@ -235,12 +237,14 @@ def to_sign_up_slot():
     turn_page(3)
 
 
+
 def msg_close_slot():
     msg.close()
     turn_page(5)
 
 
 def start_search():
+
     date_format_str = "yyyy-MM-dd"
     begin = UI.ck_in.date().toString(date_format_str)
     end = UI.ck_2.date().toString(date_format_str)
@@ -269,12 +273,12 @@ def show_search_result():
     addMultiRow([str(i + 1) for i in range(result_length)], UI.room_info)
     for i in range(result_length):
         for j in range(3):
-            setCellText(i, j, g_search_result[i][j], UI.room_info)
-    print(str(type(UI.room_info)) + 'a')
+            setCellText(i, j, decrypt(g_search_result[i][j]), UI.room_info)
+    print(str(type(UI.room_info))+'a')
     global g_table_name
     g_table_name = UI.room_info
     table_show()
-    print(str(type(UI.room_info)) + 'b')
+    print(str(type(UI.room_info))+'b')
 
 
 def search_slot():
@@ -321,7 +325,7 @@ def show_current_user_email():
     '''billed to'''
     info = str(user_info(g_current_user_id)[3])
     turn_page(8)
-    UI.order_info.setText(info)
+    UI.order_info.setText(decrypt(info))
 
 
 def show_current_order():
@@ -351,7 +355,7 @@ def calculate_date(st, en):
 def show_current_user_email():
     '''billed to'''
     info = str(user_info(g_current_user_id)[3])
-    UI.user_name.setText(info)
+    UI.user_name.setText(decrypt(info))
 
 
 def page8_to_page9():
@@ -366,7 +370,7 @@ def page8_to_page9():
 def show_persoanl_details():
     info = user_info(g_current_user_id)
     turn_page(10)
-    info_str = f'name: {info[1]}\nphone: {info[2]}\nemail: {info[3]}\ncard: {info[4]}'
+    info_str = f'name: {decrypt(info[1])}\nphone: {decrypt(info[2])}\nemail: {decrypt(info[3])}\ncard: {decrypt(info[4])}'
     UI.orders.setText(info_str)
 
 
@@ -446,20 +450,20 @@ def show_orders_info():
     g_table_name = UI.tableWidget
     table_show()
     addMultiColumn(['room number', 'check-in', 'check-out',
-                    'order status', 'comment'], UI.tableWidget)
+                   'order status', 'comment'], UI.tableWidget)
     info = get_orders_of_user(g_current_user_id)
     if info == 'no order':
         return
     order_num = len(info)
-    num_list = [str(i + 1) for i in range(order_num)]
+    num_list = [str(i+1) for i in range(order_num)]
     global g_id_list
     addMultiRow(num_list, UI.tableWidget)
     for i in range(order_num):
-        setCellText(i, 0, str(info[i][1]), UI.tableWidget)
-        setCellText(i, 1, str(info[i][3]), UI.tableWidget)
-        setCellText(i, 2, str(info[i][4]), UI.tableWidget)
-        setCellText(i, 3, str(g_status_info[info[i][5]]), UI.tableWidget)
-        setCellText(i, 4, str(info[i][6]), UI.tableWidget)
+        setCellText(i, 0, str(decrypt(info[i][1])), UI.tableWidget)
+        setCellText(i, 1, str(decrypt(info[i][3])), UI.tableWidget)
+        setCellText(i, 2, str(decrypt(info[i][4])), UI.tableWidget)
+        setCellText(i, 3, str(decrypt(g_status_info[info[i][5]])), UI.tableWidget)
+        setCellText(i, 4, str(decrypt(info[i][6])), UI.tableWidget)
         g_id_list.append(info[i][0])
 
 
@@ -483,22 +487,20 @@ def createeee_order():
     global g_user_selection_date
     global g_current_order_id
     g_current_order_id = create_order(
-        g_user_selection[0], g_current_user_id, g_user_selection_date[0], g_user_selection_date[1])[1]
+        g_user_selection[0], g_current_user_id,  g_user_selection_date[0], g_user_selection_date[1])[1]
 
 
 def modify_order_slot():
     print(UI.tableWidget.currentItem())
     if UI.tableWidget.currentItem() is None:
-        print(2)
         return
     turn_page(13)
     global g_current_order_id
     global g_id_list
     index = UI.tableWidget.currentItem().row()
-    g_current_order_id = g_id_list[index + 1]
+    g_current_order_id = g_id_list[index+1]
     print(g_current_order_id)
     clear_table(UI.tableWidget)
-
     g_id_list = [None]
 
 
@@ -517,6 +519,7 @@ def turn_slot_10():
 
 
 def return_from_alter_page():
+
     show_orders_info()
     UI.tableWidget.setCurrentItem(None)
     show_persoanl_details()
@@ -528,8 +531,6 @@ def return_from_alter_page():
 def to_alter_personal_info_page():
     turn_page(11)
     clear_table(UI.tableWidget)
-
-
 # page14-19
 
 
