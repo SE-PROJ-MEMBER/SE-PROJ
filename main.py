@@ -810,7 +810,7 @@ def user_deleter():  # 该函数已修改完毕
     global g_user_id, g_pre_page
     g_pre_page = 19
     current_user_info = user_info(g_user_id)
-    if current_user_info[1] == "admin":
+    if decrypt(current_user_info[1]) == "admin":
         UI.reason.setText('Can not deleter Master administrator')
         turn_page(20)
         return
@@ -842,7 +842,7 @@ def show_rooms_info():
         UI.rooms.setRowCount(len(room_data))
         for row, room in enumerate(room_data):
             for col, value in enumerate(room):
-                item = QTableWidgetItem(str(value))
+                item = QTableWidgetItem(decrypt(value))
                 UI.rooms.setItem(row, col, item)
         g_table_name = UI.rooms
         table_show()
