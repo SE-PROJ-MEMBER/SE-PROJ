@@ -331,14 +331,14 @@ def show_current_user_email():
 def show_current_order():
     global g_user_selection
     global g_user_selection_date
-    info = f'room number: {g_user_selection[0]}\ncheck in: {g_user_selection_date[0]}\ncheck out: {g_user_selection_date[1]}'
+    info = f'room number: {decrypt(g_user_selection[0])}\ncheck in: {g_user_selection_date[0]}\ncheck out: {g_user_selection_date[1]}'
     UI.order_info.setText(info)
 
 
 def calculate_price():
     global g_user_selection
     room_num = g_user_selection[0]
-    p = get_price(room_num)
+    p = get_price(decrypt(room_num))
     p_final = p * \
         calculate_date(g_user_selection_date[0], g_user_selection_date[1])
     UI.pay_total.display(p_final)
