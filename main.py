@@ -295,6 +295,7 @@ def room_selection_result():
         print(2)
         return
     g_user_selection = g_search_result[UI.room_info.currentItem().row()]
+    print(g_user_selection)
     select_slot()
 
 
@@ -459,10 +460,13 @@ def show_orders_info():
     global g_id_list
     addMultiRow(num_list, UI.tableWidget)
     for i in range(order_num):
+        print(info[i][1])
+        # print(decrypt(info[i][1]))
+        print(decrypt('16dc368a89b428b2485484313ba67a3912ca03f2b2b42429174a4f8b3dc84e44'))
         setCellText(i, 0, str(decrypt(info[i][1])), UI.tableWidget)
-        setCellText(i, 1, str(decrypt(info[i][3])), UI.tableWidget)
-        setCellText(i, 2, str(decrypt(info[i][4])), UI.tableWidget)
-        setCellText(i, 3, str(decrypt(g_status_info[info[i][5]])), UI.tableWidget)
+        setCellText(i, 1, str(info[i][3]), UI.tableWidget)
+        setCellText(i, 2, str(info[i][4]), UI.tableWidget)        
+        setCellText(i, 3, str(g_status_info[info[i][5]]), UI.tableWidget)
         setCellText(i, 4, str(decrypt(info[i][6])), UI.tableWidget)
         g_id_list.append(info[i][0])
 

@@ -57,10 +57,11 @@ def update_user(alter_item, alter_value, user_id):
     cur.execute("SELECT user_name FROM user")
     namelist = cur.fetchall()
     if alter_item == 'user_name' and (encrypt(alter_value),) in namelist:
-        return 'name_exist'
+        return 'name_exist'              
     cur.execute(
         f"UPDATE user SET {alter_item} = ? WHERE user_id = ?", (encrypt(alter_value), user_id))
     conn.commit()
+    add(alter_value)
     return '200'
 
 
@@ -83,10 +84,16 @@ def find_room(ck_in, ck_out, type):
 def create_order(room_num, user_id, ck_in, ck_out):
     '''无需解密'''
     order_id = random.randint(10000000, 99999999)
-    cur.execute(
-        "INSERT INTO orderl VALUES(?,?,?,?,?,?,?)", (order_id, encrypt(room_num), user_id, ck_in, ck_out, 0, ''))
-    conn.commit()
-    add(room_num)
+    if type(room_num) == str and len(room_num) > 3:
+        cur.execute(
+        "INSERT INTO orderl VALUES(?,?,?,?,?,?,?)", (order_id, room_num, user_id, ck_in, ck_out, 0, ''))
+        conn.commit()
+    else:        
+        cur.execute(
+            "INSERT INTO orderl VALUES(?,?,?,?,?,?,?)", (order_id, encrypt(room_num), user_id, ck_in, ck_out, 0, ''))
+        conn.commit()
+        add(room_num)
+    print('create_order')
     return '200', order_id
 
 
@@ -108,11 +115,15 @@ def get_order_info(order_id):
 
 # 9.更新订单信息pass
 def update_order(alter_item, alter_value, order_id):
-    '''无需解密'''
-    cur.execute(
-        f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (encrypt(alter_value), order_id))
-    conn.commit()
-    add(alter_value)
+    if alter_item == 'room_num':  
+        cur.execute(
+            f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (encrypt(alter_value), order_id))
+        conn.commit()
+        add(alter_value)
+    else:
+        cur.execute(
+         f"UPDATE orderl SET {alter_item} = ? WHERE order_id = ?", (alter_value, order_id))
+        conn.commit()
     return '200'
 
 
