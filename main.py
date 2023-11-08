@@ -535,9 +535,9 @@ def return_from_alter_page():
 def to_alter_personal_info_page():
     turn_page(11)
     clear_table(UI.tableWidget)
+
+
 # page14-19
-
-
 def clicked_table_item_clicked(row):
     global g_current_order_id, g_table_name
     g_table_name = UI.orders_2
@@ -583,6 +583,7 @@ def submit_comment_yo_op_su_page():
     global g_pre_page, g_current_order_id, g_table_name
     comment_text = UI.comment_in.toPlainText()
     order_info = get_order_info(g_current_order_id)
+
     if not order_info or order_info[5] != 2:
         g_pre_page = 13
         turn_page(14)
@@ -622,15 +623,21 @@ def show_all_orders_info():
 
     for i, order in enumerate(orders):
         for j in range(7):
-            if j == 5:  # Handle the order_status column
-                status = status_mapping.get(order[j], "未知状态")
+
+            if j == 5:
+                status = status_mapping.get(order[j], "unknown status")
                 item = QTableWidgetItem(status)
             else:
                 item = QTableWidgetItem(str(order[j]))
+                if j == 1:
+                    item = QTableWidgetItem(decrypt(order[1]))
+                elif j == 6:
+                    item = QTableWidgetItem(decrypt(order[6]))
             UI.orders_2.setItem(i, j, item)
 
     table_show()
     UI.orders_2.update()
+
 
 
 def show_all_users_info():
@@ -638,6 +645,7 @@ def show_all_users_info():
     g_table_name = UI.users
     UI.users.clearContents()
     users = get_all_users()
+
     UI.users.setRowCount(len(users))
     UI.users.setColumnCount(6)
     UI.users.setHorizontalHeaderLabels(
@@ -645,6 +653,9 @@ def show_all_users_info():
     for i, user in enumerate(users):
         for j in range(6):
             item = QTableWidgetItem(str(user[j]))
+            for k in range(1, 6):
+                if j == k:
+                    item = QTableWidgetItem(decrypt(user[k]))
             UI.users.setItem(i, j, item)
     table_show()
     UI.users.update()
@@ -715,7 +726,11 @@ def confir_status_to_op_su_page():
 
 def display_order_comments():
     global g_order_id
+
     order_info = get_order_info(g_order_id)
+    decrypted_order_info = list(order_info)
+    decrypted_order_info[6] = decrypt(order_info[6])
+
     if order_info:
         comment = order_info[6]
         UI.comment.setPlainText(comment)
@@ -795,8 +810,10 @@ def show_error_page(error_message):
     UI.reason.setPlainText(error_message)
     turn_page(20)
 
-# page20-25
 
+
+
+# page20-25
 
 def page22_to_page23():
     global g_current_room_number
@@ -1186,6 +1203,6 @@ if __name__ == '__main__':
     show_all_users_info()
     show_all_orders_info()
 
-    UI.pages.setCurrentIndex(0)
+    UI.pages.setCurrentIndex(15)
     Main.show()
     sys.exit(app.exec())
