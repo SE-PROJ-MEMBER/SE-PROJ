@@ -162,7 +162,7 @@ def sign_in_slot():
         if sel == 'Name' and login_param[:5] == 'admin':
             # check admin account
             g_admin_status = True
-            turn_page(15)
+            to_admin_page()
         else:
             turn_page(1)
     else:
@@ -731,11 +731,12 @@ def display_order_comments():
     decrypted_order_info = list(order_info)
     decrypted_order_info[6] = decrypt(order_info[6])
 
-    if order_info:
-        comment = order_info[6]
+    if decrypted_order_info:
+        comment = decrypted_order_info[6]
         UI.comment.setPlainText(comment)
     else:
         UI.comment.setPlainText("No comments found for this order")
+
 
 
 def to_comment_page_2():
@@ -747,7 +748,8 @@ def clear_comment_to_op_su_page():
     global g_order_id
     comment = UI.comment.toPlainText().strip()
     if comment:
-        result = update_order("comment", "", g_order_id)
+        decrypted_comment = decrypt(comment)
+        result = update_order("comment", decrypted_comment, g_order_id)
         UI.comment.clear()
         if result == '200':
             global g_pre_page
@@ -1203,6 +1205,6 @@ if __name__ == '__main__':
     show_all_users_info()
     show_all_orders_info()
 
-    UI.pages.setCurrentIndex(15)
+    UI.pages.setCurrentIndex(0)
     Main.show()
     sys.exit(app.exec())
