@@ -571,12 +571,21 @@ def to_personal_homepage_2():
 
 def cancel_order_to_op_su_page():
     global g_current_order_id
-    result = update_order("order_status", 3, g_current_order_id)
-    if result == '200':
-        global g_pre_page
+    order_status = get_order_info(g_current_order_id)
+    decrypted_order_status = list(order_status)
+    decrypted_order_status[5] = decrypt(order_status[5])
+    if order_status == 0:
+        result = update_order("order_status", 3, g_current_order_id)
+        if result == '200':
+            global g_pre_page
+            g_pre_page = 13
+            turn_page(12)
+            return
+    else:
         g_pre_page = 13
-        turn_page(12)
-        return
+        show_error_page("You cannot cancel this order")
+        turn_page(20)
+
 
 
 def submit_comment_yo_op_su_page():
